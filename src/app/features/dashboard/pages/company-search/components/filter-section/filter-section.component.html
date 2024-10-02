@@ -120,7 +120,7 @@
 
           <mat-autocomplete #autoNcm="matAutocomplete">
             <mat-option *ngFor="let ncm of filteredNcm  | async" [value]="selectedNcm">
-              <div (click)="optionClickedNcm(ncm)">
+              <div (click)="optionClickedNcm($event, ncm)">
                 <mat-checkbox [checked]="ncm.selected" (change)="toggleSelectionNcm(ncm)" (click)="$event.stopPropagation()">
                   {{ncm?.codigo }} {{ncm?.descricao }}
                 </mat-checkbox>

@@ -24,7 +24,7 @@ export const routes: Routes = [
                 path: 'dashboard',
                 pathMatch: 'prefix',
                 component: MainDashboardLayoutComponent,
-                // canActivate: [AuthGuard],
+                canActivate: [AuthGuard],
                 children: [
                     { path: 'home', component: DashboardComponent, title: 'Dashboard', data: ['Dashboard'] },
                     { path: 'company-search', component: CompanySearchComponent, title: 'Empresas', data: ['Empresas'] },

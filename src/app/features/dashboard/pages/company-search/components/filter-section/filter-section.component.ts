@@ -368,7 +368,8 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
     event.stopPropagation();
     this.toggleSelectionCnaeSecundario(cnaeSecundario);
   }
-  public optionClickedNcm(ncm: Ncm) {
+  public optionClickedNcm(event: Event, ncm: Ncm) {
+    event.stopPropagation();
     this.toggleSelectionNcm(ncm);
   }
 
