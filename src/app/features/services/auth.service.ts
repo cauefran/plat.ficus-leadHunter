@@ -181,7 +181,7 @@ export class AuthService {
   public doUserLogin(payload: ILogin, path: string): Observable<any> { // fourth step
     const userName = (payload.user);
     const password = sha256(`${path}${payload.systemNonce}${payload.clientNonce}${payload.user}${payload.passwordEncrypted}`);
-    const url = `http://192.168.5.4:11117/${path}/Auth?UserName=${userName}&Password=${password}&ClientNonce=${payload.clientNonce}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Auth?UserName=${userName}&Password=${password}&ClientNonce=${payload.clientNonce}`;
     return this._httpClient.get(url);
   }
 
@@ -232,24 +232,24 @@ public logUserOut(): void {
   // ********************
 
   public getUserUrl(usuarioOuEmail: string, signatureSession: string): Observable<any> {
-    const url = `http://192.168.5.4:11117/retaguarda_prospect/usuarios/PegarUrlDoUsuario?usuarioOuEmail=${usuarioOuEmail}&session_signature=${signatureSession}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/retaguarda_prospect/usuarios/PegarUrlDoUsuario?usuarioOuEmail=${usuarioOuEmail}&session_signature=${signatureSession}`;
     return this._httpClient.get(url);
   }
 
 
   public logOut(usuarioOuEmail: string, signatureSession: string): Observable<any> {
-    const url = `http://192.168.5.4:11117/retaguarda_prospect/usuarios/Logout?usuarioOuEmail=${usuarioOuEmail}&session_signature=${signatureSession}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/retaguarda_prospect/usuarios/Logout?usuarioOuEmail=${usuarioOuEmail}&session_signature=${signatureSession}`;
     return this._httpClient.get(url);
   }
 
   public getServerNonce(userName: string): Observable<any> { // first step
     const userNemEncoded = encodeURIComponent(userName)
-    const url = `http://192.168.5.4:11117/retaguarda_prospect/auth?UserName=${userNemEncoded}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/retaguarda_prospect/auth?UserName=${userNemEncoded}`;
     return this._httpClient.get(url);
   }
   public getUserServerNonce(userName: string, path: string): Observable<any> { // first step
     const userNemEncoded = encodeURIComponent(userName)
-    const url = `http://192.168.5.4:11117/${path}/auth?UserName=${userNemEncoded}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/auth?UserName=${userNemEncoded}`;
     return this._httpClient.get(url);
   }
 
@@ -271,7 +271,7 @@ public logUserOut(): void {
 
   public doLogin(payload: ILogin): Observable<any> { // fourth step
     const password = sha256(`retaguarda_prospect${payload.systemNonce}${payload.clientNonce}${payload.user}${payload.passwordEncrypted}`);
-    const url = `http://192.168.5.4:11117/retaguarda_prospect/auth?UserName=${payload.user}&Password=${password}&ClientNonce=${payload.clientNonce}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/retaguarda_prospect/auth?UserName=${payload.user}&Password=${password}&ClientNonce=${payload.clientNonce}`;
     return this._httpClient.get(url);
   }
 
@@ -304,7 +304,7 @@ public logUserOut(): void {
   }
 
   public createNewAccount(dados: any, signatureSession: string): Observable<any> {
-    const url = `http://192.168.5.4:11117/retaguarda_prospect/usuarios/CadastrarUsuario?session_signature=${signatureSession}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/retaguarda_prospect/usuarios/CadastrarUsuario?session_signature=${signatureSession}`;
     return this._httpClient.post(url, {dados: dados});
   }
 
