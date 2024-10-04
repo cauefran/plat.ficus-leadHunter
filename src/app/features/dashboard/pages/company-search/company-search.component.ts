@@ -48,6 +48,11 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   dataSource = new MatTableDataSource<ISearchCompanyTable>(this.data);
   selection = new SelectionModel<ISearchCompanyTable>(true, []);
 
+  public selectedSector: any;
+  public selectedCnaePrima: any;
+  public selectedCnaeSecund: any;
+  public selectedNcm: any;
+
   constructor(
     private _dialog: MatDialog,
     public dashboardService: DashboardService,
@@ -109,6 +114,23 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public clearTable(): void {
     this.dataSource.data = [];
     this.searchTableData = false;
+  }
+
+  public filteredSelectedSectorEvent(event: any): void {
+    console.log('event SelectedSectors: ', event);
+    this.selectedSector = event.map((i: any) => i?.descricao)
+  }
+  public filteredSelectedCnaePrimaEvent(event: any): void {
+    console.log('event SelectedSectors: ', event);
+    this.selectedCnaePrima = event.map((i: any) => i?.descricao)
+  }
+  public filteredSelectedCnaeSecundEvent(event: any): void {
+    console.log('event SelectedSectors: ', event);
+    this.selectedCnaeSecund = event.map((i: any) => i?.descricao)
+  }
+  public filteredSelectedNcmEvent(event: any): void {
+    console.log('event SelectedSectors: ', event);
+    this.selectedNcm = event.map((i: any) => i?.descricao)
   }
 
   public exportToExcel(): void {

@@ -20,6 +20,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatListModule} from '@angular/material/list';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {MatListModule} from '@angular/material/list';
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatListModule
+    MatListModule,
+    MatChipsModule
   ],
   exports: [
     MatFormFieldModule,
@@ -67,7 +69,9 @@ import {MatListModule} from '@angular/material/list';
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatListModule
+    MatListModule,
+    MatChipsModule
+
   ],
   providers: [],
 })

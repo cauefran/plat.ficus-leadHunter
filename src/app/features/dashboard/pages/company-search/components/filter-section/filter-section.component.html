@@ -30,10 +30,10 @@
 
           <mat-form-field class="example-full-width">
             <input type="text" placeholder="Setores" aria-label="Setores" matInput [matAutocomplete]="autoSector" [formControl]="sectorControl">
-            <mat-hint>Insira um texto para encontrar setor por nome</mat-hint>
+            <mat-hint class="f-550">Insira um texto para encontrar setor por nome</mat-hint>
           </mat-form-field>
 
-          <mat-autocomplete #autoSector="matAutocomplete">
+          <mat-autocomplete #autoSector="matAutocomplete" [displayWith]="displayFnSectors">
             <mat-option *ngFor="let sector of filteredSectors | async" [value]="selectedSectors">
               <div (click)="optionClickedSector($event, sector)">
                 <mat-checkbox [checked]="sector.selected" (change)="toggleSelectionSector(sector)" (click)="$event.stopPropagation()">
@@ -45,24 +45,16 @@
 
           <br><br>
 
-          <label class="f-550">Setores selecionados:</label>
-          <mat-list dense>
-            <mat-list-item class="ms-1" *ngIf="selectedSectors?.length === 0"><span  style="font-size: 12px;">(Nenhum selecionado)</span></mat-list-item>
-            <mat-list-item *ngFor="let sector of selectedSectors">
-              {{ sector.codigo }} {{ sector.descricao }}
-            </mat-list-item>
-          </mat-list>
-
           <!-- *** -->
 
            <!-- CNAE input -->
 
            <mat-form-field class="example-full-width">
             <input type="text" placeholder="CNAE Primário" aria-label="cnaePrimario" matInput [matAutocomplete]="autoCnae" [formControl]="cnaeControl">
-            <mat-hint>Insira um texto para encontrar CNAE Primário por nome</mat-hint>
+            <mat-hint class="f-550">Insira um texto para encontrar CNAE Primário por nome</mat-hint>
           </mat-form-field>
 
-          <mat-autocomplete #autoCnae="matAutocomplete">
+          <mat-autocomplete #autoCnae="matAutocomplete" [displayWith]="displayFnCnaes">
             <mat-option *ngFor="let cnae of filteredCnae  | async" [value]="selectedCnae">
               <div (click)="optionClickedCnae($event, cnae)">
                 <mat-checkbox [checked]="cnae.selected" (change)="toggleSelectionCnae(cnae)" (click)="$event.stopPropagation()">
@@ -74,24 +66,16 @@
 
           <br><br>
 
-          <label class="f-550">CNAE Primário selecionados:</label>
-          <mat-list dense>
-            <mat-list-item class="ms-1" *ngIf="selectedCnae?.length === 0"><span  style="font-size: 12px;">(Nenhum selecionado)</span></mat-list-item>
-            <mat-list-item *ngFor="let cnae of selectedCnae">
-              {{ cnae.codigo }} {{ cnae.descricao }}
-            </mat-list-item>
-          </mat-list>
-
           <!-- *** -->
 
            <!-- CNAE Secundario input -->
 
            <mat-form-field class="example-full-width">
             <input type="text" placeholder="CNAE Secundário" aria-label="cnaeSecundario" matInput [matAutocomplete]="autoCnaeSecundario" [formControl]="cnaeSecundarioControl">
-            <mat-hint>Insira um texto para encontrar CNAE Secundário por nome</mat-hint>
+            <mat-hint class="f-550">Insira um texto para encontrar CNAE Secundário por nome</mat-hint>
           </mat-form-field>
 
-          <mat-autocomplete #autoCnaeSecundario="matAutocomplete">
+          <mat-autocomplete #autoCnaeSecundario="matAutocomplete" [displayWith]="displayFnCnaesSecundarios">
             <mat-option *ngFor="let cnaeSecundario of filteredCnaeSecundario  | async" [value]="selectedCnaeSecundario">
               <div (click)="optionClickedCnae($event, cnaeSecundario)">
                 <mat-checkbox [checked]="cnaeSecundario.selected" (change)="toggleSelectionCnaeSecundario(cnaeSecundario)" (click)="$event.stopPropagation()">
@@ -103,22 +87,14 @@
 
           <br><br>
 
-          <label class="f-550">CNAE Secundário selecionados:</label>
-          <mat-list dense>
-            <mat-list-item class="ms-1" *ngIf="selectedCnaeSecundario?.length === 0"><span  style="font-size: 12px;">(Nenhum selecionado)</span></mat-list-item>
-            <mat-list-item *ngFor="let cnaeSecundario of selectedCnaeSecundario">
-              {{ cnaeSecundario.codigo }} {{ cnaeSecundario.descricao }}
-            </mat-list-item>
-          </mat-list>
-
           <!-- *** -->
 
           <mat-form-field class="example-full-width">
             <input type="text" placeholder="ncm" aria-label="ncm" matInput [matAutocomplete]="autoNcm" [formControl]="ncmControl">
-            <mat-hint>Insira um texto para encontrar NCM por nome</mat-hint>
+            <mat-hint class="f-550">Insira um texto para encontrar NCM por nome</mat-hint>
           </mat-form-field>
 
-          <mat-autocomplete #autoNcm="matAutocomplete">
+          <mat-autocomplete #autoNcm="matAutocomplete" [displayWith]="displayFnNcm">
             <mat-option *ngFor="let ncm of filteredNcm  | async" [value]="selectedNcm">
               <div (click)="optionClickedNcm($event, ncm)">
                 <mat-checkbox [checked]="ncm.selected" (change)="toggleSelectionNcm(ncm)" (click)="$event.stopPropagation()">
@@ -129,14 +105,6 @@
           </mat-autocomplete>
 
           <br><br>
-
-          <label class="f-550">Ncm selecionados:</label>
-          <mat-list dense>
-            <mat-list-item class="ms-1" *ngIf="selectedNcm?.length === 0"><span  style="font-size: 12px;">(Nenhum selecionado)</span></mat-list-item>
-            <mat-list-item *ngFor="let ncm of selectedNcm">
-              {{ ncm.codigo }} {{ ncm.descricao }}
-            </mat-list-item>
-          </mat-list>
 
           </div>
         </mat-expansion-panel>

@@ -2,7 +2,13 @@
   <main>
     <div class="row w-100">
       <section class="filter-section col-xl-3 col-md-4 col-sm-12 col-12">
-        <app-filter-section (tableDataEvent)="recieveTableData($event)"></app-filter-section>
+        <app-filter-section
+         (tableDataEvent)="recieveTableData($event)"
+        (selectedSectorValue)="filteredSelectedSectorEvent($event)"
+        (selectedCnaePrimarioValue)="filteredSelectedCnaePrimaEvent($event)"
+        (selectedCnaeSecundarioValue)="filteredSelectedCnaeSecundEvent($event)"
+        (selectedNcmValue)="filteredSelectedNcmEvent($event)"
+         ></app-filter-section>
       </section>
       <section class="table-section col-xl-9 col-md-8 col-sm-12 col-12">
         @if(dashboardService.isLoading()){
@@ -11,6 +17,22 @@
           <p class="f-550">Buscando...</p>
           </div>
         }
+        <div class="w-100">
+          <mat-chip-set aria-label="Fish selection">
+          @for (sector of selectedSector; track sector) {
+            <mat-chip>{{sector}}</mat-chip>
+          }
+          @for (cnaePrima of selectedCnaePrima; track cnaePrima) {
+            <mat-chip>{{cnaePrima}}</mat-chip>
+          }
+          @for (cnaeSecund of selectedCnaeSecund; track cnaeSecund) {
+            <mat-chip>{{cnaeSecund}}</mat-chip>
+          }
+          @for (ncm of selectedNcm; track ncm) {
+            <mat-chip>{{ncm}}</mat-chip>
+          }
+          </mat-chip-set>
+        </div>
         <div class="table-header w-100">
 
           <div class="button-container">

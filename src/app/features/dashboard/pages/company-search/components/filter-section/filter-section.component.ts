@@ -31,6 +31,11 @@ export class Cnae {
     if (selected === undefined) selected = false;
   }
 }
+export class CnaeSecund {
+  constructor(public codigo: string, public descricao: string, public selected?: boolean) {
+    if (selected === undefined) selected = false;
+  }
+}
 export class Ncm {
   constructor(public codigo: string, public descricao: string, public selected?: boolean) {
     if (selected === undefined) selected = false;
@@ -56,6 +61,10 @@ export class Ncm {
 })
 export class FilterSectionComponent implements OnInit, AfterViewChecked {
   @Output() tableDataEvent = new EventEmitter<any>();
+  @Output() selectedSectorValue = new EventEmitter<any>();
+  @Output() selectedCnaePrimarioValue = new EventEmitter<any>();
+  @Output() selectedCnaeSecundarioValue = new EventEmitter<any>();
+  @Output() selectedNcmValue = new EventEmitter<any>();
 
   public form: FormGroup;
   readonly panelOpenState = signal(false);
@@ -82,8 +91,8 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
   public displayValueCnae: string = '';
 
   public cnaeSecundarioControl = new FormControl();
-  public cnaesSecundarios: Array<IFilterCnae> = [];
-  public selectedCnaeSecundario: Cnae[] = new Array<Cnae>();
+  public cnaesSecundarios: Array<any> = [];
+  public selectedCnaeSecundario: CnaeSecund[] = new Array<CnaeSecund>();
   public filteredCnaeSecundario!: Observable<IFilterCnae[]>;
   public lastFilterCnaeSecundario: string = '';
   public displayValueCnaeSecundario: string = '';
@@ -108,87 +117,10 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
     {codigo: ERegimeTributario.NAO_SIMPLES, label: 'Não simples'}
   ]
   public getCodigoIBGE = signal('');
-  public data: any[] = [
-    { position: 1, cnpj: '37984878000119', name: 'RANCK MAGRISSO', contact: '(81) 3048-2521', cnae: 'M-6911-7/01 - Serviços advocatícios', address: 'Quadra Sig Quadra 4, 106, Brasilia - Zona Industrial, DF - 70.610-440', companySize: 'pequeno' },
-    { position: 2, cnpj: '97554129000183', name: 'RAPHAEL MIRANDA ADVOGADOS', contact: '(21) 3806-3650', cnae: ' M-6911-7/01 - Serviços advocatícios', address: 'Rua Visconde De Piraja, 430, Rio De Janeiro - Ipanema, RJ - 22.410-002', companySize: 'pequeno' },
-    { position: 3, cnpj: '97543925000110', name: 'BRUTO E REGIS ADVOGADOS', contact: '(81) 3037-3377', cnae: 'M-6911-7/01 - Serviços advocatícios', address: 'Rua Doutor Clovis Ribeiro Vieira, 640, Franca - Sao Jose, SP - 14.401-303', companySize: 'pequeno' },
-    { position: 4, cnpj: '75264400000103', name: 'Escritorio De Advocacia Antonio Jose Marques Neto', contact: '(51) 3346-2255', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-    { position: 5, cnpj: '67333974000168', name: 'JJ OLIVEIRA ADVOGADOS ASSOCIADOS', contact: '(51) 3275-2450', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-    { position: 6, cnpj: '42644256000181', name: 'Castilho Caracik Advogados Associados', contact: '(51) 99128-2268', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-    { position: 7, cnpj: '42375188000100', name: 'Silverio Marcal Advocacia', contact: '(61) 3326-0477', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-    { position: 8, cnpj: '37436877000130', name: 'Advocacia Marly Fagundes Advogados Associados', contact: '(61) 97400-8216', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-    { position: 9, cnpj: '41659868000185', name: 'Jj Oliveira Advogados Associados Sociedade Simples', contact: '(61) 97400-8216', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-    { position: 10, cnpj: '46497428000192', name: 'Guimaraes E Meireles Advogados Associados', contact: '(61) 97400-8216', cnae: 'M-6911-7/01 - Serviços advocatícios', address: '', companySize: 'pequeno' },
-  ];
 
   public userPath = '';
   public userSignatureSession = '';
   public payloadMunicipios: Array<string> = [];
-
-  // TESTE *********************
-
-  userControl = new FormControl();
-
-  users = [
-    new User('Misha', 'Arnold'),
-    new User('Felix', 'Godines'),
-    new User('Odessa', 'Thorton'),
-    new User('Julianne', 'Gills'),
-    new User('Virgil', 'Hommel'),
-    new User('Justa', 'Betts'),
-    new User('Keely', 'Millington'),
-    new User('Blanca', 'Winzer'),
-    new User('Alejandrina', 'Pallas'),
-    new User('Rosy', 'Tippins'),
-    new User('Winona', 'Kerrick'),
-    new User('Reynaldo', 'Orchard'),
-    new User('Shawn', 'Counce'),
-    new User('Shemeka', 'Wittner'),
-    new User('Sheila', 'Sak'),
-    new User('Zola', 'Rodas'),
-    new User('Dena', 'Heilman'),
-    new User('Concepcion', 'Pickrell'),
-    new User('Marylynn', 'Berthiaume'),
-    new User('Howard', 'Lipton'),
-    new User('Maxine', 'Amon'),
-    new User('Iliana', 'Steck'),
-    new User('Laverna', 'Cessna'),
-    new User('Brittany', 'Rosch'),
-    new User('Esteban', 'Ohlinger'),
-    new User('Myron', 'Cotner'),
-    new User('Geri', 'Donner'),
-    new User('Minna', 'Ryckman'),
-    new User('Yi', 'Grieco'),
-    new User('Lloyd', 'Sneed'),
-    new User('Marquis', 'Willmon'),
-    new User('Lupita', 'Mattern'),
-    new User('Fernande', 'Shirk'),
-    new User('Eloise', 'Mccaffrey'),
-    new User('Abram', 'Hatter'),
-    new User('Karisa', 'Milera'),
-    new User('Bailey', 'Eno'),
-    new User('Juliane', 'Sinclair'),
-    new User('Giselle', 'Labuda'),
-    new User('Chelsie', 'Hy'),
-    new User('Catina', 'Wohlers'),
-    new User('Edris', 'Liberto'),
-    new User('Harry', 'Dossett'),
-    new User('Yasmin', 'Bohl'),
-    new User('Cheyenne', 'Ostlund'),
-    new User('Joannie', 'Greenley'),
-    new User('Sherril', 'Colin'),
-    new User('Mariann', 'Frasca'),
-    new User('Sena', 'Henningsen'),
-    new User('Cami', 'Ringo')
-  ];
-
-  selectedUsers: User[] = new Array<User>();
-
-  filteredUsers!: Observable<User[]>;
-  lastFilter: string = '';
-  displayValue: string = '';
-
-  //
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -232,7 +164,7 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
     this.filteredCnaeSecundario = this.cnaeSecundarioControl.valueChanges.pipe(
       startWith<string | IFilterCnae[]>(''),
       map(value => typeof value === 'string' ? value : this.lastFilterCnaeSecundario),
-      map(cnae => this.filterCnaeSecundario(cnae))
+      map(cnaeSecund => this.filterCnaeSecundario(cnaeSecund))
     );
 
     this.filteredNcm = this.ncmControl.valueChanges.pipe(
@@ -364,7 +296,7 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
     event.stopPropagation();
     this.toggleSelectionCnae(cnae);
   }
-  public optionClickedCnaeSecundario(event: Event, cnaeSecundario: Cnae) {
+  public optionClickedCnaeSecundario(event: Event, cnaeSecundario: CnaeSecund) {
     event.stopPropagation();
     this.toggleSelectionCnaeSecundario(cnaeSecundario);
   }
@@ -381,7 +313,11 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
       const i = this.selectedSectors.findIndex(value => value.codigo === sector.codigo && value.descricao === sector.descricao);
       this.selectedSectors.splice(i, 1);
     }
-    this.sectorControl.setValue(this.selectedSectors.map((i) => i.codigo));
+    console.log('this.selectedSector: ', this.selectedSectors);
+    // this.sectorControl.setValue(this.selectedSectors.map((i) => i.codigo));
+    this.sectorControl.setValue(this.selectedSectors);
+    console.log('this.sectorControl: ', this.sectorControl.value);
+    this.selectedSectorValue.emit(this.sectorControl.value);
   }
   public toggleSelectionCnae(cnae: Cnae) {
     cnae.selected = !cnae.selected;
@@ -391,10 +327,12 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
       const i = this.selectedCnae.findIndex(value => value.codigo === cnae.codigo && value.descricao === cnae.descricao);
       this.selectedCnae.splice(i, 1);
     }
-    this.cnaeControl.setValue(this.selectedCnae.map((i) => i.codigo));
+    // this.cnaeControl.setValue(this.selectedCnae.map((i) => i.codigo));
+    this.cnaeControl.setValue(this.selectedCnae);
+    this.selectedCnaePrimarioValue.emit(this.cnaeControl.value);
   }
 
-  public toggleSelectionCnaeSecundario(cnaeSecundario: Cnae) {
+  public toggleSelectionCnaeSecundario(cnaeSecundario: CnaeSecund) {
     cnaeSecundario.selected = !cnaeSecundario.selected;
     if (cnaeSecundario.selected) {
       this.selectedCnaeSecundario.push(cnaeSecundario);
@@ -402,7 +340,9 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
       const i = this.selectedCnaeSecundario .findIndex(value => value.codigo === cnaeSecundario.codigo && value.descricao === cnaeSecundario.descricao);
       this.selectedCnaeSecundario.splice(i, 1);
     }
-    this.cnaeSecundarioControl.setValue(this.selectedCnaeSecundario.map((i) => i.codigo));
+    // this.cnaeSecundarioControl.setValue(this.selectedCnaeSecundario.map((i) => i.codigo));
+    this.cnaeSecundarioControl.setValue(this.selectedCnaeSecundario);
+    this.selectedCnaeSecundarioValue.emit(this.cnaeSecundarioControl.value);
   }
 
   public toggleSelectionNcm(ncm: Ncm) {
@@ -413,7 +353,9 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
       const i = this.selectedNcm.findIndex(value => value.codigo === ncm.codigo && value.descricao === ncm.descricao);
       this.selectedNcm.splice(i, 1);
     }
-    this.ncmControl.setValue(this.selectedNcm.map((i) => i.codigo));
+    // this.ncmControl.setValue(this.selectedNcm.map((i) => i.codigo));
+    this.ncmControl.setValue(this.selectedNcm);
+    this.selectedNcmValue.emit(this.ncmControl.value);
   }
 
   // ************************************
@@ -543,13 +485,16 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked {
 
     }
 
-    console.log('this.payloadMunicipios', this.payloadMunicipios);
-    console.log('sectorControl',this.sectorControl.value);
+    const sectorsPayload = this.sectorControl.value.map((i: any) => i.codigo);
+    const cnaePrimaPayload = this.cnaeControl.value.map((i: any) => i.codigo);
+    const cnaeSecundPayload = this.cnaeSecundarioControl.value.map((i: any) => i.codigo);
+    const ncmPayload = this.ncmControl.value.map((i: any) => i.codigo);
+    console.log("sectorsPayload", sectorsPayload);
     let filter = {
-      setores: this.sectorControl.value ? this.sectorControl.value : null,
-      cnae: this.cnaeControl.value ? this.cnaeControl.value : null,
-      buscarCnaesSecundarios: this.cnaeSecundarioControl.value ? this.cnaeSecundarioControl.value : null,
-      ncms: this.ncmControl.value ? this.ncmControl.value : null,
+      setores: sectorsPayload.length > 0 ? sectorsPayload : null,
+      cnae: cnaePrimaPayload.length > 0 ? cnaePrimaPayload : null,
+      buscarCnaesSecundarios:  cnaeSecundPayload.length > 0 ? cnaeSecundPayload : null,
+      ncms: ncmPayload.length > 0 ? ncmPayload : null,
       uf: this.form.get('estate')?.value ? this.form.get('estate')?.value : null,
       municipio: this.payloadMunicipios.length > 0 ? this.payloadMunicipios : null,
       bairro: this.form.get('neighbourhood')?.value ? this.form.get('neighbourhood')?.value : null,
