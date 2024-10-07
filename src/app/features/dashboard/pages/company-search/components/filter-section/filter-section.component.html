@@ -19,6 +19,7 @@
 
         <!-- Setor -->
 
+
         <mat-expansion-panel [expanded]="true" class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
             <mat-panel-title>Setor</mat-panel-title>
@@ -28,83 +29,71 @@
 
           <!-- Setor input -->
 
-          <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Setores" aria-label="Setores" matInput [matAutocomplete]="autoSector" [formControl]="sectorControl">
-            <mat-hint class="f-550">Insira um texto para encontrar setor por nome</mat-hint>
-          </mat-form-field>
-
-          <mat-autocomplete #autoSector="matAutocomplete" [displayWith]="displayFnSectors">
-            <mat-option *ngFor="let sector of filteredSectors | async" [value]="selectedSectors">
-              <div (click)="optionClickedSector($event, sector)">
-                <mat-checkbox [checked]="sector.selected" (change)="toggleSelectionSector(sector)" (click)="$event.stopPropagation()">
-                  {{ sector.codigo }} {{ sector.descricao }}
-                </mat-checkbox>
-              </div>
-            </mat-option>
-          </mat-autocomplete>
-
-          <br><br>
+            <mat-form-field>
+              <mat-select class="f-550" [formControl]="sectorMultiCtrl" placeholder="Setores" [multiple]="true" #multiSelect>
+                <mat-option>
+                  <ngx-mat-select-search
+                   placeholderLabel="Buscar por nome..."
+                   noEntriesFoundLabel="Não encontrado"
+                    [formControl]="sectorMultiFilterCtrl"></ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let sector of filteredSectorMulti | async" [value]="sector" (click)="onSectorMultiSelectionChange($event)">
+                  {{sector.codigo}} - {{sector.descricao}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
           <!-- *** -->
 
-           <!-- CNAE input -->
+           <!-- CNAE Primario -->
 
-           <mat-form-field class="example-full-width">
-            <input type="text" placeholder="CNAE Primário" aria-label="cnaePrimario" matInput [matAutocomplete]="autoCnae" [formControl]="cnaeControl">
-            <mat-hint class="f-550">Insira um texto para encontrar CNAE Primário por nome</mat-hint>
+           <mat-form-field>
+            <mat-select class="f-550" [formControl]="cnaePrimaMultiCtrl" placeholder="CNAE Primário" [multiple]="true" #multiSelect>
+              <mat-option>
+                <ngx-mat-select-search
+                 placeholderLabel="Buscar por nome..."
+                 noEntriesFoundLabel="Não encontrado"
+                  [formControl]="cnaePrimaMultiFilterCtrl"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let cnae of filteredCnaePrimaMulti | async" [value]="cnae" (click)="onCnaePrimaMultiSelectionChange($event)">
+                {{cnae.codigo}} - {{cnae.descricao}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-
-          <mat-autocomplete #autoCnae="matAutocomplete" [displayWith]="displayFnCnaes">
-            <mat-option *ngFor="let cnae of filteredCnae  | async" [value]="selectedCnae">
-              <div (click)="optionClickedCnae($event, cnae)">
-                <mat-checkbox [checked]="cnae.selected" (change)="toggleSelectionCnae(cnae)" (click)="$event.stopPropagation()">
-                  {{  cnae?.codigo }} - {{  cnae?.descricao }}
-                </mat-checkbox>
-              </div>
-            </mat-option>
-          </mat-autocomplete>
-
-          <br><br>
 
           <!-- *** -->
 
            <!-- CNAE Secundario input -->
 
-           <mat-form-field class="example-full-width">
-            <input type="text" placeholder="CNAE Secundário" aria-label="cnaeSecundario" matInput [matAutocomplete]="autoCnaeSecundario" [formControl]="cnaeSecundarioControl">
-            <mat-hint class="f-550">Insira um texto para encontrar CNAE Secundário por nome</mat-hint>
+           <mat-form-field>
+            <mat-select class="f-550" [formControl]="cnaeSecundMultiCtrl" placeholder="CNAE Secundário" [multiple]="true" #multiSelect>
+              <mat-option>
+                <ngx-mat-select-search
+                 placeholderLabel="Buscar por nome..."
+                 noEntriesFoundLabel="Não encontrado"
+                  [formControl]="cnaeSecundMultiFilterCtrl"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let cnae of filteredCnaeSecundMulti | async" [value]="cnae" (click)="onCnaeSecundMultiSelectionChange($event)">
+                {{cnae.codigo}} - {{cnae.descricao}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-
-          <mat-autocomplete #autoCnaeSecundario="matAutocomplete" [displayWith]="displayFnCnaesSecundarios">
-            <mat-option *ngFor="let cnaeSecundario of filteredCnaeSecundario  | async" [value]="selectedCnaeSecundario">
-              <div (click)="optionClickedCnae($event, cnaeSecundario)">
-                <mat-checkbox [checked]="cnaeSecundario.selected" (change)="toggleSelectionCnaeSecundario(cnaeSecundario)" (click)="$event.stopPropagation()">
-                  {{  cnaeSecundario?.codigo }} {{  cnaeSecundario?.descricao }}
-                </mat-checkbox>
-              </div>
-            </mat-option>
-          </mat-autocomplete>
-
-          <br><br>
 
           <!-- *** -->
 
-          <mat-form-field class="example-full-width">
-            <input type="text" placeholder="ncm" aria-label="ncm" matInput [matAutocomplete]="autoNcm" [formControl]="ncmControl">
-            <mat-hint class="f-550">Insira um texto para encontrar NCM por nome</mat-hint>
+          <mat-form-field>
+            <mat-select class="f-550" [formControl]="ncmMultiCtrl" placeholder="Ncm" [multiple]="true" #multiSelect>
+              <mat-option>
+                <ngx-mat-select-search
+                 placeholderLabel="Buscar por nome..."
+                 noEntriesFoundLabel="Não encontrado"
+                  [formControl]="ncmMultiFilterCtrl"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let ncm of filteredNcmMulti | async" [value]="ncm" (click)="onNcmMultiSelectionChange($event)">
+                {{ncm.codigo}} - {{ncm.descricao}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-
-          <mat-autocomplete #autoNcm="matAutocomplete" [displayWith]="displayFnNcm">
-            <mat-option *ngFor="let ncm of filteredNcm  | async" [value]="selectedNcm">
-              <div (click)="optionClickedNcm($event, ncm)">
-                <mat-checkbox [checked]="ncm.selected" (change)="toggleSelectionNcm(ncm)" (click)="$event.stopPropagation()">
-                  {{ncm?.codigo }} {{ncm?.descricao }}
-                </mat-checkbox>
-              </div>
-            </mat-option>
-          </mat-autocomplete>
-
-          <br><br>
 
           </div>
         </mat-expansion-panel>
