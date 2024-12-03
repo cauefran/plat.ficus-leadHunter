@@ -23,7 +23,7 @@ import { HeaderDashboardComponent } from './components/header-dashboard/header-d
 		FormsModule,
 		PrimeNgModule,
 	],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	changeDetection: ChangeDetectionStrategy.Default,
 
 })
 export class DashboardComponent implements OnInit, AfterContentChecked {

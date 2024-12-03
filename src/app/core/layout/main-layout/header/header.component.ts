@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
   ],
   viewProviders: [AuthService],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class HeaderComponent implements OnInit, DoCheck, AfterViewChecked {
 

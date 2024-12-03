@@ -1,0 +1,111 @@
+@import '../../../../styles/main.scss';
+
+main{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  background-color: $ficus-light-gray;
+
+  .title-section{
+    margin: 8rem 2rem;
+    display: flex;
+    height: 100%;
+    width: 20%;
+    min-height: 24rem;
+    justify-content: center;
+    align-items: center;
+    color: $aleixo-dark-blue;
+    font-weight: 550;
+    height: 6px;
+
+    img{
+      width: 12rem;
+      height: 10rem;
+    }
+  }
+
+  .pricing-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 100%;
+    margin: 8rem 2rem;
+    gap: 2rem;
+
+    .plan-container{
+      padding: 1.5rem;
+      font-weight: 550;
+      display: flex;
+      justify-content: space-between;
+      height: 24rem;
+      width: 15rem;
+      box-shadow: 0px 0px 9px 0px $aleixo-dark-blue;
+      cursor: pointer;
+      &:nth-child(2){
+        // height: 30rem;
+      }
+      &:hover{
+        // margin: 0 0.5rem;
+        height: 26rem;
+        width: 16.5rem;
+        border: 1px solid $ficus-yellow;
+      }
+
+      .mat-mdc-card-header{
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+
+      .mat-mdc-card-title{
+        font-size: 24px;
+      }
+      .mat-mdc-card-subtitle {
+        font-size: 16px;
+        margin-top: .5rem !important;
+        color: $aleixo-dark-blue;
+        font-weight: 550;
+      }
+      .mat-mdc-card-content{
+        margin: 0 !important;
+      }
+
+      // .mat-mdc-card-footer{
+      //   background-color: $aleixo-dark-blue;
+      //   padding: 0;
+      //   position: relative;
+      //   bottom: -.5em;
+      //   border-radius: 15px;
+      // }
+
+      .content-card-plan{
+        min-height: 6rem;
+
+        .benefits-list{
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          li{
+            margin-top: .5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+            font-size: 14px;
+            &:nth-child(1){
+              margin-top: 0;
+            }
+            mat-icon{
+              font-size: 14px;
+              width: 14px;
+              height: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

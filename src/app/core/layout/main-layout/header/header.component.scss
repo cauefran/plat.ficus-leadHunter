@@ -4,6 +4,10 @@
   flex: 1 1 auto;
 }
 
+img{
+  cursor: pointer;
+}
+
 mat-toolbar{
   background-color: $aleixo-dark-blue;
   color: $ficus-yellow;
@@ -68,7 +72,7 @@ mat-toolbar{
             }
           }
       }
-  
+
 }
 
 .img-container{

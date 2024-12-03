@@ -19,6 +19,11 @@ export class DashboardService {
     return this._httpClient.post(url,{dados});
   }
 
+  public filterAllSearchs(path: string, dados: any, signatureSession: string): Observable<any>{
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Pesquisa/PegarPesquisas?session_signature=${signatureSession}`;
+    return this._httpClient.post(url,{dados});
+  }
+
 
   public getListaCnae(): Observable<any> {
     const url = `http://w2.ficusconsultoria.com.br:11117/dados_auxiliares/InformacoesAuxiliares/PegarListaCnaes`;

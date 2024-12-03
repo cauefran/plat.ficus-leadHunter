@@ -1,0 +1,66 @@
+<main>
+
+
+  <section class="title-section">
+    <div class="title">
+      <h2>
+        Descubra o plano ideal e maximize o seu negócio
+      </h2>
+      <h6>Acesse milhares de leads e conquiste um novo patamar! A influência do seu negócio só depende de você.</h6>
+      <img src="./../../../../assets/images/transparent-big-data-clip-cookdiary-net-analysis-clipart-data-gatheri5e9d353ddb5979.9131019515873610858985.png" alt="">
+    </div>
+  </section>
+
+
+  <section class="pricing-container">
+
+    @for(card of planCards; track card){
+      <mat-card class="plan-container">
+          <mat-card-header>
+              <mat-card-title>{{card.title}}</mat-card-title>
+              <mat-card-subtitle>R${{card.price}}/mês</mat-card-subtitle>
+          </mat-card-header>
+          <!-- <img matCardImage src="Card wide image source"> -->
+          <mat-card-content class="mt-5 content-card-plan">
+              <ul class="benefits-list">
+                <li><mat-icon class="material-symbols-outlined">
+                  check
+                  </mat-icon>{{card.bOne}}</li>
+                  <li>
+                  @if(card.bTwo){
+                  <mat-icon class="material-symbols-outlined">
+                  check
+                  </mat-icon>
+                }
+                {{card.bTwo}}
+                </li>
+                <li>
+                  @if(card.bThree){
+                    <mat-icon class="material-symbols-outlined">
+                      check
+                      </mat-icon>
+                    }
+                    {{card.bThree}}
+                  </li>
+              </ul>
+
+          </mat-card-content>
+          <mat-card-actions>
+              @if(card.title === 'Gratuito' && isLogged){
+              <button disabled class="btn-confirm-disable w-100" mat-button>Plano atual</button>
+              }
+              @if(card.title === 'Gratuito' && !isLogged){
+              <button class="btn-confirm w-100"(click)="openPaymentModal(card)"  mat-button>Quero Esse plano</button>
+              }
+              @if(card.title !== 'Gratuito'){
+                <button class="btn-confirm w-100" mat-button (click)="openPaymentModal(card)">Quero Esse plano</button>
+              }
+          </mat-card-actions>
+      </mat-card>
+    }
+
+  </section>
+
+
+
+</main>

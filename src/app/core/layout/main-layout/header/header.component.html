@@ -4,20 +4,17 @@
     <mat-icon>{{ hidden ? 'menu_open' : 'menu' }}</mat-icon>
   </button>
   <div class="img-container">
-    <img (click)="goTo('')" src="assets/images/Ficus_Logo.png" alt="">
+    <img (click)="goTo('dashboard/company-search')" src="assets/images/Ficus_Logo.png" alt="">
   </div>
   <span class="example-spacer"></span>
   @if(!isLogged){
     <div class="menu-drop">
       <ul>
-        <li>
+        <li (click)="goTo('solutions')">
           Soluções
         </li>
-        <li>
+        <li (click)="goTo('pricing')">
           Planos
-        </li>
-        <li>
-          Sobre
         </li>
       </ul>
     </div>
@@ -47,21 +44,19 @@
 
 <section *ngIf="hidden" class="menu-side">
   <ul>
-    <li (click)="goTo('')">
+    <li (click)="goTo('dashboard')">
       <!-- <mat-icon>home</mat-icon> -->
       <a> Início</a>
     </li>
-    <li (click)="goTo('about')">
-      <!-- <mat-icon>local_library</mat-icon> -->
+    <li (click)="goTo('solutions')">
       <a> Soluções</a>
     </li>
-    <li>
+    <li (click)="goTo('pricing')">
       <!-- <mat-icon>local_library</mat-icon> -->
       <a> Planos</a>
     </li>
-    <li>
-      <!-- <mat-icon>local_library</mat-icon> -->
+    <!-- <li>
       <a> Sobre</a>
-    </li>
+    </li> -->
   </ul>
 </section>

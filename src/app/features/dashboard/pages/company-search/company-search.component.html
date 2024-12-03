@@ -1,39 +1,104 @@
 
   <main>
     <div class="row w-100">
-      <section class="filter-section col-xl-3 col-md-4 col-sm-12 col-12">
+      <section class="filter-section"
+      [ngClass]="!showTable() ? 'col-xl-4 col-md-5 col-sm-12 col-12' : 'col-xl-3 col-md-4 col-sm-12 col-12'"
+      >
         <app-filter-section
          (tableDataEvent)="recieveTableData($event)"
         (selectedSectorValue)="filteredSelectedSectorEvent($event)"
         (selectedCnaePrimarioValue)="filteredSelectedCnaePrimaEvent($event)"
         (selectedCnaeSecundarioValue)="filteredSelectedCnaeSecundEvent($event)"
         (selectedNcmValue)="filteredSelectedNcmEvent($event)"
+        (socioFilteredValue)="filteredSocioEvent($event)"
+        (nomeFilteredValue)="filteredNomeEvent($event)"
+        (cnpjFilteredValue)="filteredCnpjEvent($event)"
+        (stateFilteredValue)="filteredStateEvent($event)"
+        (cityFilteredValue)="filteredCityEvent($event)"
+        (neighbourhoodFilteredValue)="filteredNeighbourhoodEvent($event)"
+        (logradouroFilteredValue)="filteredLogradouroEvent($event)"
+        (stNumberFilteredValue)="filteredStNumberEvent($event)"
+        (cepFilteredValue)="filteredCEPEvent($event)"
+        (companySizeFilteredValue)="filteredCompanySizeEvent($event)"
+        (telephoneFilteredValue)="filteredTelephoneEvent($event)"
          ></app-filter-section>
       </section>
-      <section class="table-section col-xl-9 col-md-8 col-sm-12 col-12">
+      <section
+      class="table-section"
+      [ngClass]="!showTable() ? 'col-xl-6 col-md-6 col-sm-12 col-12' : 'col-xl-9 col-md-8 col-sm-12 col-12'"
+      >
         @if(dashboardService.isLoading()){
           <div class="spinner-container w-100">
           <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-          <p class="f-550">Buscando...</p>
+          <p class="f-550 text-spinner">Buscando...</p>
           </div>
         }
-        <div class="w-100">
-          <mat-chip-set aria-label="Fish selection">
-          @for (sector of selectedSector; track sector) {
-            <mat-chip>{{sector}}</mat-chip>
-          }
-          @for (cnaePrima of selectedCnaePrima; track cnaePrima) {
-            <mat-chip>{{cnaePrima}}</mat-chip>
-          }
-          @for (cnaeSecund of selectedCnaeSecund; track cnaeSecund) {
-            <mat-chip>{{cnaeSecund}}</mat-chip>
-          }
-          @for (ncm of selectedNcm; track ncm) {
-            <mat-chip>{{ncm}}</mat-chip>
-          }
-          </mat-chip-set>
+        <div class="new-search-container w-100 m-0"
+          [ngClass]="!showTable() ? 'no-data-side-display' : ''">
+          <div [hidden]="showTable()" class="w-100 new-search-text-area no-data">
+            <h5>Preencha os Filtros e Faça Uma Nova Busca</h5>
+            <mat-icon class="material-symbols-outlined">
+              search
+              </mat-icon>
+          </div>
+          <div class="w-100">
+            @if(selectedFilterLabelShow){
+              <br>
+              <h6>Filtros selecionados:</h6>
+              <br>
+            }
+            <mat-chip-set aria-label="filter selection" class="assigned-chip">
+            @for (sector of selectedSector; track sector) {
+              <mat-chip matTooltip="Setor" class="assigned-chip">{{sector}}</mat-chip>
+            }
+            @for (cnaePrima of selectedCnaePrima; track cnaePrima) {
+              <mat-chip class="assigned-chip" matTooltip="Cnae Primário">{{cnaePrima}}</mat-chip>
+            }
+            @for (cnaeSecund of selectedCnaeSecund; track cnaeSecund) {
+              <mat-chip class="assigned-chip" matTooltip="Cnae Secundário">{{cnaeSecund}}</mat-chip>
+            }
+
+            @for (ncm of selectedNcm; track ncm) {
+              <mat-chip class="assigned-chip" matTooltip="Ncm">{{ncm}}</mat-chip>
+            }
+            @if(filterInputSocio.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Sócio">{{filterInputSocio}}</mat-chip>
+            }
+            @if(filterInputNome.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Nome">{{filterInputNome}}</mat-chip>
+            }
+            @if(filterInputCnpj.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Cnpj">{{filterInputCnpj}}</mat-chip>
+            }
+            @for (InputState of filterInputState; track InputState) {
+              <mat-chip class="assigned-chip" matTooltip="Estado">{{InputState}}</mat-chip>
+            }
+            @for (InputCity of filterInputCity; track InputCity) {
+              <mat-chip class="assigned-chip" matTooltip="Cidade">{{InputCity}}</mat-chip>
+            }
+            @for (InputNeighbourhood of filterInputNeighbourhood; track InputNeighbourhood) {
+              <mat-chip class="assigned-chip" matTooltip="Bairro">{{InputNeighbourhood}}</mat-chip>
+            }
+            @if(filterInputLogradouro.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Logradouro">{{filterInputLogradouro}}</mat-chip>
+            }
+            @if(filterInputStNumber.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="N.Rua">{{filterInputStNumber}}</mat-chip>
+            }
+            @if(filterInputCEP.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="CEP">{{filterInputCEP}}</mat-chip>
+            }
+            @for (InputCompanySize of filterInputCompanySize; track InputCompanySize) {
+              <mat-chip class="assigned-chip" matTooltip="Porte Nominal">{{InputCompanySize}}</mat-chip>
+            }
+            @if(filterInputTelephone.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Telefone">{{filterInputTelephone}}</mat-chip>
+            }
+            </mat-chip-set>
+          </div>
         </div>
-        <div class="table-header w-100">
+
+        <div [hidden]="!showTable()" class="table-header w-100">
 
           <div class="button-container">
             <button
@@ -49,7 +114,12 @@
           </div>
 
         </div>
-        <div class="mat-elevation-z8 w-100 table-container">
+
+        <mat-form-field [hidden]="!showTable()">
+          <mat-label>Filtro</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar tabela" #input>
+        </mat-form-field>
+        <div [hidden]="!showTable()" class="mat-elevation-z8 w-100 table-container">
           <table mat-table [dataSource]="dataSource" id="tableId">
 
             <ng-container matColumnDef="select">
@@ -112,17 +182,26 @@
             <ng-container matColumnDef="socio">
               <th mat-header-cell *matHeaderCellDef>Sócio(s)</th>
               <td mat-cell *matCellDef="let element" class="details-td">
-                {{element?.socio}}
+                @for(socio of element.socios; track socio){
+                  <span class="span-td-icon-structure_socio"><mat-icon class="mat-18">person</mat-icon>{{socio?.nome || ' - '}}</span><br>
+                }
               </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDetailsModal(row)"></tr>
 
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell no-data-text" colspan="10">Não encontrado</td>
+            </tr>
           </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+          #paginator
+          showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
         </div>
+
       </section>
     </div>
   </main>

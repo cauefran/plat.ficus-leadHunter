@@ -5,9 +5,10 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { IConfig, provideEnvironmentNgxMask } from 'ngx-mask';
-import { HttpClientModule, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AuthService } from './features/services/auth.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -22,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimationsAsync(),
     provideEnvironmentNgxMask(maskConfig),
-    importProvidersFrom(HttpClientModule,AuthService),
+    importProvidersFrom(HttpClientModule,AuthService,NgxMatSelectSearchModule),
     provideNativeDateAdapter(),
   ]
 };

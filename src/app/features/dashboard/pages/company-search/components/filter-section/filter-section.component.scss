@@ -178,13 +178,14 @@
     width: 100%;
     align-items: baseline;
     justify-content: center;
+    text-align: end;
     padding: 1rem 0.3rem;
 
     .title-section{
       display: flex;
       width: 100%;
       align-items: center;
-      justify-content: center;
+      justify-content: start;
       .title{
         text-align: center;
         margin: 0;
@@ -203,6 +204,8 @@
 
 .side-l .mat-expansion mat-panel-title {
   font-size: 16px;
+  color: $aleixo-dark-blue;
+  letter-spacing: 1px;
 }
 
 .p-dropdown .p-component .p-inputwrapper .p-inputwrapper-filled{
@@ -210,3 +213,6 @@
   margin: 0 1rem;
 }
 
+.mat-expansion-panel-body {
+  box-shadow: 7px 10px 17px -6px black;
+}

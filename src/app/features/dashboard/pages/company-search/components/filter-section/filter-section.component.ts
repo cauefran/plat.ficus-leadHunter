@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output, signal, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output, signal, ViewChild, Pipe, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from '../../../../../../shared/modules/material.module';
 import { PrimeNgModule } from '../../../../../../shared/modules/primeng.module';
@@ -14,14 +14,8 @@ import { FeedbackModalComponent } from '../../../../../../shared/modals/feedback
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelect } from '@angular/material/select';
-
-
-
-export class User {
-  constructor(public firstname: string, public lastname: string, public selected?: boolean) {
-    if (selected === undefined) selected = false;
-  }
-}
+import { take } from 'rxjs/operators';
+import { AlphabetOnlyDirective } from '../../../../../directives/alphabet-only.directive';
 
 export class Sector {
   constructor(public codigo: string, public descricao: string, public selected?: boolean) {
@@ -49,6 +43,7 @@ export class Ncm {
   templateUrl: './filter-section.component.html',
   styleUrls: ['./filter-section.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     CommonModule,
     MaterialModule,
@@ -58,18 +53,33 @@ export class Ncm {
     PrimeNgModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    AlphabetOnlyDirective
   ],
-
 })
-export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @Output() tableDataEvent = new EventEmitter<any>();
   @Output() selectedSectorValue = new EventEmitter<any>();
   @Output() selectedCnaePrimarioValue = new EventEmitter<any>();
   @Output() selectedCnaeSecundarioValue = new EventEmitter<any>();
   @Output() selectedNcmValue = new EventEmitter<any>();
-  @ViewChild('multiSelect', { static: true }) multiSelect!: MatSelect;
-
+  @Output() cnpjFilteredValue = new EventEmitter<any>();
+  @Output() nomeFilteredValue = new EventEmitter<any>();
+  @Output() socioFilteredValue = new EventEmitter<string>();
+  @Output() stateFilteredValue = new EventEmitter<string>();
+  @Output() cityFilteredValue = new EventEmitter<string>();
+  @Output() neighbourhoodFilteredValue = new EventEmitter<string>();
+  @Output() logradouroFilteredValue = new EventEmitter<string>();
+  @Output() stNumberFilteredValue = new EventEmitter<string>();
+  @Output() cepFilteredValue = new EventEmitter<string>();
+  @Output() companySizeFilteredValue = new EventEmitter<any>();
+  @Output() telephoneFilteredValue = new EventEmitter<string>();
+  @Output() initialDateFilteredValue = new EventEmitter<string>();
+  @Output() finalDateFilteredValue = new EventEmitter<string>();
+  @ViewChild('sectorSelect', { static: true }) sectorSelect!: MatSelect;
+  @ViewChild('cnaePrimaSelect', { static: true }) cnaePrimaSelect!: MatSelect;
+  @ViewChild('cnaeSecondSelect', { static: true }) cnaeSecondSelect!: MatSelect;
+  @ViewChild('ncmSelect', { static: true }) ncmSelect!: MatSelect;
 
   public form: FormGroup;
   readonly panelOpenState = signal(false);
@@ -84,7 +94,7 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
   // sector
   public sectorMultiCtrl = new FormControl();
   public sectorMultiFilterCtrl = new FormControl();
-  public filteredSectorMulti: ReplaySubject<Array<any>> = new ReplaySubject<Array<any>>(1);
+  public filteredSectorMulti: ReplaySubject<IFilterCnae[]> = new ReplaySubject<IFilterCnae[]>(1);
   public sectors: Array<any> = [];
 
     // Cnae Primario
@@ -146,7 +156,11 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
       telephone: ['', []],
       initialDate: [''],
       finalDate: ['', []],
-      partner: ['', []],
+      partner: ['', [
+        Validators.maxLength(50),
+        Validators.pattern('^[a-zA-Z \-\']+')]],
+      name: ['', [
+        Validators.maxLength(50)]],
       companySize: new FormControl(),
       legalNature: ['', []],
       feeType: [ERegimeTributario.TODOS, []],
@@ -155,37 +169,48 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   ngOnInit() {
-    this. getFilterData();
+    this.getFilterData();
+    this.loadInitialSelectValues();
     this.form.get('city')?.disable();
     this.form.get('neighbourhood')?.disable();
 
-    this.filteredSectorMulti.next(this.sectors);
+    this.getPreviousSearch();
+
     this.sectorMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.filterSectorMulti();
       });
 
-    this.filteredCnaePrimaMulti.next(this.cnaes);
     this.cnaePrimaMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.filterCnaePrimaMulti();
       });
 
-    this.filteredCnaeSecundMulti.next(this.cnaesSecundarios);
     this.cnaeSecundMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.filterCnaeSecundMulti();
       });
 
-    this.filteredNcmMulti.next(this.ncm);
     this.ncmMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.filterNcmMulti();
       });
+  }
+
+  ngAfterViewInit() {
+    this.loadInitialSelectValues();
+    this.onFirstClick();
+  }
+
+  public onFirstClick(): void {
+    this.sectorMultiFilterCtrl.setValue('')
+    this.cnaePrimaMultiFilterCtrl.setValue('')
+    this.cnaeSecundMultiFilterCtrl.setValue('')
+    this.ncmMultiFilterCtrl.setValue('')
   }
 
   public ngAfterViewChecked(): void {
@@ -199,12 +224,33 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
     this._onDestroy.complete();
   }
 
+  public loadInitialSelectValues(): void {
+    this.filteredSectorMulti.next(this.sectors.slice());
+    this.filteredCnaePrimaMulti.next(this.cnaes.slice());
+    this.filteredCnaeSecundMulti.next(this.cnaesSecundarios.slice());
+    this.filteredNcmMulti.next(this.ncm.slice());
+  }
+
+  protected setSectorInitialValue() {
+    this.filteredSectorMulti
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.sectorSelect.compareWith = (a: Sector, b: Sector) => a && b && a.codigo === b.codigo;
+      });
+  }
+
   protected filterSectorMulti() {
     if (!this.sectors) {
       return;
     }
     // get the search keyword
     let search = this.sectorMultiFilterCtrl.value;
+    console.log('search', search);
     if (!search) {
       this.filteredSectorMulti.next(this.sectors.slice());
       return;
@@ -288,6 +334,51 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
     this.selectedNcmValue.emit(this.ncmMultiCtrl.value);
   }
 
+  public onKeyUpSocioValue(): void {
+    if(this.form.get('partner')?.errors?.pattern){
+      return;
+    }
+    this.socioFilteredValue.emit(this.form.get('partner')?.value);
+  }
+  public onKeyUpNomeValue(): void {
+    this.nomeFilteredValue.emit(this.form.get('name')?.value);
+  }
+  public onKeyUpCnpjValue(): void {
+    if(this.form.get('cnpj')?.errors?.pattern){
+      return;
+    }
+    this.cnpjFilteredValue.emit(this.form.get('cnpj')?.value);
+  }
+
+  public onStateMultiSelectionChange(event: any): void {
+    this.stateFilteredValue.emit(this.form.get('estate')?.value);
+  }
+  public onCityMultiSelectionChange(event: any): void {
+    this.cityFilteredValue.emit(this.form.get('city')?.value);
+  }
+  public onNeighbourhoodMultiSelectionChange(event: any): void {
+    this.neighbourhoodFilteredValue.emit(this.form.get('neighbourhood')?.value);
+  }
+  public onKeyUpCEPValue(): void {
+    this.cepFilteredValue.emit(this.form.get('cep')?.value);
+  }
+  public onKeyUpLogradouroValue(): void {
+    this.logradouroFilteredValue.emit(this.form.get('logradouro')?.value);
+  }
+  public onKeyUpStNumberValue(): void {
+    this.stNumberFilteredValue.emit(this.form.get('stNumber')?.value);
+  }
+  public onCompanySizeMultiSelectionChange(): void {
+    this.companySizeFilteredValue.emit(this.form.get('companySize')?.value);
+  }
+  public onKeyUpTelephoneValue(): void {
+    this.telephoneFilteredValue.emit(this.form.get('telephone')?.value);
+  }
+
+  public dropSpecialCharacters(str: string): string {
+    return str.replace(/[^a-zA-Z0-9]/g, '');
+
+  }
   public clearFilters(): void {
     this.form.reset();
     if(!this.form.get('estate')?.value){
@@ -295,7 +386,25 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
       this.form.get('neighbourhood')?.disable();
     }
     this.getFilterData();
-
+    this.sectorMultiCtrl.reset();
+    this.selectedSectorValue.emit([]);
+    this.cnaePrimaMultiCtrl.reset();
+    this.selectedCnaePrimarioValue.emit([]);
+    this.cnaeSecundMultiCtrl.reset();
+    this.selectedCnaeSecundarioValue.emit([]);
+    this.ncmMultiCtrl.reset();
+    this.selectedNcmValue.emit([]);
+    this.form.reset();
+    this.socioFilteredValue.emit('');
+    this.nomeFilteredValue.emit('');
+    this.cnpjFilteredValue.emit('');
+    this.stateFilteredValue.emit('');
+    this.cityFilteredValue.emit('');
+    this.neighbourhoodFilteredValue.emit('');
+    this.form.get('companySize')?.reset();
+    this.form.reset();
+    this.companySizeFilteredValue.emit([]);
+    this.telephoneFilteredValue.emit('');
   }
 
   public getCitiesValue(): void {
@@ -350,11 +459,9 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public getCEP(): void {
-
-      console.log('this.form.get(cep)?.value: ', this.form.get('cep')?.value )
       this._dashboardService.getCEP(this.form.get('cep')?.value).subscribe((res) => {
         if(res.result){
-          console.log('res.result cep ', res.result);
+          this.onKeyUpCEPValue();
           if(res.result?.uf.length > 0){
             this.form.get('estate')?.setValue([res.result.uf]);
             this._dashboardService.getCidade(res.result.uf).subscribe((val)=> {
@@ -367,15 +474,43 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
               this.neighbourhoods = val.result;
               this.form.get('neighbourhood')?.enable();
               this.form.get('neighbourhood')?.setValue([res.result.codigoBairro]);
+
             })
           }
           this.form.get('logradouro')?.reset()
           this.form.get('logradouro')?.setValue(res.result.logradouro);
+          this.onKeyUpLogradouroValue();
           return;
         }
         return;
       });
 
+  }
+
+  public getPreviousSearch(): void {
+    this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
+    const SessionSearchPath = `${this.userPath}/Pesquisa/PegarPesquisas`;
+    const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
+    this._authService.userSessionPath.set(SessionSearchPath);
+    this._authService.generateUserSignatureSession(userLoginData);
+
+    this._authService.userKey.subscribe((res) => {
+      this.userSignatureSession = res;
+    });
+
+    const dados = {
+      filtro : {
+        dataInicio : '',
+        dataFim : '',
+     },
+     maxCount : 20,
+    }
+
+    this._dashboardService.filterAllSearchs(this.userPath, dados, this.userSignatureSession).subscribe((res) => {
+      if(res){
+        console.log('res filter Pesquisas ', res);
+      }
+    })
   }
 
   public search(): void {
@@ -393,34 +528,34 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
 
     if(this.form.get('city')?.value){
       this.form.get('city')?.value.forEach((element: string) => {
-        console.log('elemnt', removeAccents.remove(element));
         this.payloadMunicipios.push(removeAccents.remove(element));
       })
 
     }
 
-    const sectorsPayload = this.sectorMultiCtrl.value.map((i: any) => i.codigo);
-    const cnaePrimaPayload = this.cnaePrimaMultiCtrl.value.map((i: any) => i.codigo);
-    const cnaeSecundPayload = this.cnaeSecundMultiCtrl.value.map((i: any) => i.codigo);
-    const ncmPayload = this.ncmMultiCtrl.value.map((i: any) => i.codigo);
-    console.log("sectorsPayload", sectorsPayload);
+    const sectorsPayload = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
+    const cnaePrimaPayload = this.cnaePrimaMultiCtrl.value !== null ? this.cnaePrimaMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
+    const cnaeSecundPayload = this.cnaeSecundMultiCtrl.value !== null ? this.cnaeSecundMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
+    const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
+    const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value.map((i: any) => i.descricao) : null;
     let filter = {
-      setores: sectorsPayload.length > 0 ? sectorsPayload : null,
-      cnae: cnaePrimaPayload.length > 0 ? cnaePrimaPayload : null,
-      buscarCnaesSecundarios:  cnaeSecundPayload.length > 0 ? cnaeSecundPayload : null,
-      ncms: ncmPayload.length > 0 ? ncmPayload : null,
+      setores: sectorsPayload,
+      cnae: cnaePrimaPayload,
+      buscarCnaesSecundarios: cnaeSecundPayload,
+      ncms: ncmPayload,
       uf: this.form.get('estate')?.value ? this.form.get('estate')?.value : null,
       municipio: this.payloadMunicipios.length > 0 ? this.payloadMunicipios : null,
       bairro: this.form.get('neighbourhood')?.value ? this.form.get('neighbourhood')?.value : null,
       cep: this.form.get('cep')?.value ? this.form.get('cep')?.value : null,
       logradouro: this.form.get('logradouro')?.value ? this.form.get('logradouro')?.value : null,
       socio: this.form.get('partner')?.value ? this.form.get('partner')?.value : null,
+      nome: this.form.get('name')?.value ? this.form.get('name')?.value : null,
       telefone: this.form.get('telephone')?.value ? this.form.get('telephone')?.value : null,
       numero: this.form.get('stNumber')?.value ? this.form.get('stNumber')?.value : null,
-      porte: this.form.get('companySize')?.value ? this.form.get('companySize')?.value : null,
+      porte: companySize,
       naturezaJuridica: this.form.get('legalNature')?.value ? this.form.get('legalNature')?.value : null,
       regime: this.form.get('feeType')?.value ? this.form.get('feeType')?.value : null,
-      cnpj: this.form.get('cnpj')?.value ? this.form.get('cnpj')?.value : null,
+      cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
     }
 
    const dados = {
@@ -468,6 +603,22 @@ export class FilterSectionComponent implements OnInit, AfterViewChecked, OnDestr
     this.CompanySizeList = res?.result;
     console.log('res ListaPorte :', res);
      });
+  }
+
+  public validateSocioInput(): string {
+    if (this.form.get('partner')?.hasError('required')) {
+      return 'Inserir apenas letras';
+    }
+
+    return this.form.get('partner')?.hasError('pattern') ? 'Inserir apenas letras' : '';
+  }
+
+  public getErrorMessageDocument() {
+    if(this.form.get('cnpj')?.errors?.pattern){
+      return 'Documento inválido';
+    }
+
+    return '';
   }
 
 }

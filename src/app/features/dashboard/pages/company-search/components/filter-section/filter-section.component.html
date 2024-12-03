@@ -14,23 +14,83 @@
       </div>
     </div>
 
-    <mat-accordion class="accordion">
+    <mat-accordion class="accordion" multi="true">
       <form [formGroup]="form">
 
-        <!-- Setor -->
-
-
-        <mat-expansion-panel [expanded]="true" class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+         <!-- CNPJ -->
+         <mat-expansion-panel [expanded]="true" class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
-            <mat-panel-title>Setor</mat-panel-title>
+            <mat-panel-title>Filtrar por CNPJ</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="cnpj-container w-100">
+
+              <mat-form-field class="example-full-width">
+                <mat-label>CNPJ</mat-label>
+                <input matInput
+                formControlName="cnpj"
+                (keyup)="onKeyUpCnpjValue()"
+                [dropSpecialCharacters]="false"
+                mask="00.000.000/0000-00"
+                pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})">
+                <mat-error *ngIf="form.get('cnpj')?.invalid">{{getErrorMessageDocument()}}</mat-error>
+              </mat-form-field>
+
+          </div>
+        </mat-expansion-panel>
+
+         <!-- Socio -->
+         <mat-expansion-panel [expanded]="true" class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Filtrar por Sócio</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="cnpj-container w-100">
+
+            <mat-form-field>
+              <mat-label>Sócio</mat-label>
+              <input matInput
+              (keyup)="onKeyUpSocioValue()"
+              type="text"
+              formControlName="partner"
+              pattern="^[a-zA-Z \-\']+"
+              AlphabetOnlyDirective
+              >
+              <mat-error *ngIf="form.get('partner')?.invalid">{{validateSocioInput()}}</mat-error>
+            </mat-form-field>
+
+          </div>
+        </mat-expansion-panel>
+
+         <!-- Nome -->
+         <mat-expansion-panel [expanded]="true" class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Filtrar por Nome</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="cnpj-container w-100">
+
+            <mat-form-field>
+              <mat-label>Nome</mat-label>
+              <input matInput
+              type="text"
+              formControlName="name"
+              (keyup)="onKeyUpNomeValue()"
+              >
+            </mat-form-field>
+
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Setor -->
+        <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Filtrar por Setor</mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="sector-content w-100">
 
           <!-- Setor input -->
 
-            <mat-form-field>
-              <mat-select class="f-550" [formControl]="sectorMultiCtrl" placeholder="Setores" [multiple]="true" #multiSelect>
+            <mat-form-field #sector>
+              <mat-select class="f-550" [formControl]="sectorMultiCtrl" placeholder="Setores" [multiple]="true" #sectorSelect (click)="onFirstClick()">
                 <mat-option>
                   <ngx-mat-select-search
                    placeholderLabel="Buscar por nome..."
@@ -47,8 +107,8 @@
 
            <!-- CNAE Primario -->
 
-           <mat-form-field>
-            <mat-select class="f-550" [formControl]="cnaePrimaMultiCtrl" placeholder="CNAE Primário" [multiple]="true" #multiSelect>
+           <mat-form-field accesskey="cnaeprimario">
+            <mat-select class="f-550" [formControl]="cnaePrimaMultiCtrl" placeholder="CNAE Primário" [multiple]="true" #cnaePrimaSelect (click)="onFirstClick()">
               <mat-option>
                 <ngx-mat-select-search
                  placeholderLabel="Buscar por nome..."
@@ -66,12 +126,12 @@
            <!-- CNAE Secundario input -->
 
            <mat-form-field>
-            <mat-select class="f-550" [formControl]="cnaeSecundMultiCtrl" placeholder="CNAE Secundário" [multiple]="true" #multiSelect>
+            <mat-select class="f-550" [formControl]="cnaeSecundMultiCtrl" placeholder="CNAE Secundário" [multiple]="true" #cnaeSecondSelect (click)="onFirstClick()">
               <mat-option>
                 <ngx-mat-select-search
-                 placeholderLabel="Buscar por nome..."
-                 noEntriesFoundLabel="Não encontrado"
-                  [formControl]="cnaeSecundMultiFilterCtrl"></ngx-mat-select-search>
+                placeholderLabel="Buscar por nome..."
+                noEntriesFoundLabel="Não encontrado"
+                [formControl]="cnaeSecundMultiFilterCtrl"></ngx-mat-select-search>
               </mat-option>
               <mat-option *ngFor="let cnae of filteredCnaeSecundMulti | async" [value]="cnae" (click)="onCnaeSecundMultiSelectionChange($event)">
                 {{cnae.codigo}} - {{cnae.descricao}}
@@ -82,7 +142,7 @@
           <!-- *** -->
 
           <mat-form-field>
-            <mat-select class="f-550" [formControl]="ncmMultiCtrl" placeholder="Ncm" [multiple]="true" #multiSelect>
+            <mat-select class="f-550" [formControl]="ncmMultiCtrl" placeholder="Ncm" [multiple]="true" #ncmSelect (click)="onFirstClick()">
               <mat-option>
                 <ngx-mat-select-search
                  placeholderLabel="Buscar por nome..."
@@ -101,7 +161,7 @@
         <!-- Regiao -->
         <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
-            <mat-panel-title>Região</mat-panel-title>
+            <mat-panel-title>Filtrar por Região</mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="region-content drop-structure">
@@ -110,7 +170,7 @@
                 <mat-label>Estados</mat-label>
                 <mat-select (selectionChange)="getCitiesValue()" formControlName="estate" multiple>
                   @for (estate of estate; track estate) {
-                    <mat-option [value]="estate.uf">{{estate.uf}} - {{estate.nome}}</mat-option>
+                    <mat-option [value]="estate.uf" (click)="onStateMultiSelectionChange($event)">{{estate.uf}} - {{estate.nome}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -120,7 +180,7 @@
                 <mat-label>Cidades</mat-label>
                 <mat-select (selectionChange)="getNeighbourhoodValue()" formControlName="city" multiple>
                   @for (city of cities; track city) {
-                    <mat-option (onSelectionChange)="getCodigoIBGE.set(city?.codigoIBGE)"  [value]="city?.nome">{{city?.nome}}</mat-option>
+                    <mat-option (onSelectionChange)="getCodigoIBGE.set(city?.codigoIBGE)" (click)="onCityMultiSelectionChange($event)"  [value]="city?.nome">{{city?.nome}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -129,7 +189,7 @@
                 <mat-label>Bairros</mat-label>
                 <mat-select (selectionChange)="getStreetValue()" formControlName="neighbourhood" multiple>
                   @for (neighbourhood of neighbourhoods; track neighbourhood) {
-                    <mat-option [value]="neighbourhood.bairro">{{neighbourhood.bairro}}</mat-option>
+                    <mat-option [value]="neighbourhood.bairro" (click)="onNeighbourhoodMultiSelectionChange($event)">{{neighbourhood.bairro}}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -138,15 +198,25 @@
                 <p class="ms-2 f-550">Endereço e CEP</p>
                 <mat-form-field>
                   <mat-label>Logradouro</mat-label>
-                  <input matInput formControlName="logradouro">
+                  <input
+                   matInput
+                   (keyup)="onKeyUpLogradouroValue()"
+                   formControlName="logradouro">
                 </mat-form-field>
                 <mat-form-field>
                   <mat-label>Numero</mat-label>
-                  <input matInput formControlName="stNumber">
+                  <input
+                   matInput
+                   (keyup)="onKeyUpStNumberValue()"
+                   formControlName="stNumber">
                 </mat-form-field>
                 <mat-form-field>
                   <mat-label>CEP</mat-label>
-                  <input mask="XXXXX-XXX" (keyup)="getCEP()" matInput pattern="\d{5}-\d{3}" formControlName="cep">
+                  <input
+                   mask="XXXXX-XXX"
+                    (keyup)="getCEP()"
+                     matInput pattern="\d{5}-\d{3}"
+                    formControlName="cep">
                 </mat-form-field>
               </div>
 
@@ -158,7 +228,7 @@
         <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
 
-            <mat-panel-title>Porte</mat-panel-title>
+            <mat-panel-title>Filtrar por Porte</mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="company-size-content w-100">
@@ -166,19 +236,19 @@
               <mat-label>Porte Nominal</mat-label>
               <mat-select formControlName="companySize" multiple>
                 @for (CompanySizeList of CompanySizeList; track CompanySizeList) {
-                  <mat-option [value]="CompanySizeList.codigo">{{CompanySizeList.descricao}}</mat-option>
+                  <mat-option [value]="CompanySizeList" (click)="onCompanySizeMultiSelectionChange()">{{CompanySizeList.descricao}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field>
+            <!-- <mat-form-field>
               <mat-label>Crescimento da empresa</mat-label>
-              <mat-select multiple>
+              <mat-select formControlName="companySize" multiple>
                 @for (state of mock; track state) {
                   <mat-option [value]="state">{{state.name}}</mat-option>
                 }
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
 
           </div>
 
@@ -187,13 +257,14 @@
         <!-- Telefones -->
         <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
-            <mat-panel-title>Telefone</mat-panel-title>
+            <mat-panel-title>Filtrar por Telefone</mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="telephone-container w-100">
           <mat-form-field>
             <mat-label>telefone</mat-label>
             <input matInput
+            (keyup)="onKeyUpTelephoneValue()"
             prefix="+55"
             type="tel"
             formControlName="telephone"
@@ -207,7 +278,7 @@
         <!-- Cadastrais -->
         <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
-            <mat-panel-title>Cadastrais</mat-panel-title>
+            <mat-panel-title>Filtrar por Data de Abertura</mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="company-records-container w-100">
@@ -232,13 +303,6 @@
 
             </div>
 
-            <mat-form-field>
-              <mat-label>Sócio(s)</mat-label>
-              <input matInput
-              type="text"
-              formControlName="partner">
-            </mat-form-field>
-
           </div>
 
         </mat-expansion-panel>
@@ -246,7 +310,7 @@
         <!-- Legais e tribuários -->
         <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
-            <mat-panel-title>Legais e tributários</mat-panel-title>
+            <mat-panel-title>Filtrar por Legais e Tributários</mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="legal-container w-100">
@@ -270,24 +334,6 @@
             </mat-form-field>
           </div>
 
-        </mat-expansion-panel>
-
-        <!-- CNPJ -->
-        <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Busca por CNPJs</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="cnpj-container w-100">
-
-              <mat-form-field class="example-full-width">
-                <mat-label>CNPJ</mat-label>
-                <input matInput
-                formControlName="cnpj"
-                mask="00.000.000/0000-00"
-                pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})">
-              </mat-form-field>
-
-          </div>
         </mat-expansion-panel>
 
       </form>

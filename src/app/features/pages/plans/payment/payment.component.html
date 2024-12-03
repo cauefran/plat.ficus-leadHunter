@@ -1,0 +1,23 @@
+<main>
+
+  <section class="mt-5 header-payment-section">
+    <h6>Por favor, não atualize o navegador enquanto a transação estiver sendo processada!</h6>
+  </section>
+
+  <div class="w-100 icon-detail-purchase">
+    <mat-icon class="material-symbols-outlined">
+      verified
+      </mat-icon>
+  </div>
+
+
+  <section class="details-section">
+   <p>Plano selecionado: <span class="f-550">{{data.title}}</span></p>
+   <p>Valor: <span class="f-550">R${{data.price}}/mês</span></p>
+  </section>
+
+  <section class="mt-5">
+    <div #paypalRef></div>
+  </section>
+
+</main>

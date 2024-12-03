@@ -5,9 +5,9 @@
   <section class="container-modal w-100">
     <div class="row w-100 organizer-flex-div">
       <div class="company-header col-12 mb-3">
-        <div class="img">
+        <!-- <div class="img">
 
-        </div>
+        </div> -->
         <div class="text">
           <span class="f-550">CNPJ: <br> {{data?.cnpj}} - <button class="subsidiary-btn" mat-flat-button>Matriz</button></span>
           <h4>{{data?.nome}}</h4>
@@ -24,59 +24,83 @@
           </div>
 
           <div class="grid-info-card">
-            <mat-icon class="mat-18">groups</mat-icon>
-           <span class="f-550">N. De Funcionários</span>
+            <mat-icon class="mat-18">bolt</mat-icon>
+           <span class="f-550">Situação</span>
+           {{data?.situacao}}
           </div>
 
-          <div class="grid-info-card">
+          <!-- <div class="grid-info-card">
             <mat-icon class="mat-18">attach_money</mat-icon>
             <span class="f-550">Faturamento</span>
-          </div>
+          </div> -->
 
           <div class="grid-info-card">
-            <mat-icon class="mat-18">bolt</mat-icon>
-            <span class="f-550">Nível de atividade</span>
+            <mat-icon class="mat-18">call</mat-icon>
+            <span class="f-550">Telefone</span>
+            ({{data?.DDD_Telefone}}){{formatPhone(data?.telefone)}}
           </div>
           <div class="grid-info-card">
             <mat-icon class="mat-18">flag_2</mat-icon>
             <span class="f-550">Fundação</span>
+            {{data?.dataInicio | date : 'dd/MM/yyyy'}}
           </div>
-          <div class="grid-info-card">
+          <!-- <div class="grid-info-card">
             <mat-icon class="mat-18">savings</mat-icon>
             <span class="f-550">Capital social</span>
-          </div>
+          </div> -->
       </div>
 
       <div class="company-data col-12">
         <mat-accordion displayMode="default" [multi]="true" [hideToggle]="false">
+
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">map</mat-icon> Localização</mat-expansion-panel-header>
-                {{data?.tipoLogradouro}} {{data?.logradouro}}, {{data?.numero}}. {{data?.bairro}}, {{data?.UF}}. - {{data?.CEP}}
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">map</mat-icon>Localização</mat-expansion-panel-header>
+                <div class="expansion-body w-100">
+                  {{data?.tipoLogradouro}} {{data?.logradouro}}, {{data?.numero}}. {{data?.bairro}}, {{data?.UF}}. - {{data?.CEP}}
+                </div>
             </mat-expansion-panel>
+
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">mail</mat-icon>E-mails e Pessoas</mat-expansion-panel-header>
-                 Panel body
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">mail</mat-icon>E-mail</mat-expansion-panel-header>
+                <div class="expansion-body w-100">
+                {{data?.correio_eletronico}}
+                </div>
             </mat-expansion-panel>
+
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">call</mat-icon> telefone(s)</mat-expansion-panel-header>
-                {{data?.telefone}}
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">call</mat-icon>Telefone(s)</mat-expansion-panel-header>
+                <div class="expansion-body w-100">
+                  ({{data?.DDD_Telefone}}){{formatPhone(data?.telefone)}}
+                </div>
             </mat-expansion-panel>
-            <mat-expansion-panel [hideToggle]="false">
+
+            <!-- <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">language</mat-icon> Websites e redes sociais</mat-expansion-panel-header>
+                <div class="expansion-body w-100">
+                Panel body
+                </div>
+            </mat-expansion-panel> -->
+
+            <!-- <mat-expansion-panel [hideToggle]="false">
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">map</mat-icon>Endereços secundários</mat-expansion-panel-header>
                  Panel body
-            </mat-expansion-panel>
+            </mat-expansion-panel> -->
+
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">map</mat-icon> Endereços secundários</mat-expansion-panel-header>
-                 Panel body
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Sócio(s)</mat-expansion-panel-header>
+                <div class="expansion-body socios-grid w-100">
+                  @for(socio of socios; track socio){
+                      <div class="grid-socios-card">
+                        <p><span class="f-550">Nome: </span> {{socio?.nome}}</p>
+                        <p><span class="f-550">Data de entrada: </span> {{socio?.dataEntrada | date: 'dd/MM/yyyy'}}</p>
+                        <p><span class="f-550">CPF/CNPJ: </span> {{socio?.cpfCnpj}}</p>
+                        <p><span class="f-550">Faixa Etária: </span> {{socio?.faixaEtaria}}</p>
+                        <p><span class="f-550">Qualificação: </span> {{socio?.qualificacao}}</p>
+                      </div>
+                    }
+                </div>
             </mat-expansion-panel>
-            <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">account_tree</mat-icon> Tecnologia e Ferramentas</mat-expansion-panel-header>
-                 Panel body
-            </mat-expansion-panel>
-            <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon> Dados da receita</mat-expansion-panel-header>
-                 Panel body
-            </mat-expansion-panel>
+
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">apartment</mat-icon> Matriz e filiais</mat-expansion-panel-header>
                  Panel body
@@ -85,16 +109,6 @@
                 <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">format_list_numbered</mat-icon> NCM Principal</mat-expansion-panel-header>
                  Panel body
             </mat-expansion-panel>
-            <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">public</mat-icon> Comércio exterior</mat-expansion-panel-header>
-                 Panel body
-            </mat-expansion-panel>
-            <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">history</mat-icon> Histórico e ações</mat-expansion-panel-header>
-                 Panel body
-            </mat-expansion-panel>
-
-
         </mat-accordion>
       </div>
     </div>
