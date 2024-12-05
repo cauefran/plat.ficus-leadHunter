@@ -78,5 +78,9 @@ export class DashboardService {
     const url = `http://w2.ficusconsultoria.com.br:11117/dados_auxiliares/InformacoesAuxiliares/PegarLogradourosDoBairro?codigoBairro=${bairro}`;
     return this._httpClient.get(url);
   }
+  public getParcelamentoDividaAtiva(cpfCnpj: string): Observable<any> {
+    const url = `http://w2.ficusconsultoria.com.br:11117//DividaAtiva/PegarParcelamentosDividaAtiva`;
+    return this._httpClient.get(url);
+  }
 
 }

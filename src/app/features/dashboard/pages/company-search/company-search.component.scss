@@ -40,6 +40,34 @@ main{
         margin-top: 6rem;
       }
 
+      .previous-searchs{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h5, p{
+          color: $aleixo-dark-blue;
+          font-weight: 550;
+          letter-spacing: 1px;
+        }
+        h5{
+          border-bottom: 2px solid #FFC629;
+          padding-bottom: 1rem;
+        }
+
+        .mat-chip-previous-searchs{
+          text-align: center;
+          .mat-mdc-chip{
+            cursor: pointer !important;
+            margin: 0.5rem;
+          }
+          .mat-mdc-standard-chip .mdc-evolution-chip__action--primary{
+            cursor: pointer !important;
+          }
+        }
+      }
+
     }
 
     .table-header{
@@ -180,6 +208,7 @@ main{
 
 :host ::ng-deep .mdc-evolution-chip-set__chips {
   max-width: 100%;
+  cursor: pointer !important;
 }
 
 :host ::ng-deep .mat-mdc-standard-chip .mdc-evolution-chip__cell--primary,
@@ -202,4 +231,8 @@ main{
   text-align: center;
     padding-top: 1rem;
     font-weight: 550;
+}
+
+.mat-mdc-standard-chip .mdc-evolution-chip__action--primary{
+  cursor: pointer !important;
 }

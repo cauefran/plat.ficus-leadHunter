@@ -44,6 +44,7 @@ export interface ISearchCompanyTable {
 export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
+  @ViewChild(FilterSectionComponent) filterSectionComponent!: FilterSectionComponent;
 
   @Input() searchTableData: boolean = false;
 
@@ -74,6 +75,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public filterInputCompanySize!: Array<IFilterCnae>;
   public filterInputNome: string = '';
   public filterInputTelephone: string = '';
+  public previousSearchsResponse: any;
   public selectedFilterLabelShow: boolean = false;
   constructor(
     private _dialog: MatDialog,
@@ -153,6 +155,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
     this.dataSourceWithPageSize.data = [];
     this.searchTableData = false;
     this.showTable.set(false);
+    this.filterSectionComponent.clearFilters();
   }
 
   public showSelectedFilterLabel(): boolean {
@@ -219,7 +222,15 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   }
   public filteredTelephoneEvent(event: any): void {
     this.filterInputTelephone = event;
-}
+  }
+  public privousSearchsResponse(event: any): void {
+    this.previousSearchsResponse = event;
+  }
+
+  public onPreviousSearchSelect(element: any){
+    console.log('search element selected: ', element);
+    this.filterSectionComponent.previousSearchRequest(element);
+  }
 
   public exportToExcel(): void {
     console.log('this.selection.selected', this.selection.selected);

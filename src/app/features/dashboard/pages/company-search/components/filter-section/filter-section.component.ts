@@ -76,6 +76,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   @Output() telephoneFilteredValue = new EventEmitter<string>();
   @Output() initialDateFilteredValue = new EventEmitter<string>();
   @Output() finalDateFilteredValue = new EventEmitter<string>();
+  @Output() previousSearchsEmitter = new EventEmitter<any>();
   @ViewChild('sectorSelect', { static: true }) sectorSelect!: MatSelect;
   @ViewChild('cnaePrimaSelect', { static: true }) cnaePrimaSelect!: MatSelect;
   @ViewChild('cnaeSecondSelect', { static: true }) cnaeSecondSelect!: MatSelect;
@@ -90,6 +91,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   public cities: Array<any> = [];
   public neighbourhoods: Array<any> = [];
   public streets: Array<any> = [];
+  public previousSearchs: Array<any> = [];
 
   // sector
   public sectorMultiCtrl = new FormControl();
@@ -405,6 +407,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.form.reset();
     this.companySizeFilteredValue.emit([]);
     this.telephoneFilteredValue.emit('');
+    this.previousSearchsEmitter.emit([]);
+    this.getPreviousSearch();
   }
 
   public getCitiesValue(): void {
@@ -508,7 +512,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     this._dashboardService.filterAllSearchs(this.userPath, dados, this.userSignatureSession).subscribe((res) => {
       if(res){
-        console.log('res filter Pesquisas ', res);
+        console.log('res filter Pesquisas ', res.result.filtro);
+        this.previousSearchs = res;
+        this.previousSearchsEmitter.next(res.result);
       }
     })
   }
@@ -557,6 +563,46 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       regime: this.form.get('feeType')?.value ? this.form.get('feeType')?.value : null,
       cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
     }
+
+   const dados = {
+    filtro: filter,
+    ordenacao: 0,
+    pagina: 0,
+    }
+
+    this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
+        this.tableDataEvent.emit(res.result);
+
+    }, () => {
+      this._dialog.open(FeedbackModalComponent, {
+        data: {
+          title: 'Erro!',
+          text: 'Erro ao buscar dados!'
+        }
+          }).afterClosed().subscribe(() => this._dashboardService.isLoading.set(false));
+    }, () => {
+      this._dashboardService.isLoading.set(false);
+    });
+  }
+  public previousSearchRequest(filter: any): void {
+    this._dashboardService.isLoading.set(true);
+      this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
+      const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresasSegundoFiltro`;
+      const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
+
+      this._authService.userSessionPath.set(SessionSearchPath);
+        this._authService.generateUserSignatureSession(userLoginData);
+
+    this._authService.userKey.subscribe((res) => {
+      this.userSignatureSession = res;
+    });
+
+    // if(this.form.get('city')?.value){
+    //   this.form.get('city')?.value.forEach((element: string) => {
+    //     this.payloadMunicipios.push(removeAccents.remove(element));
+    //   })
+
+    // }
 
    const dados = {
     filtro: filter,
