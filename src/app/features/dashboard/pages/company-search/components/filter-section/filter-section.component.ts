@@ -566,6 +566,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
    const dados = {
     filtro: filter,
+    identificadorConsulta: '11222',
     ordenacao: 0,
     pagina: 0,
     }

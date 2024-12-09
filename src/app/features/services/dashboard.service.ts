@@ -24,6 +24,10 @@ export class DashboardService {
     return this._httpClient.post(url,{dados});
   }
 
+  public filterSocio(path: string, dados: any, signatureSession: string): Observable<any>{
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Empresa/PegarSocios?session_signature=${signatureSession}`;
+    return this._httpClient.post(url,{dados});
+  }
 
   public getListaCnae(): Observable<any> {
     const url = `http://w2.ficusconsultoria.com.br:11117/dados_auxiliares/InformacoesAuxiliares/PegarListaCnaes`;
@@ -78,9 +82,15 @@ export class DashboardService {
     const url = `http://w2.ficusconsultoria.com.br:11117/dados_auxiliares/InformacoesAuxiliares/PegarLogradourosDoBairro?codigoBairro=${bairro}`;
     return this._httpClient.get(url);
   }
-  public getParcelamentoDividaAtiva(cpfCnpj: string): Observable<any> {
-    const url = `http://w2.ficusconsultoria.com.br:11117//DividaAtiva/PegarParcelamentosDividaAtiva`;
-    return this._httpClient.get(url);
+
+  public getParcelamentoDividaAtiva(dados: any, path: string, signatureSession: string): Observable<any> {
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/DividaAtiva/PegarParcelamentosDividaAtiva?session_signature=${signatureSession}`;
+    return this._httpClient.post(url, {dados});
+  }
+
+  public getPgfn(dados: any, path: string, signatureSession: string): Observable<any> {
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/DividaAtiva/PegarValorListaPGFN?session_signature=${signatureSession}`;
+    return this._httpClient.post(url, {dados});
   }
 
 }

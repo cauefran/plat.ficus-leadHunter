@@ -91,20 +91,38 @@
                 <div class="expansion-body socios-grid w-100">
                   @for(socio of socios; track socio){
                       <div class="grid-socios-card">
-                        <p><span class="f-550">Nome: </span> {{socio?.nome}}</p>
-                        <p><span class="f-550">Data de entrada: </span> {{socio?.dataEntrada | date: 'dd/MM/yyyy'}}</p>
-                        <p><span class="f-550">CPF/CNPJ: </span> {{socio?.cpfCnpj}}</p>
-                        <p><span class="f-550">Faixa Etária: </span> {{socio?.faixaEtaria}}</p>
-                        <p><span class="f-550">Qualificação: </span> {{socio?.qualificacao}}</p>
+                        <p><span class="f-550 title-span">Nome: </span> {{socio?.nome}}</p>
+                        <p><span class="f-550 title-span">Data de entrada: </span> {{socio?.dataEntrada | date: 'dd/MM/yyyy'}}</p>
+                        <p><span class="f-550 title-span">CPF/CNPJ: </span> {{socio?.cpfCnpj}}</p>
+                        <p><span class="f-550 title-span">Faixa Etária: </span> {{socio?.faixaEtaria}}</p>
+                        <p><span class="f-550 title-span">Qualificação: </span> {{socio?.qualificacao}}</p>
                       </div>
                     }
                 </div>
             </mat-expansion-panel>
+            <mat-expansion-panel [hideToggle]="false">
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Lista PGFN (Procuradoria-Geral da Fazenda Nacional)</mat-expansion-panel-header>
+                <div class="expansion-body socios-grid w-100">
+                  @if(pgfnList.value.length > 0){
+                    @for(pgfnItem of pgfnListDisplay; track pgfnItem){
+                        <div class="grid-socios-card">
+                          <p><span class="f-550">CPF/CNPJ: </span> {{pgfnItem?.cpfCnpj}}</p>
+                          <p><span class="f-550">Data Consulta: </span> {{pgfnItem?.dataConsulta | date: 'dd/MM/yyyy'}}</p>
+                          <p><span class="f-550">Nome Fantasia: </span> {{pgfnItem?.nomeFantasia || ' - '}}</p>
+                          <p><span class="f-550">Nome: </span> {{pgfnItem?.nome || ' - '}}</p>
+                          <p><span class="f-550">Valor: </span> {{pgfnItem?.valor | currency:'BRL'}}</p>
+                        </div>
+                  }
+                    }
+                </div>
+            </mat-expansion-panel>
 
-            <!-- <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">apartment</mat-icon> Matriz e filiais</mat-expansion-panel-header>
-                 Panel body
-            </mat-expansion-panel> -->
+            <mat-expansion-panel [hideToggle]="false">
+                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">apartment</mat-icon> Parcelamentos de Dívida </mat-expansion-panel-header>
+
+            </mat-expansion-panel>
+
+
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">format_list_numbered</mat-icon> NCM Principal</mat-expansion-panel-header>
                  Panel body
