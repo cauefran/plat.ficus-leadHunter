@@ -56,21 +56,21 @@
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">map</mat-icon>Localização</mat-expansion-panel-header>
                 <div class="expansion-body w-100">
-                  {{data?.tipoLogradouro}} {{data?.logradouro}}, {{data?.numero}}. {{data?.bairro}}, {{data?.UF}}. - {{data?.CEP}}
+                  <mat-icon class="material-symbols-outlined">map</mat-icon> {{data?.tipoLogradouro}} {{data?.logradouro}}, {{data?.numero}}. {{data?.bairro}}, {{data?.UF}}. - {{data?.CEP}}
                 </div>
             </mat-expansion-panel>
 
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">mail</mat-icon>E-mail</mat-expansion-panel-header>
                 <div class="expansion-body w-100">
-                {{data?.correio_eletronico}}
+                  <mat-icon class="material-symbols-outlined">mail</mat-icon> {{data?.correio_eletronico}}
                 </div>
             </mat-expansion-panel>
 
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">call</mat-icon>Telefone(s)</mat-expansion-panel-header>
                 <div class="expansion-body w-100">
-                  ({{data?.DDD_Telefone}}){{formatPhone(data?.telefone)}}
+                  <mat-icon class="material-symbols-outlined">call</mat-icon> ({{data?.DDD_Telefone}}){{formatPhone(data?.telefone)}}
                 </div>
             </mat-expansion-panel>
 
