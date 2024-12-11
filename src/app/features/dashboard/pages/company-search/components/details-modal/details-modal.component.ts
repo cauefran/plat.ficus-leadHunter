@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from '../../../../../../shared/modules/material.module';
 import moment from 'moment';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { AuthService } from '../../../../../services/auth.service';
 import { BehaviorSubject } from 'rxjs';
 import { IPgfn } from '../../../../../../shared/interfaces/pgfn.interface';
+import { DebtTableComponent } from './components/debt-table/debt-table.component';
+import { PgfnTableComponent } from './components/pgfn-table/pgfn-table.component';
 
 
 @Component({
@@ -34,6 +36,7 @@ export class DetailsModalComponent implements OnInit {
   constructor(
     private _dashboardService: DashboardService,
     private _authService: AuthService,
+    public _dialog: MatDialog,
   ) {
     this.socios = this.data.socios;
   }
@@ -135,5 +138,17 @@ export class DetailsModalComponent implements OnInit {
     this.getCompanyDebtDetails()
     setTimeout(() => {this.getCompanyPgfnList()}, 2500)
     // setTimeout(() => {this.getSocios()}, 3500)
+  }
+
+  public openDebtDialog(): void {
+    this._dialog.open(DebtTableComponent, {
+      data: this.activeDebt.value
+    })
+  }
+
+  public openPgfnDialog(): void {
+    this._dialog.open(PgfnTableComponent, {
+      data: this.pgfnListDisplay
+    })
   }
 }

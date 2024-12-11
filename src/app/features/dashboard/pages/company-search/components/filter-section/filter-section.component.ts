@@ -605,11 +605,13 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     // }
 
-   const dados = {
-    filtro: filter,
-    ordenacao: 0,
-    pagina: 0,
-    }
+    const dados = {
+      filtro: filter,
+      identificadorConsulta: '11222',
+      ordenacao: 0,
+      pagina: 0,
+      }
+
 
     this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
         this.tableDataEvent.emit(res.result);

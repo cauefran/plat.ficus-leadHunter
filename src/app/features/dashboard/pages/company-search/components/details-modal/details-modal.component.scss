@@ -56,6 +56,11 @@ main{
           display: flex;
           flex-direction: column;
           gap: .5rem;
+
+          h4{
+            font-weight: 550;
+            color: $aleixo-dark-blue;
+          }
           .subsidiary-btn{
             background-color: $aleixo-dark-blue;
             color: $ficus-yellow;
@@ -81,6 +86,11 @@ main{
           justify-content: center;
           align-items: center;
           font-size: 14px;
+
+          span{
+            color: $aleixo-dark-blue !important;
+            font-weight: 550;
+          }
         }
       }
 
@@ -102,8 +112,10 @@ main{
 
 }
 .expansion-body{
-  padding: 1rem 0;
-  font-weight: 550;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    font-weight: 550;
 }
 .socios-grid{
   display: flex;
@@ -126,4 +138,31 @@ main{
 
 .title-span{
   color: $aleixo-dark-blue !important;
+}
+
+.debt-section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 550;
+
+  span{
+    display: flex;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.6rem;
+    box-shadow: 0px 0px 5px 0px black;
+    border-radius: 5px;
+    background: #1D1E62;
+    color: #FFC629;
+    font-size: 14px;
+  }
+}
+
+.panel-title{
+  color: $aleixo-dark-blue !important;
+  font-weight: 550;
 }

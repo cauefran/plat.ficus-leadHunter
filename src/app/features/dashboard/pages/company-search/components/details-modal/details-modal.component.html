@@ -9,7 +9,7 @@
 
         </div> -->
         <div class="text">
-          <span class="f-550">CNPJ: <br> {{data?.cnpj}} - <button class="subsidiary-btn" mat-flat-button>Matriz</button></span>
+          <span class="f-550 panel-title">CNPJ: <br> {{data?.cnpj}} - <button class="subsidiary-btn" mat-flat-button>Matriz</button></span>
           <h4>{{data?.nome}}</h4>
         </div>
 
@@ -54,21 +54,21 @@
         <mat-accordion displayMode="default" [multi]="true" [hideToggle]="false">
 
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">map</mat-icon>Localização</mat-expansion-panel-header>
+                <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">map</mat-icon>Localização</mat-expansion-panel-header>
                 <div class="expansion-body w-100">
                   {{data?.tipoLogradouro}} {{data?.logradouro}}, {{data?.numero}}. {{data?.bairro}}, {{data?.UF}}. - {{data?.CEP}}
                 </div>
             </mat-expansion-panel>
 
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">mail</mat-icon>E-mail</mat-expansion-panel-header>
+                <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">mail</mat-icon>E-mail</mat-expansion-panel-header>
                 <div class="expansion-body w-100">
                 {{data?.correio_eletronico}}
                 </div>
             </mat-expansion-panel>
 
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">call</mat-icon>Telefone(s)</mat-expansion-panel-header>
+                <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">call</mat-icon>Telefone(s)</mat-expansion-panel-header>
                 <div class="expansion-body w-100">
                   ({{data?.DDD_Telefone}}){{formatPhone(data?.telefone)}}
                 </div>
@@ -87,7 +87,7 @@
             </mat-expansion-panel> -->
 
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Sócio(s)</mat-expansion-panel-header>
+                <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Sócio(s)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
                   @for(socio of socios; track socio){
                       <div class="grid-socios-card">
@@ -101,32 +101,42 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Lista PGFN (Procuradoria-Geral da Fazenda Nacional)</mat-expansion-panel-header>
+                <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Lista PGFN (Procuradoria-Geral da Fazenda Nacional)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
-                  @if(pgfnList.value.length > 0){
-                    @for(pgfnItem of pgfnListDisplay; track pgfnItem){
-                        <div class="grid-socios-card">
-                          <p><span class="f-550">CPF/CNPJ: </span> {{pgfnItem?.cpfCnpj}}</p>
-                          <p><span class="f-550">Data Consulta: </span> {{pgfnItem?.dataConsulta | date: 'dd/MM/yyyy'}}</p>
-                          <p><span class="f-550">Nome Fantasia: </span> {{pgfnItem?.nomeFantasia || ' - '}}</p>
-                          <p><span class="f-550">Nome: </span> {{pgfnItem?.nome || ' - '}}</p>
-                          <p><span class="f-550">Valor: </span> {{pgfnItem?.valor | currency:'BRL'}}</p>
-                        </div>
-                  }
+                  <div class="debt-section w-100">
+                    @if(pgfnListDisplay.length > 0){
+                      <span (click)="openPgfnDialog()">Abrir tabela PGFN
+                        <mat-icon class="material-symbols-outlined">
+                        table_view
+                        </mat-icon></span>
                     }
+                    @if(pgfnListDisplay.length < 0){
+                      <p>Nenhum resultado</p>
+                    }
+                  </div>
                 </div>
             </mat-expansion-panel>
 
             <mat-expansion-panel [hideToggle]="false">
-                <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">apartment</mat-icon> Parcelamentos de Dívida </mat-expansion-panel-header>
-
+                <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">apartment</mat-icon> Parcelamentos de Dívida </mat-expansion-panel-header>
+                <div class="debt-section w-100">
+                  @if(activeDebt.value.length > 0){
+                    <span (click)="openDebtDialog()">Abrir tabela de Parcelamentos
+                      <mat-icon class="material-symbols-outlined">
+                      table_view
+                      </mat-icon></span>
+                  }
+                  @if(activeDebt.value.length < 0){
+                    <p>Nenhum resultado</p>
+                  }
+                </div>
             </mat-expansion-panel>
 
 
-            <mat-expansion-panel [hideToggle]="false">
+            <!-- <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header><mat-icon class="material-symbols-outlined">format_list_numbered</mat-icon> NCM Principal</mat-expansion-panel-header>
                  Panel body
-            </mat-expansion-panel>
+            </mat-expansion-panel> -->
         </mat-accordion>
       </div>
     </div>
