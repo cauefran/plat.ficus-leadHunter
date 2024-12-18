@@ -1,0 +1,68 @@
+
+<main>
+
+  <div class="mat-elevation-z8 w-100 table-container">
+    <table mat-table [dataSource]="dataSource" id="tableId">
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Position Column -->
+
+      <ng-container matColumnDef="cpfCnpj">
+        <th mat-header-cell *matHeaderCellDef>CPF/CNPJ</th>
+        <td mat-cell *matCellDef="let element" class="w-30 name-document-td">
+          <span>{{element.cpfCnpj}}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let element" class="call">
+          <span class="span-td-icon-structure">{{element.nome}}</span>
+      </ng-container>
+
+      <ng-container matColumnDef="qualificacao">
+        <th mat-header-cell *matHeaderCellDef> Qualificação </th>
+        <td mat-cell *matCellDef="let element"> {{element.qualificacao}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataEntrada">
+        <th mat-header-cell *matHeaderCellDef> Data de Entrada </th>
+        <td mat-cell *matCellDef="let element"> {{element.dataEntrada | date: 'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="faixaEtaria">
+        <th mat-header-cell *matHeaderCellDef> Faixa Etária </th>
+        <td mat-cell *matCellDef="let element">{{element.faixaEtaria}}</td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-text" colspan="10">Não encontrado</td>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    #paginator
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+  </div>
+</main>

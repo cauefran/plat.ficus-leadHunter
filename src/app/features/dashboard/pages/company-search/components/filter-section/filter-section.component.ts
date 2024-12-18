@@ -573,6 +573,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
         this.tableDataEvent.emit(res.result);
+        console.log('table: ', res.result);
 
     }, () => {
       this._dialog.open(FeedbackModalComponent, {
@@ -669,5 +670,4 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     return '';
   }
-
 }

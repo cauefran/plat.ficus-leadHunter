@@ -55,7 +55,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public isSearch: boolean = false;
   public contentTable!: any[];
   public data!: any[];
-  displayedColumns: string[] = ['select', 'cnpjName', 'contact', 'regime', 'cnae', 'companySize', 'address', 'socio'];
+  displayedColumns: string[] = ['select', 'cnpjName', 'contact', 'regime', 'cnae', 'companySize', 'address'];
   dataSource = new MatTableDataSource<ISearchCompanyTable>(this.data);
   dataSourceWithPageSize = new MatTableDataSource(this.data);
   selection = new SelectionModel<ISearchCompanyTable>(true, []);

@@ -89,28 +89,30 @@
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Sócio(s)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
-                  @for(socio of socios; track socio){
-                      <div class="grid-socios-card">
-                        <p><span class="f-550 title-span">Nome: </span> {{socio?.nome}}</p>
-                        <p><span class="f-550 title-span">Data de entrada: </span> {{socio?.dataEntrada | date: 'dd/MM/yyyy'}}</p>
-                        <p><span class="f-550 title-span">CPF/CNPJ: </span> {{socio?.cpfCnpj}}</p>
-                        <p><span class="f-550 title-span">Faixa Etária: </span> {{socio?.faixaEtaria}}</p>
-                        <p><span class="f-550 title-span">Qualificação: </span> {{socio?.qualificacao}}</p>
-                      </div>
+                  <div class="debt-section w-100">
+                    @if(socios.value.length > 0){
+                      <span (click)="openSociosDialog()">Abrir tabela de sócios
+                        <mat-icon class="material-symbols-outlined">
+                        table_view
+                        </mat-icon></span>
                     }
+                    @if(socios.value.length < 0){
+                      <p>Nenhum resultado</p>
+                    }
+                  </div>
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Lista PGFN (Procuradoria-Geral da Fazenda Nacional)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
                   <div class="debt-section w-100">
-                    @if(pgfnListDisplay.length > 0){
+                    @if(pgfnList.value.length > 0){
                       <span (click)="openPgfnDialog()">Abrir tabela PGFN
                         <mat-icon class="material-symbols-outlined">
                         table_view
                         </mat-icon></span>
                     }
-                    @if(pgfnListDisplay.length < 0){
+                    @if(pgfnList.value.length < 0){
                       <p>Nenhum resultado</p>
                     }
                   </div>
@@ -120,13 +122,13 @@
             <mat-expansion-panel [hideToggle]="false">
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">apartment</mat-icon> Parcelamentos de Dívida </mat-expansion-panel-header>
                 <div class="debt-section w-100">
-                  @if(activeDebt.value.length > 0){
+                  @if(activeDebt.value){
                     <span (click)="openDebtDialog()">Abrir tabela de Parcelamentos
                       <mat-icon class="material-symbols-outlined">
                       table_view
                       </mat-icon></span>
                   }
-                  @if(activeDebt.value.length < 0){
+                  @if(!activeDebt.value){
                     <p>Nenhum resultado</p>
                   }
                 </div>

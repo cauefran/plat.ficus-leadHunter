@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { IPgfn } from '../../../../../../shared/interfaces/pgfn.interface';
 import { DebtTableComponent } from './components/debt-table/debt-table.component';
 import { PgfnTableComponent } from './components/pgfn-table/pgfn-table.component';
+import { SociosTableComponent } from './components/socios-table/socios-table.component';
 
 
 @Component({
@@ -29,22 +30,19 @@ export class DetailsModalComponent implements OnInit {
   public userPath = '';
   public userSignatureSession = '';
   public activeDebt = new BehaviorSubject([]);
+  public socios = new BehaviorSubject([]);
   public pgfnList = new BehaviorSubject(Array<IPgfn>);
   public pgfnListDisplay!: Array<IPgfn>;
 
-  public socios: Array<any>;
   constructor(
     private _dashboardService: DashboardService,
     private _authService: AuthService,
     public _dialog: MatDialog,
   ) {
-    this.socios = this.data.socios;
   }
 
   ngOnInit() {
-    this.socios = this.data.socios;
-    console.log('data details: ', this.data);
-    console.log('this.socios: ', this.socios);
+    this.getSocios();
     this.getRequestsTimeStamp();
   }
 
@@ -74,10 +72,6 @@ export class DetailsModalComponent implements OnInit {
       cpfCnpj : this.data?.cnpj,
     }
     this._dashboardService.getParcelamentoDividaAtiva(dados, this.userPath, this.userSignatureSession).subscribe((res: any) => {
-        if(!res){
-          this.activeDebt.next([]);
-          return;
-        }
         this.activeDebt.next(res.result);
         console.log(' active debt', this.activeDebt.value);
     }, () => {
@@ -101,10 +95,6 @@ export class DetailsModalComponent implements OnInit {
       cpfCnpj : this.data?.cnpj,
     }
     this._dashboardService.getPgfn(dados, this.userPath, this.userSignatureSession).subscribe((res: any) => {
-      if(!res){
-        this.pgfnListDisplay = [];
-        return;
-      }
         this.pgfnList.next(res?.result);
         console.log('pgfn list', this.pgfnList.value);
         this.pgfnListDisplay = res?.result;
@@ -113,26 +103,24 @@ export class DetailsModalComponent implements OnInit {
     })
   }
 
-  // public getSocios(): void {
-  //   this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
-  //   const SessionSearchPath = `${this.userPath}/Empresa/PegarSocios`;
-  //   const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
-  //   this._authService.userSessionPath.set(SessionSearchPath);
-  //   this._authService.generateUserSignatureSession(userLoginData);
+  public getSocios(): void {
+    this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
+    const SessionSearchPath = `${this.userPath}/Empresa/PegarSocios`;
+    const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
+    this._authService.userSessionPath.set(SessionSearchPath);
+    this._authService.generateUserSignatureSession(userLoginData);
 
-  //   this._authService.userKey.subscribe((res) => {
-  //     this.userSignatureSession = res;
-  //   });
-
-  //   console.log('CPJCNPJ: ', this.data?.cnpj);
-
-  //   const dados = {
-  //     identificadorConsulta: '11222',
-  //   }
-  //   this._dashboardService.filterSocio(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
-  //     console.log('pgfn res: ', res);
-  //   })
-  // }
+    this._authService.userKey.subscribe((res) => {
+      this.userSignatureSession = res;
+    });
+    const dados = {
+      identificadorConsulta: '11222',
+    }
+    this._dashboardService.filterSocio(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
+      this.socios.next(res?.result);
+      console.log('this.socios: ', this.socios.value);
+    })
+  }
 
   public getRequestsTimeStamp(): void {
     this.getCompanyDebtDetails()
@@ -149,6 +137,12 @@ export class DetailsModalComponent implements OnInit {
   public openPgfnDialog(): void {
     this._dialog.open(PgfnTableComponent, {
       data: this.pgfnListDisplay
+    })
+  }
+
+  public openSociosDialog(): void {
+    this._dialog.open(SociosTableComponent, {
+      data: this.socios.value
     })
   }
 }

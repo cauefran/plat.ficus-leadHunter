@@ -190,15 +190,6 @@
               <td mat-cell *matCellDef="let element">{{element.tipoLogradouro}} {{element.logradouro}}, {{element.numero}}. {{element.bairro}}, {{element.UF}}. - {{element.CEP}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="socio">
-              <th mat-header-cell *matHeaderCellDef>Sócio(s)</th>
-              <td mat-cell *matCellDef="let element" class="details-td">
-                @for(socio of element.socios; track socio){
-                  <span class="span-td-icon-structure_socio"><mat-icon class="mat-18">person</mat-icon>{{socio?.nome || ' - '}}</span><br>
-                }
-              </td>
-            </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDetailsModal(row)"></tr>
 
