@@ -90,13 +90,13 @@
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Sócio(s)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
                   <div class="debt-section w-100">
-                    @if(socios.value.length > 0){
+                    @if(socios.value){
                       <span (click)="openSociosDialog()">Abrir tabela de sócios
                         <mat-icon class="material-symbols-outlined">
                         table_view
                         </mat-icon></span>
                     }
-                    @if(socios.value.length < 0){
+                    @if(!socios.value){
                       <p>Nenhum resultado</p>
                     }
                   </div>

@@ -156,7 +156,159 @@ export class SociosTableComponent implements AfterViewInit{
       case EQualificacaoSocio.SOCIO:
         label = 'Socio';
         break;
-
+      case EQualificacaoSocio.SOCIO_CAPITALISTA:
+        label = 'Sócio capitalista';
+        break;
+      case EQualificacaoSocio.SOCIO_COMANDITADO:
+        label = 'Sócio comanditado';
+        break;
+      case EQualificacaoSocio.SOCIO_COMANDITARIO:
+        label = 'Sócio comanditário';
+        break;
+      case EQualificacaoSocio.SOCIO_INDUSTRIA:
+        label = 'Sócio de indústria';
+        break;
+      case EQualificacaoSocio.SOCIO_GERENTE:
+        label = 'Sócio Gerente';
+        break;
+      case EQualificacaoSocio.SOCIO_INCAPAZ_OU_RELATOR_INCAPAZ:
+        label = 'Sócio incapaz ou relator incapaz (Exceto menor)';
+        break;
+      case EQualificacaoSocio.SOCIO_MENOR:
+        label = 'Sócio Menor (Assistido/Representado)';
+        break;
+      case EQualificacaoSocio.SOCIO_OSTENSIVO:
+        label = 'Sócio Ostensivo';
+        break;
+      case EQualificacaoSocio.TABELIAO:
+        label = 'Tabelião';
+        break;
+      case EQualificacaoSocio.TESOUREIRO:
+        label = 'Tesoureiro';
+        break;
+      case EQualificacaoSocio.TITULAR_EMPRESA_INDIVIDUAL_IMOBILIARIA:
+        label = 'Titular de Empresa Individual Imobiliária';
+        break;
+      case EQualificacaoSocio.TUTOR:
+        label = 'Tutor';
+        break;
+      case EQualificacaoSocio.SOCIO_PESSOA_JURIDICA_DOMICILIADO_NO_EXTERIOR:
+        label = 'Sócio Pessoa Jurídica Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.SOCIO_PESSOA_FISICA_RESIDENTE_NO_EXTERIOR:
+        label = 'Sócio Pessoa Física Residente no Exterior';
+        break;
+      case EQualificacaoSocio.DIPLOMATA:
+        label = 'Diplomata';
+        break;
+      case EQualificacaoSocio.CONSUL:
+        label = 'Cônsul';
+        break;
+      case EQualificacaoSocio.REPRESENTANTE_DE_ORGANIZACAO_INTERNACIONAL:
+        label = 'Representante de Organização Internacional';
+        break;
+      case EQualificacaoSocio.OFICIAL_DE_REGISTRO:
+        label = 'Oficial de registro';
+        break;
+      case EQualificacaoSocio.RESPONSAVEL:
+        label = 'Responsável';
+        break;
+      case EQualificacaoSocio.MINISTRO_DE_ESTADO_DAS_RELACOES_EXTERIORES:
+        label = 'Ministro de Estado das Relações Exteriores';
+        break;
+      case EQualificacaoSocio.SOCIO_PESSOA_FISICA_RESIDENTE_NO_BRASIL:
+        label = 'Sócio Pessoa Física Residente no Brasil';
+        break;
+      case EQualificacaoSocio.SOCIO_PESSOA_JURIDICA_DOMICILIADA_NO_BRASIL:
+        label = 'Sócio Pessoa Jurídica Domiciliado no Brasil';
+        break;
+      case EQualificacaoSocio.SOCIO_ADMINISTRADOR:
+        label = 'Sócio-Administrador';
+        break;
+      case EQualificacaoSocio.EMPRESARIO:
+        label = 'Empresário';
+        break;
+      case EQualificacaoSocio.CANDIDATO_A_CARGO_POLITICO_ELETIVO:
+        label = 'Candidato a cargo político eletivo';
+        break;
+      case EQualificacaoSocio.SOCIO_COM_CAPITAL:
+        label = 'Sócio com capital';
+        break;
+      case EQualificacaoSocio.SOCIO_SEM_CAPITAL:
+        label = 'Sócio sem Capital';
+        break;
+      case EQualificacaoSocio.FUNDADOR:
+        label = 'Fundador';
+        break;
+      case EQualificacaoSocio.SOCIO_COMANDITADO_RESIDENTE_NO_EXTERIOR:
+        label = 'Sócio Comanditado Residente no Exterior';
+        break;
+      case EQualificacaoSocio.SOCIO_COMANDITARIO_PESSOA_FISICA_RESIDENTE_NO_EXTERIOR:
+        label = 'Sócio Comanditário Pessoa Física Residente no Exterior';
+        break;
+      case EQualificacaoSocio.SOCIO_COMANDITARIO_PESSOA_JURIDICA_DOMICILIADO_NO_EXTERIOR:
+        label = 'Sócio Comanditário Pessoa Jurídica Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.SOCIO_COMANDITARIO_INCAPAZ:
+        label = 'Sócio Comanditário Incapaz';
+        break;
+      case EQualificacaoSocio.PRODUTOR_RURAL:
+        label = 'Produtor Rural';
+        break;
+      case EQualificacaoSocio.CONSUL_HONORAIRO:
+        label = 'Cônsul Honorário';
+        break;
+      case EQualificacaoSocio.RESPONSAVEL_INDIGENA:
+        label = 'Responsável indígena';
+        break;
+      case EQualificacaoSocio.REPRESENTANTE_DA_INSTITUICAO_EXTRATERRITORIAL:
+        label = 'Representante da Instituição Extraterritorial';
+        break;
+      case EQualificacaoSocio.COTAS_EM_TESOURARIA:
+        label = 'Cotas em Tesouraria';
+        break;
+      case EQualificacaoSocio.ADMINISTRADOR_JUDICIAL:
+        label = 'Administrador Judicial';
+        break;
+      case EQualificacaoSocio.TITULAR_PESSOA_FISICA_RESIDENTE_OU_DOMICILIADO_NO_BRASIL:
+        label = 'Titular Pessoa Física Residente ou Domiciliado no Brasil';
+        break;
+      case EQualificacaoSocio.TITULAR_PESSOA_FISICA_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Titular Pessoa Física Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.TITULAR_PESSOA_FISICA_INCAPAZ_OU_RELATIVAMENT_INCAPAZ:
+        label = 'Titular Pessoa Física Incapaz ou Relativamente Incapaz (exceto menor)';
+        break;
+      case EQualificacaoSocio.TITULAR_PESSOA_FISICA_MENOR:
+        label = 'Titular Pessoa Física Menor (Assistido/Representado)';
+        break;
+      case EQualificacaoSocio.BENEFICIARIO_FINAL:
+        label = 'Beneficiário Final';
+        break;
+      case EQualificacaoSocio.ADMINISTRADOR_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Administrador Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.CONSELHEIRO_DE_ADMINISTRACAO_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Conselheiro de Administração Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.DIRETOR_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Diretor Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.PRESIDENTE_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Presidente Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.SOCIO_ADMINISTRADOR_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Sócio-Administrador Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.FUNDADOR_RESIDENTE_OU_DOMICILIADO_NO_EXTERIOR:
+        label = 'Fundador Residente ou Domiciliado no Exterior';
+        break;
+      case EQualificacaoSocio.TITULAR_PESSOA_JURIDICA_DOMICILIADA_NO_BRASIL:
+        label = 'Titular Pessoa Jurídica Domiciliada no Brasil';
+        break;
+      case EQualificacaoSocio.TITULAr_PESSOA_JURIDICA_DOMICILIADA_NO_EXTERIOR:
+        label = 'Titular Pessoa Jurídica Domiciliada no Exterior';
+        break;
 
     }
     return label;

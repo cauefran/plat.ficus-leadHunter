@@ -38,7 +38,7 @@
 
       <ng-container matColumnDef="qualificacao">
         <th mat-header-cell *matHeaderCellDef> Qualificação </th>
-        <td mat-cell *matCellDef="let element"> {{element.qualificacao}} </td>
+        <td mat-cell *matCellDef="let element"> {{socioQualificacaoOutput(element.qualificacao)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="dataEntrada">
