@@ -83,6 +83,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   @ViewChild('ncmSelect', { static: true }) ncmSelect!: MatSelect;
 
   public form: FormGroup;
+  public formLabel: FormGroup;
   readonly panelOpenState = signal(false);
   public mock: Array<any> = [];
   public selectedState = '';
@@ -137,13 +138,15 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   protected _onDestroy = new Subject<void>();
 
-
   constructor(
     private _formBuilder: FormBuilder,
     private _dashboardService: DashboardService,
     private _authService: AuthService,
     private _dialog: MatDialog,
   ) {
+    this.formLabel = this._formBuilder.group({
+      label: new FormControl(),
+    })
     this.form = this._formBuilder.group({
       sector: new FormControl(),
       cnaePrimario: new FormControl(),
@@ -156,8 +159,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       logradouro: ['', []],
       stNumber: ['', []],
       telephone: ['', []],
-      initialDate: [''],
-      finalDate: ['', []],
+      dataAberturaInicio: [''],
+      dataAberturaFimw: ['', []],
       partner: ['', [
         Validators.maxLength(50),
         Validators.pattern('^[a-zA-Z \-\']+')]],
@@ -171,6 +174,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   ngOnInit() {
+    if(this.formLabel.get('label')?.valueChanges){
+      console.log('label value: ', this.formLabel.get('label')?.value);
+    }
     this.getFilterData();
     this.loadInitialSelectValues();
     this.form.get('city')?.disable();
@@ -350,6 +356,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       return;
     }
     this.cnpjFilteredValue.emit(this.form.get('cnpj')?.value);
+  }
+
+  public onKeyUpLabelValue(): void {
+    console.log(this.formLabel.get('label')?.value);
   }
 
   public onStateMultiSelectionChange(event: any): void {
@@ -562,6 +572,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       naturezaJuridica: this.form.get('legalNature')?.value ? this.form.get('legalNature')?.value : null,
       regime: this.form.get('feeType')?.value ? this.form.get('feeType')?.value : null,
       cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
+      descricaoConsulta: this.formLabel.get('label')?.value ? this.formLabel.get('label')?.value : null,
     }
 
    const dados = {

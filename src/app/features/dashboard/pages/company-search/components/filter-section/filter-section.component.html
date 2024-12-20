@@ -14,6 +14,16 @@
       </div>
     </div>
 
+    <form [formGroup]="formLabel" class="w-100">
+      <mat-form-field class="example-full-width">
+        <mat-label>Label</mat-label>
+        <input matInput
+        (keyup)="onKeyUpLabelValue()"
+        matTooltip="Dê um nome para a pesquisa"
+        formControlName="label">
+      </mat-form-field>
+    </form>
+
     <mat-accordion class="accordion" multi="true">
       <form [formGroup]="form">
 
@@ -71,7 +81,6 @@
               <mat-label>Nome</mat-label>
               <input matInput
               type="text"
-              formControlName="name"
               (keyup)="onKeyUpNomeValue()"
               >
             </mat-form-field>
@@ -287,14 +296,16 @@
               <span class="f-550">Data de abertura</span>
               <mat-form-field>
                 <mat-label>Data inicial</mat-label>
-                <input matInput [matDatepicker]="initialDate">
+                <input matInput [matDatepicker]="initialDate"
+                formControlName="dataAberturaInicio">
                 <mat-datepicker-toggle matIconSuffix [for]="initialDate"></mat-datepicker-toggle>
                 <mat-datepicker #initialDate ></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field>
                 <mat-label>Data final</mat-label>
-                <input matInput [matDatepicker]="finalDate">
+                <input matInput [matDatepicker]="finalDate"
+                formControlName="dataAberturaFim">>
                 <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
                 <mat-datepicker #finalDate></mat-datepicker>
               </mat-form-field>

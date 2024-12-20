@@ -1,0 +1,13 @@
+export enum EFaxiaEtaria {
+
+ATE_12 = 1,
+ENTRE_13_A_20 = 2,
+ENTRE_21_A_30 = 3,
+ENTRE_31_A_40 = 4,
+ENTRE_41_A_50 = 5,
+ENTRE_51_A_60 = 6,
+ENTRE_61_A_70 = 7,
+ENTRE_71_A_80= 8,
+ACIMA_DE_80 = 9,
+NAO_SE_APLICA = 0,
+}
