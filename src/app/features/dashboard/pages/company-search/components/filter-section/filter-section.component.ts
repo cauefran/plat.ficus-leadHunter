@@ -160,7 +160,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       stNumber: ['', []],
       telephone: ['', []],
       dataAberturaInicio: [''],
-      dataAberturaFimw: ['', []],
+      dataAberturaFim: ['', []],
       partner: ['', [
         Validators.maxLength(50),
         Validators.pattern('^[a-zA-Z \-\']+')]],
@@ -618,7 +618,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     // }
 
     const dados = {
-      filtro: filter,
+      filtro: filter?.filter,
+      descricaoConsulta: filter?.descricaoConsulta,
       identificadorConsulta: '11222',
       ordenacao: 0,
       pagina: 0,

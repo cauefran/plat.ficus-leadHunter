@@ -229,7 +229,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
 
   public onPreviousSearchSelect(element: any){
     console.log('search element selected: ', element);
-    this.filterSectionComponent.previousSearchRequest(element?.filtro);
+    this.filterSectionComponent.previousSearchRequest(element);
   }
 
   public exportToExcel(): void {
