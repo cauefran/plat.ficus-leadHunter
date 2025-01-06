@@ -14,12 +14,12 @@
       </div>
     </div>
 
-    <form [formGroup]="formLabel" class="w-100">
-      <mat-form-field class="example-full-width">
-        <mat-label>Label</mat-label>
+    <form [formGroup]="formLabel" class="w-100 p-1">
+      <mat-form-field class="example-full-width w-100">
+        <mat-label>Nomeie essa pesquisa</mat-label>
         <input matInput
         (keyup)="onKeyUpLabelValue()"
-        matTooltip="Dê um nome para a pesquisa"
+        matTooltip="Insira um nome neste campo, como uma etiqueta, para salvar os filtros preenchidos. Dessa forma, quando quiser refazer a mesma pesquisa, ao invés de preencher todos os filtros novamente é só clicar na tag com o nome dado a pesquisa, que fica  na lista 'Histórico de Pesquisas', e a busca é feita de forma automática, ajudando na otimização do tempo. "
         formControlName="label">
       </mat-form-field>
     </form>

@@ -572,11 +572,11 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       naturezaJuridica: this.form.get('legalNature')?.value ? this.form.get('legalNature')?.value : null,
       regime: this.form.get('feeType')?.value ? this.form.get('feeType')?.value : null,
       cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
-      descricaoConsulta: this.formLabel.get('label')?.value ? this.formLabel.get('label')?.value : null,
     }
 
-   const dados = {
+    const dados = {
     filtro: filter,
+    descricaoConsulta: this.formLabel.get('label')?.value ? this.formLabel.get('label')?.value : null,
     identificadorConsulta: '11222',
     ordenacao: 0,
     pagina: 0,
