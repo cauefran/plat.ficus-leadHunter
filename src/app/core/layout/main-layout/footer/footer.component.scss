@@ -34,7 +34,7 @@ footer{
     .address-container {
       display: flex;
       padding-left: 0.5rem;
-      gap: 2%;
+      gap: 5%;
         :nth-child(1) {
           font-weight: 600;
           max-width: 20%;
@@ -98,7 +98,7 @@ footer{
       justify-content: center;
       align-items: center;
       text-align: center;
-      
+
     }
   }
     p{
@@ -113,11 +113,11 @@ footer{
       font-weight: 560;
 
       @media (max-width:780px) {
-        
+
           text-align: center;
           justify-content: center;
           align-items: center;
-        
+
       }
     }
 
