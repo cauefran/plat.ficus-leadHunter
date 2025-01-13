@@ -11,7 +11,7 @@ import { ERegimeTributario } from '../../../../../../shared/enums/regime-tributa
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import removeAccents from 'remove-accents';
 import { FeedbackModalComponent } from '../../../../../../shared/modals/feedback-modal/feedback-modal.component';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelect } from '@angular/material/select';
 import { take } from 'rxjs/operators';
@@ -102,6 +102,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     // Cnae Primario
   public cnaePrimaMultiCtrl = new FormControl();
+  public cnaePrimarioMultiObservable =  new Subject();
+  public cnaePrimarioMultiData = new FormControl();
   public cnaePrimaMultiFilterCtrl = new FormControl();
   public filteredCnaePrimaMulti: ReplaySubject<Array<any>> = new ReplaySubject<Array<any>>(1);
   public cnaes: Array<IFilterCnae> = [];
@@ -181,7 +183,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.loadInitialSelectValues();
     this.form.get('city')?.disable();
     this.form.get('neighbourhood')?.disable();
-
+    this.cnaePrimaMultiFilterCtrl.disable();
     this.getPreviousSearch();
 
     this.sectorMultiFilterCtrl.valueChanges
@@ -329,6 +331,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public onSectorMultiSelectionChange(event: any): void {
     this.selectedSectorValue.emit(this.sectorMultiCtrl.value);
+    console.log('Setor selecionados: ', event);
+    console.log('Setor(es) selecionados: ', this.sectorMultiCtrl.value);
   }
 
   public onCnaePrimaMultiSelectionChange(event: any): void {
@@ -551,13 +555,15 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     const sectorsPayload = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const cnaePrimaPayload = this.cnaePrimaMultiCtrl.value !== null ? this.cnaePrimaMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
-    const cnaeSecundPayload = this.cnaeSecundMultiCtrl.value !== null ? this.cnaeSecundMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
+    // const cnae = cnaePrimaPayload && cnaeSecundPayload;
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
-    const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value.map((i: any) => i.descricao) : null;
+    const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value : null;
+    console.log('companySize', companySize);
+    // console.log('cnae', cnae);
     let filter = {
       setores: sectorsPayload,
       cnae: cnaePrimaPayload,
-      buscarCnaesSecundarios: cnaeSecundPayload,
+      buscarCnaesSecundarios: false,
       ncms: ncmPayload,
       uf: this.form.get('estate')?.value ? this.form.get('estate')?.value : null,
       municipio: this.payloadMunicipios.length > 0 ? this.payloadMunicipios : null,

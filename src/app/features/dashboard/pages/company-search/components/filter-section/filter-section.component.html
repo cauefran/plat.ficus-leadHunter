@@ -106,7 +106,7 @@
                    noEntriesFoundLabel="Não encontrado"
                     [formControl]="sectorMultiFilterCtrl"></ngx-mat-select-search>
                 </mat-option>
-                <mat-option *ngFor="let sector of filteredSectorMulti | async" [value]="sector" (click)="onSectorMultiSelectionChange($event)">
+                <mat-option *ngFor="let sector of filteredSectorMulti | async" [value]="sector" (click)="onSectorMultiSelectionChange(sector)">
                   {{sector.codigo}} - {{sector.descricao}}
                 </mat-option>
               </mat-select>
@@ -134,7 +134,7 @@
 
            <!-- CNAE Secundario input -->
 
-           <mat-form-field>
+           <!-- <mat-form-field>
             <mat-select class="f-550" [formControl]="cnaeSecundMultiCtrl" placeholder="CNAE Secundário" [multiple]="true" #cnaeSecondSelect (click)="onFirstClick()">
               <mat-option>
                 <ngx-mat-select-search
@@ -146,11 +146,11 @@
                 {{cnae.codigo}} - {{cnae.descricao}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
 
           <!-- *** -->
 
-          <mat-form-field>
+          <!-- <mat-form-field>
             <mat-select class="f-550" [formControl]="ncmMultiCtrl" placeholder="Ncm" [multiple]="true" #ncmSelect (click)="onFirstClick()">
               <mat-option>
                 <ngx-mat-select-search
@@ -162,7 +162,7 @@
                 {{ncm.codigo}} - {{ncm.descricao}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
 
           </div>
         </mat-expansion-panel>
@@ -243,9 +243,9 @@
           <div class="company-size-content w-100">
             <mat-form-field>
               <mat-label>Porte Nominal</mat-label>
-              <mat-select formControlName="companySize" multiple>
+              <mat-select formControlName="companySize">
                 @for (CompanySizeList of CompanySizeList; track CompanySizeList) {
-                  <mat-option [value]="CompanySizeList" (click)="onCompanySizeMultiSelectionChange()">{{CompanySizeList.descricao}}</mat-option>
+                  <mat-option [value]="CompanySizeList?.codigo" (click)="onCompanySizeMultiSelectionChange()">{{CompanySizeList.descricao}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
