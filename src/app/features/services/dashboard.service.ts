@@ -83,6 +83,13 @@ export class DashboardService {
     return this._httpClient.get(url);
   }
 
+  public getCnaesFromSection(section: Array<string>): Observable<any> {
+    const url = `http://w2.ficusconsultoria.com.br:11117/dados_auxiliares/InformacoesAuxiliares/PegarListaCnaesDasSecoes`;
+    return this._httpClient.post(url, {
+      secoes: section
+  });
+  }
+
   public getParcelamentoDividaAtiva(dados: any, path: string, signatureSession: string): Observable<any> {
     const url = `http://w2.ficusconsultoria.com.br:11117/${path}/DividaAtiva/PegarParcelamentosDividaAtiva?session_signature=${signatureSession}`;
     return this._httpClient.post(url, {dados});

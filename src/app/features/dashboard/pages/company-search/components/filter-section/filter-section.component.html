@@ -106,7 +106,7 @@
                    noEntriesFoundLabel="Não encontrado"
                     [formControl]="sectorMultiFilterCtrl"></ngx-mat-select-search>
                 </mat-option>
-                <mat-option *ngFor="let sector of filteredSectorMulti | async" [value]="sector" (click)="onSectorMultiSelectionChange(sector)">
+                <mat-option *ngFor="let sector of filteredSectorMulti | async" [value]="sector" (click)="onSectorMultiSelectionChange(sector.codigo)">
                   {{sector.codigo}} - {{sector.descricao}}
                 </mat-option>
               </mat-select>
@@ -124,9 +124,9 @@
                  noEntriesFoundLabel="Não encontrado"
                   [formControl]="cnaePrimaMultiFilterCtrl"></ngx-mat-select-search>
               </mat-option>
-              <mat-option *ngFor="let cnae of filteredCnaePrimaMulti | async" [value]="cnae" (click)="onCnaePrimaMultiSelectionChange($event)">
-                {{cnae.codigo}} - {{cnae.descricao}}
-              </mat-option>
+              <mat-option *ngFor="let item of filteredCnaePrimaMulti | async" [value]="item" (click)="onCnaePrimaMultiSelectionChange($event)">
+                  {{item?.codigo}} - {{item?.descricao}}
+                </mat-option>
             </mat-select>
           </mat-form-field>
 

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output, signal, ViewChild, Pipe, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MaterialModule } from '../../../../../../shared/modules/material.module';
 import { PrimeNgModule } from '../../../../../../shared/modules/primeng.module';
 import { DashboardService } from '../../../../../services/dashboard.service';
@@ -11,11 +11,12 @@ import { ERegimeTributario } from '../../../../../../shared/enums/regime-tributa
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import removeAccents from 'remove-accents';
 import { FeedbackModalComponent } from '../../../../../../shared/modals/feedback-modal/feedback-modal.component';
-import { Observable, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelect } from '@angular/material/select';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { AlphabetOnlyDirective } from '../../../../../directives/alphabet-only.directive';
+import { DashboardComponent } from '../../../../dashboard.component';
 
 export class Sector {
   constructor(public codigo: string, public descricao: string, public selected?: boolean) {
@@ -36,6 +37,17 @@ export class Ncm {
   constructor(public codigo: string, public descricao: string, public selected?: boolean) {
     if (selected === undefined) selected = false;
   }
+}
+
+export interface ISectorIterator {
+  cnaes: Array<ICnaeIterator>;
+  codigo: string;
+  descricao: string;
+}
+
+export interface ICnaeIterator {
+  codigo: string;
+  descricao: string;
 }
 
 @Component({
@@ -97,7 +109,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   // sector
   public sectorMultiCtrl = new FormControl();
   public sectorMultiFilterCtrl = new FormControl();
-  public filteredSectorMulti: ReplaySubject<IFilterCnae[]> = new ReplaySubject<IFilterCnae[]>(1);
+  public filteredSectorMulti: ReplaySubject<ISectorIterator[]> = new ReplaySubject<ISectorIterator[]>(1);
   public sectors: Array<any> = [];
 
     // Cnae Primario
@@ -106,6 +118,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   public cnaePrimarioMultiData = new FormControl();
   public cnaePrimaMultiFilterCtrl = new FormControl();
   public filteredCnaePrimaMulti: ReplaySubject<Array<any>> = new ReplaySubject<Array<any>>(1);
+  public filteredCnaeMulti = new BehaviorSubject<Array<ICnaeIterator>>([]);
+  public filteredCnaeMultiTeste = new ReplaySubject<Array<ICnaeIterator>>();
   public cnaes: Array<IFilterCnae> = [];
 
   // Cnae Secundario
@@ -185,7 +199,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.form.get('neighbourhood')?.disable();
     this.cnaePrimaMultiFilterCtrl.disable();
     this.getPreviousSearch();
-
+    this.cnaePrimaMultiCtrl.disable();
     this.sectorMultiFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -226,6 +240,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   public ngAfterViewChecked(): void {
     if(this.form.get('estate')?.value && this.form.get('estate')?.value.length > 0){
       this.form.get('city')?.enable();
+    }
+
+    if(this.cnaes.length <= 0){
+      this.cnaePrimaMultiCtrl.disable();
     }
   }
 
@@ -330,9 +348,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public onSectorMultiSelectionChange(event: any): void {
+    console.log('Setores selecionados: ', this.sectorMultiCtrl.value);
     this.selectedSectorValue.emit(this.sectorMultiCtrl.value);
-    console.log('Setor selecionados: ', event);
-    console.log('Setor(es) selecionados: ', this.sectorMultiCtrl.value);
+    this.getCnaes(event);
+    this.cnaePrimaMultiCtrl.updateValueAndValidity();
   }
 
   public onCnaePrimaMultiSelectionChange(event: any): void {
@@ -505,6 +524,21 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   }
 
+  public getCnaes(element: any): void {
+    console.log('payload: ', this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : []);
+    let payloadSector = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : [];
+
+    this._dashboardService.getCnaesFromSection(payloadSector).subscribe((res) => {
+      if(res.result?.length < 0){
+        this.cnaes = [];
+        return;
+      }
+      console.log('teeeem res')
+      this.cnaes = res.result;
+      this.cnaePrimaMultiCtrl.enable();
+    })
+  }
+
   public getPreviousSearch(): void {
     this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
     const SessionSearchPath = `${this.userPath}/Pesquisa/PegarPesquisas`;
@@ -648,10 +682,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public getFilterData(): void {
-   this._dashboardService.getListaCnae().subscribe((res: any) => {
-    this.cnaes = res?.result;
-    this.cnaesSecundarios = res?.result;
-     });
+  //  this._dashboardService.getListaCnae().subscribe((res: any) => {
+  //   this.cnaes = res?.result;
+  //   this.cnaesSecundarios = res?.result;
+  //    });
    this._dashboardService.getListaNatureza().subscribe((res: any) => {
     this.legalNatures = res?.result;
      });
@@ -688,4 +722,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     return '';
   }
+
+
 }
