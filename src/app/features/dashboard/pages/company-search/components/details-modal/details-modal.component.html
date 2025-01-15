@@ -90,15 +90,10 @@
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Sócio(s)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
                   <div class="debt-section w-100">
-                    @if(socios.value){
                       <span (click)="openSociosDialog()">Abrir tabela de sócios
                         <mat-icon class="material-symbols-outlined">
                         table_view
                         </mat-icon></span>
-                    }
-                    @if(!socios.value){
-                      <p>Nenhum resultado</p>
-                    }
                   </div>
                 </div>
             </mat-expansion-panel>
@@ -106,15 +101,11 @@
                 <mat-expansion-panel-header class="panel-title"><mat-icon class="material-symbols-outlined">stacked_bar_chart</mat-icon>Lista PGFN (Procuradoria-Geral da Fazenda Nacional)</mat-expansion-panel-header>
                 <div class="expansion-body socios-grid w-100">
                   <div class="debt-section w-100">
-                    @if(pgfnList.value.length > 0){
                       <span (click)="openPgfnDialog()">Abrir tabela PGFN
                         <mat-icon class="material-symbols-outlined">
                         table_view
                         </mat-icon></span>
-                    }
-                    @if(pgfnList.value.length < 0){
-                      <p>Nenhum resultado</p>
-                    }
+
                   </div>
                 </div>
             </mat-expansion-panel>
@@ -128,9 +119,6 @@
                       <mat-icon class="material-symbols-outlined">
                       table_view
                       </mat-icon></span>
-                  }
-                  @if(!activeDebt.value){
-                    <p>Nenhum resultado</p>
                   }
                 </div>
                 </div>

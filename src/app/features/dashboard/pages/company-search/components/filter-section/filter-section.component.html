@@ -134,19 +134,9 @@
 
            <!-- CNAE Secundario input -->
 
-           <!-- <mat-form-field>
-            <mat-select class="f-550" [formControl]="cnaeSecundMultiCtrl" placeholder="CNAE Secundário" [multiple]="true" #cnaeSecondSelect (click)="onFirstClick()">
-              <mat-option>
-                <ngx-mat-select-search
-                placeholderLabel="Buscar por nome..."
-                noEntriesFoundLabel="Não encontrado"
-                [formControl]="cnaeSecundMultiFilterCtrl"></ngx-mat-select-search>
-              </mat-option>
-              <mat-option *ngFor="let cnae of filteredCnaeSecundMulti | async" [value]="cnae" (click)="onCnaeSecundMultiSelectionChange($event)">
-                {{cnae.codigo}} - {{cnae.descricao}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> -->
+              <section class="example-section">
+                <mat-checkbox formControlname="cnaeSecundario" (change)="getCnaeSecundarioValue($event.checked)" class="example-margin">Pesquisar CNAE Secundário</mat-checkbox>
+              </section>
 
           <!-- *** -->
 

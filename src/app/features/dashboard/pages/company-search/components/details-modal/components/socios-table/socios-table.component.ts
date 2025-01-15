@@ -92,7 +92,6 @@ export class SociosTableComponent implements AfterViewInit{
         label = 'Entre 71 a 80';
         break;
       case EFaxiaEtaria.ENTRE_61_A_70:
-        console.log('deu certo')
         label = 'Entre 61 a 70';
       break;
       case EFaxiaEtaria.ACIMA_DE_80:
@@ -136,7 +135,7 @@ export class SociosTableComponent implements AfterViewInit{
         label = 'Pai';
         break;
       case EQualificacaoSocio.PRESIDENTE:
-        label = 'Equal';
+        label = 'Presidente';
         break;
       case EQualificacaoSocio.PROCURADOR:
         label = 'Procurador';

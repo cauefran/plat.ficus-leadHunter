@@ -71,7 +71,6 @@ export class AuthService {
           if (res?.result.length > 0 ) {
             this._userStateService.setUserStatus(true);
             localStorage.setItem('SLK', res.result);
-            console.log('systemLoginData doLogin: ', this.systemLoginData.value);
             setTimeout(() => { this.generateSystemSignatureSession(res.result) }, 1000);
           }
         });
@@ -95,7 +94,6 @@ export class AuthService {
       const milisecondHex = timestampToMiliseconds.toString(16);
       const eightDigitMiliseconds = milisecondHex.substring(milisecondHex.length - 8, milisecondHex.length);
       this.path.subscribe((res) => {
-        console.log('path gerar assinatura sistema: ', res);
         this.signatureSession = this.mountSignatureSession(res, eightDigitMiliseconds, Number(PRIVATE_KEY));
       })
       const dataReturn = this.verifySystemIdSession(this.SYSTEM_ID_SESSION) + eightDigitMiliseconds + this.signatureSession;
@@ -108,7 +106,6 @@ export class AuthService {
     while(systemIdSessionReturn.length < 8 ){
       systemIdSessionReturn = `0${systemIdSessionReturn}`;
     }
-    console.log('systemIdSessionReturn: ', systemIdSessionReturn);
     return systemIdSessionReturn;
   }
 
@@ -208,14 +205,11 @@ export class AuthService {
 }
 
 public logUserOut(): void {
-    console.log('systemLoginKey', localStorage.getItem('SLK'));
       if(String(localStorage.getItem('SLK')).length > 0){
         const key = this.generateSystemSignatureSession(String(localStorage.getItem('SLK')));
         const user = String(localStorage.getItem('LOGON_NAME'));
         this.logOut(user, key).subscribe((res) => {
-          console.log('logout 1', res);
           if(res){
-            console.log('if res logout', res);
             localStorage.clear();
             this._userStateService.setUserStatus(false);
             this._router.navigateByUrl('login');

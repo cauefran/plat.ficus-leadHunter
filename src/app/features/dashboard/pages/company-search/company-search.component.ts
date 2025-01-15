@@ -103,13 +103,10 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public recieveTableData(event: any): void {
     this.selection.clear();
     this.dataSource.data = event;
-    console.log('event: ', event);
-    console.log('event.socios: ', event?.socios);
     this.dataSourceWithPageSize.data = event;
     this.resultsLength = event.length;
     this.showTable.set(true);
     this.dashboardService.isLoading.set(false);
-    console.log("this.showTable(): ",this.showTable() );
   }
 
   public openDetailsModal(element: any): void {
@@ -228,13 +225,10 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   }
 
   public onPreviousSearchSelect(element: any){
-    console.log('search element selected: ', element);
     this.filterSectionComponent.previousSearchRequest(element);
   }
 
   public exportToExcel(): void {
-    console.log('this.selection.selected', this.selection.selected);
-
     let name = '';
     let timeSpan = new Date().toISOString();
     let prefix = name || 'ExportResult';

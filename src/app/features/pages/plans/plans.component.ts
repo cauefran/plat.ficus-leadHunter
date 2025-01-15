@@ -48,7 +48,6 @@ export class PlansComponent implements OnInit {
 
   public openPaymentModal(element: any): void {
     if(this._userService.returnUserStatus()){
-      console.log('element', element);
       this.matDialog.open(PaymentComponent, {data: element});
     } else {
       this._router.navigateByUrl('login');

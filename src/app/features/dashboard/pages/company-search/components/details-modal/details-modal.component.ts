@@ -44,6 +44,7 @@ export class DetailsModalComponent implements OnInit {
   ngOnInit() {
     this.getSocios();
     this.getRequestsTimeStamp();
+    console.log('data details: ', this.data);
   }
 
   onClose(): void {
@@ -66,14 +67,11 @@ export class DetailsModalComponent implements OnInit {
       this.userSignatureSession = res;
     });
 
-    console.log('CPJCNPJ: ', this.data?.cnpj);
-
     const dados = {
       cpfCnpj : this.data?.cnpj,
     }
     this._dashboardService.getParcelamentoDividaAtiva(dados, this.userPath, this.userSignatureSession).subscribe((res: any) => {
         this.activeDebt.next(res.result);
-        console.log(' active debt', this.activeDebt.value);
     }, () => {
         this.activeDebt.next([]);
     })
@@ -89,14 +87,11 @@ export class DetailsModalComponent implements OnInit {
       this.userSignatureSession = res;
     });
 
-    console.log('CPJCNPJ: ', this.data?.cnpj);
-
     const dados = {
       cpfCnpj : this.data?.cnpj,
     }
     this._dashboardService.getPgfn(dados, this.userPath, this.userSignatureSession).subscribe((res: any) => {
         this.pgfnList.next(res?.result);
-        console.log('pgfn list', this.pgfnList.value);
         this.pgfnListDisplay = res?.result;
     }, () => {
       this.pgfnListDisplay = [];
@@ -115,10 +110,10 @@ export class DetailsModalComponent implements OnInit {
     });
     const dados = {
       identificadorConsulta: '11222',
+      cnpj: this.data?.cnpj,
     }
     this._dashboardService.filterSocio(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
       this.socios.next(res?.result);
-      console.log('this.socios: ', this.socios.value);
     })
   }
 

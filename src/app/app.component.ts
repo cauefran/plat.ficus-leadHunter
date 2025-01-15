@@ -11,7 +11,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'Ficus Lead Hunter';
-  version = `1.0.0`;
+  version = `3.0.0`;
 
   constructor(){
 // if (globalThis.window === undefined) {
