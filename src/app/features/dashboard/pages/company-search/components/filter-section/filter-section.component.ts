@@ -251,8 +251,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       this.cnaePrimaMultiCtrl.disable();
     }
 
-    console.log(this.form.get('cnaeSecundario')?.value);
-
   }
 
   ngOnDestroy() {
@@ -262,7 +260,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public getCnaeSecundarioValue(event: any){
-    console.log('event checkbox: ', event);
     this.form.get('cnaeSecundario')?.setValue(event);
   }
 
@@ -394,7 +391,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public onKeyUpLabelValue(): void {
-    console.log(this.formLabel.get('label')?.value);
+    // console.log(this.formLabel.get('label')?.value);
   }
 
   public onStateMultiSelectionChange(event: any): void {
