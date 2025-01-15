@@ -193,9 +193,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   ngOnInit() {
-    if(this.formLabel.get('label')?.valueChanges){
-      console.log('label value: ', this.formLabel.get('label')?.value);
-    }
     this.getFilterData();
     this.loadInitialSelectValues();
     this.form.get('city')?.disable();
@@ -595,7 +592,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value : null;
 
-    console.log(this.form.get('cnaeSecundario')?.value);
     let filter = {
       setores: sectorsPayload,
       cnae: cnaePrimaPayload,
