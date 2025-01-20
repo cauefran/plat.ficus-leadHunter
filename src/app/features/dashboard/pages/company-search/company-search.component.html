@@ -100,7 +100,7 @@
           <br>
           <div [hidden]="showTable()" class="previous-searchs w-100">
             <h5>Histórico de Pesquisas</h5>
-            <p>As últimas 20 buscas ficam salvas por data e hora.</p>
+            <p>As últimas 20 buscas ficam salvas aqui.</p>
             <div class="mat-chip-previous-searchs">
               @for(search of previousSearchsResponse; track search){
                 <mat-chip matTooltip="Resultados: {{search?.resultados}}" class="assigned-chip" (click)="onPreviousSearchSelect(search)">{{search?.descricaoConsulta ? search?.descricaoConsulta : search?.dataHora | date: 'dd/MM/yyyy HH:mm:ss'}}</mat-chip>
