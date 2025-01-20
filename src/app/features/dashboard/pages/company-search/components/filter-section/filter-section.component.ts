@@ -195,6 +195,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   ngOnInit() {
     this.getFilterData();
     this.loadInitialSelectValues();
+    this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
     this.form.get('city')?.disable();
     this.form.get('neighbourhood')?.disable();
     this.cnaePrimaMultiFilterCtrl.disable();
@@ -244,8 +245,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       this.form.get('city')?.enable();
     }
 
-    if(this.cnaes.length <= 0){
-      this.cnaePrimaMultiCtrl.disable();
+    if(this.sectorMultiCtrl.value <= 0){
+      this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
+    } else {
+      console.log('cnae cheio :', this.sectorMultiCtrl.value);
     }
 
   }
@@ -356,7 +359,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public onSectorMultiSelectionChange(event: any): void {
     this.selectedSectorValue.emit(this.sectorMultiCtrl.value);
-    this.getCnaes(event);
+    let payloadSector = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : [];
+    this.getCnaes(payloadSector);
     this.cnaePrimaMultiCtrl.updateValueAndValidity();
   }
 
@@ -448,6 +452,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.telephoneFilteredValue.emit('');
     this.previousSearchsEmitter.emit([]);
     this.getPreviousSearch();
+    this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
   }
 
   public getCitiesValue(): void {
@@ -526,10 +531,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   }
 
-  public getCnaes(element: any): void {
+  public getCnaes(payload: any): void {
     let payloadSector = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : [];
 
-    this._dashboardService.getCnaesFromSection(payloadSector).subscribe((res) => {
+    this._dashboardService.getCnaesFromSection(payload).subscribe((res) => {
       if(res.result?.length < 0){
         this.cnaes = [];
         return;
