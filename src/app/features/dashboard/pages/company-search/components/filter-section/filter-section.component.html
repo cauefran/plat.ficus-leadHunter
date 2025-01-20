@@ -290,6 +290,7 @@
                 formControlName="dataAberturaInicio">
                 <mat-datepicker-toggle matIconSuffix [for]="initialDate"></mat-datepicker-toggle>
                 <mat-datepicker #initialDate ></mat-datepicker>
+                <mat-error *ngIf="validateInitialDate().length > 0">{{validateInitialDate()}}</mat-error>
               </mat-form-field>
 
               <mat-form-field>
@@ -298,6 +299,7 @@
                 formControlName="dataAberturaFim">
                 <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
                 <mat-datepicker #finalDate></mat-datepicker>
+                <mat-error *ngIf="validateFinalDate().length > 0">{{validateFinalDate()}}</mat-error>
               </mat-form-field>
 
               <p>Busque por data de abertura durante um determinado período, inserindo uma data inicial e final</p>

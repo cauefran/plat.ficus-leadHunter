@@ -18,6 +18,8 @@ import { take, map } from 'rxjs/operators';
 import { AlphabetOnlyDirective } from '../../../../../directives/alphabet-only.directive';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import moment from 'moment';
+
 
 export class Sector {
   constructor(public codigo: string, public descricao: string, public selected?: boolean) {
@@ -178,7 +180,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       logradouro: ['', []],
       stNumber: ['', []],
       telephone: ['', []],
-      dataAberturaInicio: [''],
+      dataAberturaInicio: ['', []],
       dataAberturaFim: ['', []],
       partner: ['', [
         Validators.maxLength(50),
@@ -245,11 +247,14 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       this.form.get('city')?.enable();
     }
 
-    if(this.sectorMultiCtrl.value <= 0){
-      this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
-    } else {
-      console.log('cnae cheio :', this.sectorMultiCtrl.value);
-    }
+    // if(this.sectorMultiCtrl.value <= 0){
+    //   this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
+    // } else {
+    //   console.log('cnae cheio :', this.sectorMultiCtrl.value);
+    // }
+
+    this.validateInitialDate();
+    this.validateFinalDate();
 
   }
 
@@ -359,7 +364,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public onSectorMultiSelectionChange(event: any): void {
     this.selectedSectorValue.emit(this.sectorMultiCtrl.value);
-    let payloadSector = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : [];
+    let payloadSector = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"];
     this.getCnaes(payloadSector);
     this.cnaePrimaMultiCtrl.updateValueAndValidity();
   }
@@ -596,7 +601,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value : null;
-
+    console.log('dataInicio: ', this.form.get('dataAberturaInicio')?.value)
+    console.log('dataFim: ', this.form.get('dataAberturaFim')?.value)
     let filter = {
       setores: sectorsPayload,
       cnae: cnaePrimaPayload,
@@ -615,6 +621,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       naturezaJuridica: this.form.get('legalNature')?.value ? this.form.get('legalNature')?.value : null,
       regime: this.form.get('feeType')?.value ? this.form.get('feeType')?.value : null,
       cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
+      dataAberturaInicio: this.form.get('dataAberturaInicio')?.value ? this.form.get('dataAberturaInicio')?.value : null,
+      dataAberturaFim: this.form.get('dataAberturaFim')?.value ? this.form.get('dataAberturaFim')?.value : null,
     }
 
     const dados = {
@@ -714,6 +722,39 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     }
 
     return this.form.get('partner')?.hasError('pattern') ? 'Inserir apenas letras' : '';
+  }
+
+  public validateInitialDate(): string {
+    const dataAtual = moment().format('DD/MM/yyyy');
+    const dataFinal = moment(this.form.get('dataAberturaFim')?.value).format('DD/MM/yyyy')
+    const dataInicial= moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/yyyy')
+
+    if(dataInicial > dataAtual){
+      console.log('erro data');
+      return 'Data Inicial não pode ser maior do que a data Atual!'
+    }
+    if(dataInicial > dataFinal){
+      console.log('erro data incial');
+      return 'Data Inicial não pode ser maior do que a data Final!'
+    }
+
+    return '';
+  }
+  public validateFinalDate(): string {
+    const dataAtual = moment().format('DD/MM/yyyy');
+    const dataFinal = moment(this.form.get('dataAberturaFim')?.value).format('DD/MM/yyyy')
+    const dataInicial= moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/yyyy')
+
+    if(dataFinal > dataAtual){
+      console.log('erro data');
+      return 'Data final não pode ser maior do que a data Atual!'
+    }
+    if(dataFinal < dataInicial){
+      console.log('erro data incial');
+      return 'Data final não pode ser menor do que a data Inicial!'
+    }
+
+    return '';
   }
 
   public getErrorMessageDocument() {
