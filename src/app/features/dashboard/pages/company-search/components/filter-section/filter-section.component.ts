@@ -21,6 +21,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import moment from 'moment';
 import {default as _rollupMoment} from 'moment';
 import * as _moment from "moment";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
 
 
 export class Sector {
@@ -55,7 +58,17 @@ export interface ICnaeIterator {
   descricao: string;
 }
 
-
+const MY_DATE_FORMAT = {
+  parse: {
+    dateInput: 'DD/MM/YYYY', // this is how your date will be parsed from Input
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY', // this is how your date will get displayed on the Input
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @Component({
   selector: 'app-filter-section',
@@ -75,6 +88,10 @@ export interface ICnaeIterator {
     MatFormFieldModule,
     MatInputModule
   ],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT }
+  ]
 })
 export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @Output() tableDataEvent = new EventEmitter<any>();
