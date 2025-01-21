@@ -293,7 +293,7 @@
                   <mat-datepicker #initialDate ></mat-datepicker>
 
                 </mat-form-field>
-                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerValue()" class="material-symbols-outlined">
+                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerInitialValue()" class="material-symbols-outlined">
                   backspace
                 </mat-icon>
               </div>
@@ -307,7 +307,7 @@
                   <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
                   <mat-datepicker #finalDate ></mat-datepicker>
                 </mat-form-field>
-                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerValue()" class="material-symbols-outlined">
+                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerFinalValue()" class="material-symbols-outlined">
                   backspace
                 </mat-icon>
               </div>
