@@ -14,7 +14,7 @@ import { FeedbackModalComponent } from '../../../../../../shared/modals/feedback
 import { BehaviorSubject, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelect } from '@angular/material/select';
-import { take, map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import moment from 'moment';
@@ -271,6 +271,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       this.validateFinalDate();
     }
 
+    this.onInitialDateValueUpdate();
+    this.onFinalDateValueUpdate();
 
   }
 
@@ -467,6 +469,21 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
   public onKeyUpTelephoneValue(): void {
     this.telephoneFilteredValue.emit(this.form.get('telephone')?.value);
+  }
+  public onInitialDateValueUpdate(): void {
+    if(this.form.get('dataAberturaInicio')?.value){
+      this.initialDateFilteredValue.emit(moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/YYYY'));
+    } else{
+      this.initialDateFilteredValue.emit();
+    }
+  }
+
+  public onFinalDateValueUpdate(): void {
+    if(this.form.get('dataAberturaFim')?.value){
+      this.finalDateFilteredValue.emit(moment(this.form.get('dataAberturaFim')?.value).format('DD/MM/YYYY'));
+    } else{
+      this.finalDateFilteredValue.emit();
+    }
   }
 
   public dropSpecialCharacters(str: string): string {

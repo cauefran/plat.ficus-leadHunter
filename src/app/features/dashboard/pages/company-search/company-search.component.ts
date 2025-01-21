@@ -75,6 +75,8 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public filterInputCompanySize!: Array<IFilterCnae>;
   public filterInputNome: string = '';
   public filterInputTelephone: string = '';
+  public filterInputInitialDate: string = '';
+  public filterInputFinalDate: string = '';
   public previousSearchsResponse: any;
   public selectedFilterLabelShow: boolean = false;
   constructor(
@@ -219,6 +221,12 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   }
   public filteredTelephoneEvent(event: any): void {
     this.filterInputTelephone = event;
+  }
+  public filteredInitialDateEvent(event: any): void {
+    this.filterInputInitialDate = event;
+  }
+  public filteredFinalDateEvent(event: any): void {
+    this.filterInputFinalDate = event;
   }
   public privousSearchsResponse(event: any): void {
     this.previousSearchsResponse = event;

@@ -21,6 +21,8 @@
         (cepFilteredValue)="filteredCEPEvent($event)"
         (companySizeFilteredValue)="filteredCompanySizeEvent($event)"
         (telephoneFilteredValue)="filteredTelephoneEvent($event)"
+        (initialDateFilteredValue)="filteredInitialDateEvent($event)"
+        (FinalDateFilteredValue)="filteredFinalDateEvent($event)"
         (previousSearchsEmitter)="privousSearchsResponse($event)"
          ></app-filter-section>
       </section>
@@ -94,6 +96,12 @@
             }
             @if(filterInputTelephone.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Telefone">{{filterInputTelephone}}</mat-chip>
+            }
+            @if(filterInputInitialDate) {
+              <mat-chip class="assigned-chip" matTooltip="Data de Abertura Inicial">{{filterInputInitialDate}}</mat-chip>
+            }
+            @if(filterInputFinalDate) {
+              <mat-chip class="assigned-chip" matTooltip="Data de Abertura Final">{{filterInputFinalDate}}</mat-chip>
             }
             </mat-chip-set>
           </div>
