@@ -64,6 +64,22 @@
     height: 40px;
   }
 }
+.btn-disabled{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
+  height: 38px;
+  border-radius: 5px;
+  outline: transparent;
+  color: $ficus-mid-gray;
+  background-color: $ficus-light-gray;
+  border: none;
+  box-shadow:-1px 1px 8px 1px rgba(0, 0, 0, 0.2);
+  @media (max-width: 780px) {
+    margin-bottom: 1rem;
+  }
+}
 
 .btn-clear{
   height: 46px;

@@ -290,17 +290,17 @@
                 formControlName="dataAberturaInicio">
                 <mat-datepicker-toggle matIconSuffix [for]="initialDate"></mat-datepicker-toggle>
                 <mat-datepicker #initialDate ></mat-datepicker>
-                <mat-error *ngIf="validateInitialDate().length > 0">{{validateInitialDate()}}</mat-error>
               </mat-form-field>
+              <p class="warning-error" *ngIf="errorInitialDate">{{validateInitialDate()}}</p>
 
               <mat-form-field>
                 <mat-label>Data final</mat-label>
                 <input matInput [matDatepicker]="finalDate"
                 formControlName="dataAberturaFim">
                 <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
-                <mat-datepicker #finalDate></mat-datepicker>
-                <mat-error *ngIf="validateFinalDate().length > 0">{{validateFinalDate()}}</mat-error>
+                <mat-datepicker #finalDate ></mat-datepicker>
               </mat-form-field>
+              <p class="warning-error" *ngIf="errorFinalDate">{{validateFinalDate()}}</p>
 
               <p>Busque por data de abertura durante um determinado período, inserindo uma data inicial e final</p>
 
@@ -341,7 +341,7 @@
 
       </form>
       <div class="button-container">
-        <button class="w-100 btn-filter" (click)="search()">Buscar empresas <mat-icon class="mat-18">search</mat-icon></button>
+        <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100" (click)="search()">Buscar empresas <mat-icon class="mat-18">search</mat-icon></button>
         <div class="spacer w-100 mt-2 mb-2"></div>
       </div>
     </mat-accordion>

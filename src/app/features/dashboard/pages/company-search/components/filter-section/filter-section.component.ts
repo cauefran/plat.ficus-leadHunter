@@ -19,6 +19,8 @@ import { AlphabetOnlyDirective } from '../../../../../directives/alphabet-only.d
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+import * as _moment from "moment";
 
 
 export class Sector {
@@ -53,6 +55,8 @@ export interface ICnaeIterator {
   descricao: string;
 }
 
+
+
 @Component({
   selector: 'app-filter-section',
   templateUrl: './filter-section.component.html',
@@ -67,9 +71,7 @@ export interface ICnaeIterator {
     MaterialModule,
     PrimeNgModule,
     NgxMaskDirective,
-    NgxMaskPipe,
     NgxMatSelectSearchModule,
-    AlphabetOnlyDirective,
     MatFormFieldModule,
     MatInputModule
   ],
@@ -152,7 +154,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     {codigo: ERegimeTributario.NAO_SIMPLES, label: 'Não simples'}
   ]
   public getCodigoIBGE = signal('');
-
+  public errorInitialDate = false;
+  public errorFinalDate = false;
   public userPath = '';
   public userSignatureSession = '';
   public payloadMunicipios: Array<string> = [];
@@ -253,8 +256,11 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     //   console.log('cnae cheio :', this.sectorMultiCtrl.value);
     // }
 
-    this.validateInitialDate();
-    this.validateFinalDate();
+    if(this.form.get('dataAberturaInicio')?.valueChanges || this.form.get('dataAberturaFim')?.valueChanges) {
+      this.validateInitialDate();
+      this.validateFinalDate();
+    }
+
 
   }
 
@@ -263,6 +269,22 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this._onDestroy.complete();
     this._dashboardService.isLoading.set(false);
   }
+
+  // get display() {
+  //   return this.value == 1
+  //     ? {
+  //         dateInput: "YYYY/MM/DD",
+  //         monthYearLabel: "MMM YYYY",
+  //         dateA11yLabel: "LL",
+  //         monthYearA11yLabel: "MMMM YYYY"
+  //       }
+  //     : {
+  //         dateInput: "DD/MM/YYYY",
+  //         monthYearLabel: "MM YYYY",
+  //         dateA11yLabel: "DD/MM/YYYY",
+  //         monthYearA11yLabel: "MM YYYY"
+  //       };
+  // }
 
   public getCnaeSecundarioValue(event: any){
     this.form.get('cnaeSecundario')?.setValue(event);
@@ -729,15 +751,17 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const dataFinal = moment(this.form.get('dataAberturaFim')?.value).format('DD/MM/yyyy')
     const dataInicial= moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/yyyy')
 
-    if(dataInicial > dataAtual){
+    if(this.form.get('dataAberturaInicio')?.dirty && dataInicial > dataAtual){
       console.log('erro data');
+      this.errorInitialDate = true;
       return 'Data Inicial não pode ser maior do que a data Atual!'
     }
-    if(dataInicial > dataFinal){
+    if(this.form.get('dataAberturaFim')?.dirty && this.form.get('dataAberturaInicio')?.dirty && dataInicial > dataFinal){
       console.log('erro data incial');
+      this.errorInitialDate = true;
       return 'Data Inicial não pode ser maior do que a data Final!'
     }
-
+    this.errorInitialDate = false;
     return '';
   }
   public validateFinalDate(): string {
@@ -745,15 +769,17 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const dataFinal = moment(this.form.get('dataAberturaFim')?.value).format('DD/MM/yyyy')
     const dataInicial= moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/yyyy')
 
-    if(dataFinal > dataAtual){
+    if(this.form.get('dataAberturaFim')?.dirty && dataFinal > dataAtual){
       console.log('erro data');
+      this.errorFinalDate = true;
       return 'Data final não pode ser maior do que a data Atual!'
     }
-    if(dataFinal < dataInicial){
+    if(this.form.get('dataAberturaFim')?.dirty && this.form.get('dataAberturaInicio')?.dirty && dataFinal < dataInicial){
       console.log('erro data incial');
+      this.errorFinalDate = true;
       return 'Data final não pode ser menor do que a data Inicial!'
     }
-
+    this.errorFinalDate = false;
     return '';
   }
 
