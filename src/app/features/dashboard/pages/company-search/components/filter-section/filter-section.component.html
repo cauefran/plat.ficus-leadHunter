@@ -284,22 +284,33 @@
 
             <div class="opening-date w-100">
               <span class="f-550">Data de abertura</span>
-              <mat-form-field>
-                <mat-label>Data inicial</mat-label>
-                <input matInput [matDatepicker]="initialDate"
-                formControlName="dataAberturaInicio">
-                <mat-datepicker-toggle matIconSuffix [for]="initialDate"></mat-datepicker-toggle>
-                <mat-datepicker #initialDate ></mat-datepicker>
-              </mat-form-field>
+              <div class="date-input-subcontainer w-100">
+                <mat-form-field>
+                  <mat-label>Data inicial</mat-label>
+                  <input matInput [matDatepicker]="initialDate"
+                  formControlName="dataAberturaInicio">
+                  <mat-datepicker-toggle matIconSuffix [for]="initialDate"></mat-datepicker-toggle>
+                  <mat-datepicker #initialDate ></mat-datepicker>
+
+                </mat-form-field>
+                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerValue()" class="material-symbols-outlined">
+                  backspace
+                </mat-icon>
+              </div>
               <p class="warning-error" *ngIf="errorInitialDate">{{validateInitialDate()}}</p>
 
-              <mat-form-field>
-                <mat-label>Data final</mat-label>
-                <input matInput [matDatepicker]="finalDate"
-                formControlName="dataAberturaFim">
-                <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
-                <mat-datepicker #finalDate ></mat-datepicker>
-              </mat-form-field>
+              <div class="date-input-subcontainer">
+                <mat-form-field>
+                  <mat-label>Data final</mat-label>
+                  <input matInput [matDatepicker]="finalDate"
+                  formControlName="dataAberturaFim">
+                  <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
+                  <mat-datepicker #finalDate ></mat-datepicker>
+                </mat-form-field>
+                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerValue()" class="material-symbols-outlined">
+                  backspace
+                </mat-icon>
+              </div>
               <p class="warning-error" *ngIf="errorFinalDate">{{validateFinalDate()}}</p>
 
               <p>Busque por data de abertura durante um determinado período, inserindo uma data inicial e final</p>

@@ -287,6 +287,14 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this._dashboardService.isLoading.set(false);
   }
 
+  public deleteDatePickerValue(): void {
+    this.form.get('dataAberturaInicio')?.reset();
+    this.form.get('dataAberturaInicio')?.updateValueAndValidity();
+    this.form.get('dataAberturaFim')?.reset();
+    this.form.get('dataAberturaFim')?.updateValueAndValidity();
+
+  }
+
   // get display() {
   //   return this.value == 1
   //     ? {

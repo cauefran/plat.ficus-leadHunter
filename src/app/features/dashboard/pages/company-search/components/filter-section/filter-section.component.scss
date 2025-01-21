@@ -223,3 +223,12 @@
   font-size: 12px;
   font-weight: 550;
 }
+
+.date-input-subcontainer{
+  display: flex;
+  align-items: center;
+  mat-icon{
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
