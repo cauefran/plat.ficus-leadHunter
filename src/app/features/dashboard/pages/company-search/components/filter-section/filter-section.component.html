@@ -293,9 +293,11 @@
                   <mat-datepicker #initialDate ></mat-datepicker>
 
                 </mat-form-field>
+                @if(form.get('dataAberturaInicio')?.value){
                 <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerInitialValue()" class="material-symbols-outlined">
                   backspace
                 </mat-icon>
+              }
               </div>
               <p class="warning-error" *ngIf="errorInitialDate">{{validateInitialDate()}}</p>
 
@@ -307,9 +309,11 @@
                   <mat-datepicker-toggle matIconSuffix [for]="finalDate"></mat-datepicker-toggle>
                   <mat-datepicker #finalDate ></mat-datepicker>
                 </mat-form-field>
-                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerFinalValue()" class="material-symbols-outlined">
-                  backspace
-                </mat-icon>
+                @if(form.get('dataAberturaFim')?.value){
+                  <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerFinalValue()" class="material-symbols-outlined">
+                    backspace
+                  </mat-icon>
+                }
               </div>
               <p class="warning-error" *ngIf="errorFinalDate">{{validateFinalDate()}}</p>
 
