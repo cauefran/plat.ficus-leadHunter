@@ -282,33 +282,17 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this._dashboardService.isLoading.set(false);
   }
 
-  public deleteDatePickerInitialValue(): void {
+  public resetDatePickerInitialValue(): void {
     this.form.get('dataAberturaInicio')?.reset();
     this.form.get('dataAberturaInicio')?.updateValueAndValidity();
-
-
+    this.initialDateFilteredValue.emit()
   }
-  public deleteDatePickerFinalValue(): void {
+
+  public resetDatePickerFinalValue(): void {
     this.form.get('dataAberturaFim')?.reset();
     this.form.get('dataAberturaFim')?.updateValueAndValidity();
-
+    this.finalDateFilteredValue.emit()
   }
-
-  // get display() {
-  //   return this.value == 1
-  //     ? {
-  //         dateInput: "YYYY/MM/DD",
-  //         monthYearLabel: "MMM YYYY",
-  //         dateA11yLabel: "LL",
-  //         monthYearA11yLabel: "MMMM YYYY"
-  //       }
-  //     : {
-  //         dateInput: "DD/MM/YYYY",
-  //         monthYearLabel: "MM YYYY",
-  //         dateA11yLabel: "DD/MM/YYYY",
-  //         monthYearA11yLabel: "MM YYYY"
-  //       };
-  // }
 
   public getCnaeSecundarioValue(event: any){
     this.form.get('cnaeSecundario')?.setValue(event);
@@ -472,6 +456,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
   public onInitialDateValueUpdate(): void {
     if(this.form.get('dataAberturaInicio')?.value){
+      if(this.errorInitialDate){
+        return;
+      }
       this.initialDateFilteredValue.emit(moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/YYYY'));
     } else{
       this.initialDateFilteredValue.emit();
@@ -480,6 +467,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public onFinalDateValueUpdate(): void {
     if(this.form.get('dataAberturaFim')?.value){
+      if(this.errorFinalDate){
+        return;
+      }
       this.finalDateFilteredValue.emit(moment(this.form.get('dataAberturaFim')?.value).format('DD/MM/YYYY'));
     } else{
       this.finalDateFilteredValue.emit();
@@ -634,6 +624,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
         this.previousSearchs = res;
         this.previousSearchsEmitter.next(res.result);
       }
+    }, () => {
+      this.getPreviousSearch();
     })
   }
 

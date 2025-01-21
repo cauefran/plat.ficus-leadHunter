@@ -294,7 +294,7 @@
 
                 </mat-form-field>
                 @if(form.get('dataAberturaInicio')?.value){
-                <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerInitialValue()" class="material-symbols-outlined">
+                <mat-icon [matTooltip]="'Apagar'" (click)="resetDatePickerInitialValue()" class="material-symbols-outlined">
                   backspace
                 </mat-icon>
               }
@@ -310,7 +310,7 @@
                   <mat-datepicker #finalDate ></mat-datepicker>
                 </mat-form-field>
                 @if(form.get('dataAberturaFim')?.value){
-                  <mat-icon [matTooltip]="'Apagar'" (click)="deleteDatePickerFinalValue()" class="material-symbols-outlined">
+                  <mat-icon [matTooltip]="'Apagar'" (click)="resetDatePickerFinalValue()" class="material-symbols-outlined">
                     backspace
                   </mat-icon>
                 }
