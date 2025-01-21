@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output, signal, ViewChild, Pipe, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output, signal, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from '../../../../../../shared/modules/material.module';
 import { PrimeNgModule } from '../../../../../../shared/modules/primeng.module';
 import { DashboardService } from '../../../../../services/dashboard.service';
@@ -8,14 +8,13 @@ import { IFilterCnae } from '../../../../../../shared/interfaces/filter-cnae.int
 import { AuthService } from '../../../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ERegimeTributario } from '../../../../../../shared/enums/regime-tributario.enum';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskDirective } from 'ngx-mask';
 import removeAccents from 'remove-accents';
 import { FeedbackModalComponent } from '../../../../../../shared/modals/feedback-modal/feedback-modal.component';
 import { BehaviorSubject, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelect } from '@angular/material/select';
 import { take, map } from 'rxjs/operators';
-import { AlphabetOnlyDirective } from '../../../../../directives/alphabet-only.directive';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import moment from 'moment';
@@ -266,12 +265,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     if(this.form.get('estate')?.value && this.form.get('estate')?.value.length > 0){
       this.form.get('city')?.enable();
     }
-
-    // if(this.sectorMultiCtrl.value <= 0){
-    //   this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
-    // } else {
-    //   console.log('cnae cheio :', this.sectorMultiCtrl.value);
-    // }
 
     if(this.form.get('dataAberturaInicio')?.valueChanges || this.form.get('dataAberturaFim')?.valueChanges) {
       this.validateInitialDate();
@@ -652,8 +645,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value : null;
-    console.log('dataInicio: ', this.form.get('dataAberturaInicio')?.value)
-    console.log('dataFim: ', this.form.get('dataAberturaFim')?.value)
     let filter = {
       setores: sectorsPayload,
       cnae: cnaePrimaPayload,
@@ -781,12 +772,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const dataInicial= moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/yyyy')
 
     if(this.form.get('dataAberturaInicio')?.dirty && dataInicial > dataAtual){
-      console.log('erro data');
       this.errorInitialDate = true;
       return 'Data Inicial não pode ser maior do que a data Atual!'
     }
     if(this.form.get('dataAberturaFim')?.dirty && this.form.get('dataAberturaInicio')?.dirty && dataInicial > dataFinal){
-      console.log('erro data incial');
       this.errorInitialDate = true;
       return 'Data Inicial não pode ser maior do que a data Final!'
     }
@@ -799,12 +788,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const dataInicial= moment(this.form.get('dataAberturaInicio')?.value).format('DD/MM/yyyy')
 
     if(this.form.get('dataAberturaFim')?.dirty && dataFinal > dataAtual){
-      console.log('erro data');
       this.errorFinalDate = true;
       return 'Data final não pode ser maior do que a data Atual!'
     }
     if(this.form.get('dataAberturaFim')?.dirty && this.form.get('dataAberturaInicio')?.dirty && dataFinal < dataInicial){
-      console.log('erro data incial');
       this.errorFinalDate = true;
       return 'Data final não pode ser menor do que a data Inicial!'
     }
