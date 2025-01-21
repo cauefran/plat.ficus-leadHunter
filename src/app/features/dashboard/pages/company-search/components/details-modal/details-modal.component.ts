@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from '../../../../../../shared/modules/material.module';
-import moment from 'moment';
 import { DashboardService } from '../../../../../services/dashboard.service';
 import { AuthService } from '../../../../../services/auth.service';
 import { BehaviorSubject } from 'rxjs';
@@ -114,6 +113,8 @@ export class DetailsModalComponent implements OnInit {
     }
     this._dashboardService.filterSocio(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
       this.socios.next(res?.result);
+    }, () => {
+      this.getSocios();
     })
   }
 
