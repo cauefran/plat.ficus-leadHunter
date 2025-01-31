@@ -108,6 +108,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   @Output() stNumberFilteredValue = new EventEmitter<string>();
   @Output() cepFilteredValue = new EventEmitter<string>();
   @Output() companySizeFilteredValue = new EventEmitter<any>();
+  @Output() regimeFilteredValue = new EventEmitter<any>();
+  @Output() naturezaLegalFilteredValue = new EventEmitter<any>();
   @Output() telephoneFilteredValue = new EventEmitter<string>();
   @Output() initialDateFilteredValue = new EventEmitter<string>();
   @Output() finalDateFilteredValue = new EventEmitter<string>();
@@ -449,6 +451,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.stNumberFilteredValue.emit(this.form.get('stNumber')?.value);
   }
   public onCompanySizeMultiSelectionChange(): void {
+    console.log('this.form.get(companySize)?.value ' ,this.form.get('companySize')?.value)
     this.companySizeFilteredValue.emit(this.form.get('companySize')?.value);
   }
   public onKeyUpTelephoneValue(): void {
@@ -463,6 +466,16 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     } else{
       this.initialDateFilteredValue.emit();
     }
+  }
+
+  public onFeeTypeSelectionChange(): void {
+    console.log('fee type; ', this.form.get('feeType')?.value);
+    this.regimeFilteredValue.emit(this.form.get('feeType')?.value?.label);
+  }
+
+  public onLegalNatureSelectionChange(): void {
+    console.log('legal nature: ', this.form.get('legalNature')?.value);
+    this.naturezaLegalFilteredValue.emit(this.form.get('legalNature')?.value?.label);
   }
 
   public onFinalDateValueUpdate(): void {
@@ -495,7 +508,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.selectedCnaeSecundarioValue.emit([]);
     this.ncmMultiCtrl.reset();
     this.selectedNcmValue.emit([]);
-    this.form.reset();
     this.socioFilteredValue.emit('');
     this.nomeFilteredValue.emit('');
     this.cnpjFilteredValue.emit('');
@@ -503,10 +515,12 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.cityFilteredValue.emit('');
     this.neighbourhoodFilteredValue.emit('');
     this.form.get('companySize')?.reset();
-    this.form.reset();
     this.companySizeFilteredValue.emit([]);
     this.telephoneFilteredValue.emit('');
     this.previousSearchsEmitter.emit([]);
+    this.naturezaLegalFilteredValue.emit(null);
+    this.regimeFilteredValue.emit(null);
+    this.form.reset();
     this.getPreviousSearch();
     this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
   }
@@ -651,9 +665,13 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
     const sectorsPayload = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const cnaePrimaPayload = this.cnaePrimaMultiCtrl.value !== null ? this.cnaePrimaMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
-
+    const regimePayload = this.form.get('feeType')?.value !== null ? this.form.get('feeType')?.value.codigo : null;
+    const naturezaJuridicaPayload =  this.form.get('legalNature')?.value !== null ? this.form.get('legalNature')?.value.codigo : null;
+    console.log('naturezaJuridicaPayload - ', naturezaJuridicaPayload);
+    console.log('regimePayload - ', regimePayload);
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
-    const companySize = this.form.get('companySize')?.value ? this.form.get('companySize')?.value : null;
+    const companySize = this.form.get('companySize')?.value !== null ? this.form.get('companySize')?.value.codigo : null;
+    console.log('companySize ', companySize);
     let filter = {
       setores: sectorsPayload,
       cnae: cnaePrimaPayload,
@@ -669,8 +687,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       telefone: this.form.get('telephone')?.value ? this.form.get('telephone')?.value : null,
       numero: this.form.get('stNumber')?.value ? this.form.get('stNumber')?.value : null,
       porte: companySize,
-      naturezaJuridica: this.form.get('legalNature')?.value ? this.form.get('legalNature')?.value : null,
-      regime: this.form.get('feeType')?.value ? this.form.get('feeType')?.value : null,
+      naturezaJuridica: naturezaJuridicaPayload,
+      regime: regimePayload,
       cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
       dataAberturaInicio: this.form.get('dataAberturaInicio')?.value ? this.form.get('dataAberturaInicio')?.value : null,
       dataAberturaFim: this.form.get('dataAberturaFim')?.value ? this.form.get('dataAberturaFim')?.value : null,

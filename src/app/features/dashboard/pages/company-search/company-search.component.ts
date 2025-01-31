@@ -72,7 +72,9 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public filterInputLogradouro: string = '';
   public filterInputStNumber: string = '';
   public filterInputCEP: string = '';
-  public filterInputCompanySize!: Array<IFilterCnae>;
+  public filterInputCompanySize: string = '';
+  public filterInputRegime: string = '';
+  public filterInputLegalNature: string = '';
   public filterInputNome: string = '';
   public filterInputTelephone: string = '';
   public filterInputInitialDate: string = '';
@@ -215,9 +217,27 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   }
   public filteredCompanySizeEvent(event: any): void {
       if(event === null){
-        this.filterInputCompanySize = [];
+        this.filterInputCompanySize = '';
       }
-      this.filterInputCompanySize = event.map((i: any) => i.descricao) ? event.map((i: any) => i.descricao) : [];
+      console.log('event filteredCompanySizeEvent', event)
+      event.descricao ? this.filterInputCompanySize = event.descricao : '';
+       console.log('this.filterInputCompanySize', this.filterInputCompanySize);
+  }
+  public filteredRegimeEvent(event: any): void {
+      if(event === null){
+        this.filterInputRegime = '';
+      }
+      console.log('event filterInputRegime', event)
+      this.filterInputRegime = event;
+       console.log('this.filterInputRegime', this.filterInputRegime);
+  }
+  public filteredLegalNatureEvent(event: any): void {
+      if(event === null){
+        this.filterInputLegalNature = '';
+      }
+      console.log('event filterInputLegalNature', event)
+      this.filterInputLegalNature = event;
+       console.log('this.filterInputLegalNature', this.filterInputLegalNature);
   }
   public filteredTelephoneEvent(event: any): void {
     this.filterInputTelephone = event;

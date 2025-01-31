@@ -20,6 +20,8 @@
         (stNumberFilteredValue)="filteredStNumberEvent($event)"
         (cepFilteredValue)="filteredCEPEvent($event)"
         (companySizeFilteredValue)="filteredCompanySizeEvent($event)"
+        (naturezaLegalFilteredValue)="filteredLegalNatureEvent($event)"
+        (regimeFilteredValue)="filteredRegimeEvent($event)"
         (telephoneFilteredValue)="filteredTelephoneEvent($event)"
         (initialDateFilteredValue)="filteredInitialDateEvent($event)"
         (finalDateFilteredValue)="filteredFinalDateEvent($event)"
@@ -91,8 +93,14 @@
             @if(filterInputCEP.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="CEP">{{filterInputCEP}}</mat-chip>
             }
-            @for (InputCompanySize of filterInputCompanySize; track InputCompanySize) {
-              <mat-chip class="assigned-chip" matTooltip="Porte Nominal">{{InputCompanySize}}</mat-chip>
+            @if(filterInputCompanySize.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Porte Nominal">{{filterInputCompanySize}}</mat-chip>
+            }
+            @if(filterInputLegalNature.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Natureza Jurídica">{{filterInputLegalNature}}</mat-chip>
+            }
+            @if(filterInputRegime.length > 0) {
+              <mat-chip class="assigned-chip" matTooltip="Regime">{{filterInputRegime}}</mat-chip>
             }
             @if(filterInputTelephone.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Telefone">{{filterInputTelephone}}</mat-chip>

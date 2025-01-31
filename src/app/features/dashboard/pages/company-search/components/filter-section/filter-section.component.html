@@ -235,7 +235,7 @@
               <mat-label>Porte Nominal</mat-label>
               <mat-select formControlName="companySize">
                 @for (CompanySizeList of CompanySizeList; track CompanySizeList) {
-                  <mat-option [value]="CompanySizeList?.codigo" (click)="onCompanySizeMultiSelectionChange()">{{CompanySizeList.descricao}}</mat-option>
+                  <mat-option [value]="CompanySizeList" (click)="onCompanySizeMultiSelectionChange()">{{CompanySizeList.descricao}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -337,7 +337,7 @@
               <mat-label>Regime tributário</mat-label>
               <mat-select formControlName="feeType">
                 @for (regimeTributario of regimeTributario; track regimeTributario) {
-                  <mat-option [value]="regimeTributario.codigo">{{regimeTributario.label}}</mat-option>
+                  <mat-option [value]="regimeTributario" (click)="onFeeTypeSelectionChange()">{{regimeTributario.label}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -346,7 +346,7 @@
               <mat-label>Natureza Jurídica</mat-label>
               <mat-select formControlName="legalNature">
                 @for (legalNature of legalNatures; track legalNature) {
-                  <mat-option [value]="legalNature.codigo">{{legalNature.descricao}}</mat-option>
+                  <mat-option [value]="legalNature" (click)="onLegalNatureSelectionChange()">{{legalNature.descricao}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
