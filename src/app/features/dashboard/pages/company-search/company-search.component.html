@@ -96,10 +96,10 @@
             @if(filterInputCompanySize.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Porte Nominal">{{filterInputCompanySize}}</mat-chip>
             }
-            @if(filterInputLegalNature.length > 0) {
+            @if(filterInputLegalNature !==null  && filterInputLegalNature.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Natureza Jurídica">{{filterInputLegalNature}}</mat-chip>
             }
-            @if(filterInputRegime.length > 0) {
+            @if(filterInputRegime !== null && filterInputRegime.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Regime">{{filterInputRegime}}</mat-chip>
             }
             @if(filterInputTelephone.length > 0) {
