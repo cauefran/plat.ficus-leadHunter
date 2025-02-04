@@ -9,9 +9,10 @@ main{
   background-color: $ficus-light-gray;
 
   .container-login{
-    flex-direction: row-reverse !important;
-    justify-content: center;
-    margin: 0;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 !important;
     padding: 0;
 
 
@@ -40,11 +41,11 @@ main{
         padding: 1.5rem;
         text-align: center;
         background-color: rgba(232, 232, 232, 0.9);
-        box-shadow: 3px -3px 7px 2px $aleixo-dark-blue-rgba-shadow;
-
+        box-shadow: none;
         @media (max-width: 780px) {
           min-height: 100% !important;
           width: 20rem;
+          margin-top: 5rem ;
         }
 
         .btn-container{
@@ -107,18 +108,43 @@ main{
       }
 
       .text-login{
+        background-color: $aleixo-dark-blue;
+        height: 100%;
+        margin-bottom: 0 !important;
+        box-shadow: -5px 1px 20px 0px $ficus-black;
 
         @media (max-width: 780px) {
           display: flex;
+          flex-direction: column;
           align-items: center;
           width: 100%;
           text-align: center;
           justify-content: center;
           padding: 1rem 0;
+          margin: 0 !important;
+        }
+        .img-container{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          margin-left: .5rem;
+          margin-top: 5rem;
+          @media (max-width: 780px) {
+            margin-left: 2%;
+          }
+          img{
+            width: 7rem;
+
+            @media (max-width: 480px) {
+              width: 4rem;
+            }
+          }
         }
 
+
         .text-area{
-          min-height: 100%;
+          min-height: 90vh;
           width: 100%;
           padding: 1rem 0;
           background-color: rgba(232, 232, 232, 0);
@@ -126,13 +152,8 @@ main{
           align-items: center;
           text-align: center;
           justify-content: center;
-          color: $ficus-black;
-          box-shadow: 3px -3px 7px 2px $aleixo-dark-blue-rgba-shadow;
-           background: url('./../../../../assets/images/digital-marketing-1433427_1280.png');
-          background-repeat: no-repeat;
-          background-attachment: fixed;
-          background-size: cover;
-          background-position: center;
+          color: #000000;
+          margin-bottom: 0 !important;
 
           @media (max-width: 780px) {
             width: 100%;
@@ -145,14 +166,18 @@ main{
 
               h2{
                 font-size: 22px;
-                color: $ficus-black;
+                color: $ficus-yellow;
+              }
+
+              p{
+                color: $ficus-yellow;
               }
 
               h4{
                 font-size: 18px;
               }
           .btn-account{
-            width: 35%;
+            width: 50%;
             height: 38px;
             border-radius: 5px;
             outline: transparent;

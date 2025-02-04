@@ -1,8 +1,8 @@
 <main>
   <div class="container-login row w-100 mt-5 mb-5">
-    <section class="col-xl-3 col-md-12 col-sm-12 col-12 mb-3 mt-5 section-form">
+    <section class="col-xl-8 col-md-8 col-sm-12 col-12 mb-3 mt-5 section-form">
 
-    <mat-card class="login-card" appearance="outlined">
+    <mat-card class="login-card">
 
       @if(loading()) {
         <div class="loading-container flex-content-center">
@@ -14,6 +14,8 @@
       }
 
          <form action="form" [formGroup]="form">
+
+          <h2 class="mb-3">Bem-vindo de volta!</h2>
 
             <h6 class="mt-3 mb-4">Digite seus dados de acesso</h6>
 
@@ -73,14 +75,16 @@
 
     </section>
 
-    <section class="col-xl-8 col-md-12 col-sm-12 col-12 mb-3 mt-5 text-login">
+    <section class="col-xl-4 col-md-4 col-sm-12 col-12 mb-3 mt-5 text-login">
 
-        <mat-card class="text-area" appearance="outlined">
-            <h2 class="f-550">Geração de <span class="dark-blue-span f-550">Leads</span> para o seu negócio</h2>
-            <h4 class="f-550">O seu crescimento é o nosso foco!</h4>
+      <div class="img-container">
+        <img (click)="goTo('dashboard/company-search')" src="assets/images/Ficus_Logo.png" alt="">
+      </div>
+        <mat-card class="text-area">
+            <h2 class="f-550">Ainda não tem cadastro?</h2>
             <hr>
-            <p class="dark-blue-span f-600">Ainda não tem cadastro?</p>
-            <div class="col-xl-5 col-md-12 col-10 p-1 w-30   btn-container">
+            <!-- <p class="f-600">Faça parte da maior plataforma de leads do Brasil!</p> -->
+            <div class="col-xl-5 col-md-12 col-10 p-1 w-100   btn-container">
                 <button (click)="goTo('create-account')" type="button" class="btn-account f-550">Criar conta</button>
             </div>
         </mat-card>
