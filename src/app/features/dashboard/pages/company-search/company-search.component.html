@@ -1,8 +1,8 @@
 
   <main>
-    <div class="row w-100">
+    <div class="row w-100 spacer-adjustment">
       <section class="filter-section"
-      [ngClass]="!showTable() ? 'col-xl-4 col-md-5 col-sm-12 col-12' : 'col-xl-3 col-md-4 col-sm-12 col-12'"
+      [ngClass]="!showTable() ? 'col-xl-5 col-md-5 col-sm-12 col-12' : 'col-xl-3 col-md-4 col-sm-12 col-12'"
       >
         <app-filter-section
          (tableDataEvent)="recieveTableData($event)"
@@ -30,7 +30,7 @@
       </section>
       <section
       class="table-section"
-      [ngClass]="!showTable() ? 'col-xl-6 col-md-6 col-sm-12 col-12' : 'col-xl-9 col-md-8 col-sm-12 col-12'"
+      [ngClass]="!showTable() ? 'col-xl-7 col-md-6 col-sm-12 col-12' : 'col-xl-9 col-md-8 col-sm-12 col-12'"
       >
         @if(dashboardService.isLoading()){
           <div class="spinner-container w-100">

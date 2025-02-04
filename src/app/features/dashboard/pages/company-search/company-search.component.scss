@@ -11,6 +11,9 @@ main{
     margin-top: 1rem;
   }
 
+  .spacer-adjustment{
+    justify-content: space-around;
+  }
   .filter-section{
     padding-left: 2%;
     @media (max-width: 480px) {
