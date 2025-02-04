@@ -73,8 +73,8 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   public filterInputStNumber: string = '';
   public filterInputCEP: string = '';
   public filterInputCompanySize: string = '';
-  public filterInputRegime: string = '';
-  public filterInputLegalNature: string = '';
+  public filterInputRegime: string | null = null;
+  public filterInputLegalNature: string | null = null;
   public filterInputNome: string = '';
   public filterInputTelephone: string = '';
   public filterInputInitialDate: string = '';
@@ -225,7 +225,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   }
   public filteredRegimeEvent(event: any): void {
       if(event === null){
-        this.filterInputRegime = '';
+        this.filterInputRegime = null;
       }
       console.log('event filterInputRegime', event)
       this.filterInputRegime = event;
@@ -233,7 +233,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   }
   public filteredLegalNatureEvent(event: any): void {
       if(event === null){
-        this.filterInputLegalNature = '';
+        this.filterInputLegalNature = null;
       }
       console.log('event filterInputLegalNature', event)
       this.filterInputLegalNature = event;

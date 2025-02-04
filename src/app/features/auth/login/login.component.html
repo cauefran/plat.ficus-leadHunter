@@ -4,16 +4,16 @@
 
     <mat-card class="login-card">
 
-      @if(loading()) {
-        <div class="loading-container flex-content-center">
-        <mat-progress-spinner
-          color=""
-          mode="indeterminate">
-        </mat-progress-spinner>
-      </div>
-      }
 
-         <form action="form" [formGroup]="form">
+      <form action="form" [formGroup]="form">
+           @if(loading()) {
+             <div class="loading-container flex-content-center">
+             <mat-progress-spinner
+               color=""
+               mode="indeterminate">
+             </mat-progress-spinner>
+           </div>
+           }
 
           <h2 class="mb-3">Bem-vindo de volta!</h2>
 
@@ -81,7 +81,7 @@
         <img (click)="goTo('dashboard/company-search')" src="assets/images/Ficus_Logo.png" alt="">
       </div>
         <mat-card class="text-area">
-            <h2 class="f-550">Ainda não tem cadastro?</h2>
+            <h2 >Ainda não tem cadastro?</h2>
             <hr>
             <!-- <p class="f-600">Faça parte da maior plataforma de leads do Brasil!</p> -->
             <div class="col-xl-5 col-md-12 col-10 p-1 w-100   btn-container">

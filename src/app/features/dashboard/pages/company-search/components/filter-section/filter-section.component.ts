@@ -22,6 +22,7 @@ import {default as _rollupMoment} from 'moment';
 import * as _moment from "moment";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { sha256 } from 'js-sha256';
 
 
 
@@ -209,7 +210,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       name: ['', [
         Validators.maxLength(50)]],
       companySize: new FormControl(),
-      legalNature: ['', []],
+      legalNature: [null, []],
       feeType: [ERegimeTributario.TODOS, []],
       cnpj: ['', [Validators.pattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})')]],
     })
@@ -475,7 +476,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public onLegalNatureSelectionChange(): void {
     console.log('legal nature: ', this.form.get('legalNature')?.value);
-    this.naturezaLegalFilteredValue.emit(this.form.get('legalNature')?.value?.label);
+    this.naturezaLegalFilteredValue.emit(this.form.get('legalNature')?.value?.descricao);
   }
 
   public onFinalDateValueUpdate(): void {
@@ -694,10 +695,13 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       dataAberturaFim: this.form.get('dataAberturaFim')?.value ? this.form.get('dataAberturaFim')?.value : null,
     }
 
+    const identificadorConsulta = sha256(JSON.stringify(filter));
+    console.log('identificadorConsulta', identificadorConsulta);
+
     const dados = {
     filtro: filter,
     descricaoConsulta: this.formLabel.get('label')?.value ? this.formLabel.get('label')?.value : null,
-    identificadorConsulta: '11222',
+    identificadorConsulta: identificadorConsulta,
     ordenacao: 0,
     pagina: 0,
     }
