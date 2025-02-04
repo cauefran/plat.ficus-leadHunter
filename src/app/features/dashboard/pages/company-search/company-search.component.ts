@@ -219,25 +219,19 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
       if(event === null){
         this.filterInputCompanySize = '';
       }
-      console.log('event filteredCompanySizeEvent', event)
       event.descricao ? this.filterInputCompanySize = event.descricao : '';
-       console.log('this.filterInputCompanySize', this.filterInputCompanySize);
   }
   public filteredRegimeEvent(event: any): void {
       if(event === null){
         this.filterInputRegime = null;
       }
-      console.log('event filterInputRegime', event)
       this.filterInputRegime = event;
-       console.log('this.filterInputRegime', this.filterInputRegime);
   }
   public filteredLegalNatureEvent(event: any): void {
       if(event === null){
         this.filterInputLegalNature = null;
       }
-      console.log('event filterInputLegalNature', event)
       this.filterInputLegalNature = event;
-       console.log('this.filterInputLegalNature', this.filterInputLegalNature);
   }
   public filteredTelephoneEvent(event: any): void {
     this.filterInputTelephone = event;
