@@ -5,9 +5,9 @@
         <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
           {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
         </button> -->
-        <mat-stepper [linear]="isLinear" #stepper>
+        <mat-stepper [linear]="true" #stepper>
 
-          <mat-step [stepControl]="form">
+          <mat-step [completed]="F_company.invalid ? false : true" [stepControl]="form">
             <form [formGroup]="form">
               <ng-template matStepLabel>Empresa</ng-template>
               <mat-form-field class="mb-2 col-12" appearance="outline">
@@ -24,7 +24,7 @@
             </form>
           </mat-step>
 
-          <mat-step [stepControl]="form" label="E-mail">
+          <mat-step [completed]="F_email.invalid ? false : true" [stepControl]="form" label="E-mail">
             <form [formGroup]="form">
               <mat-form-field class="mb-2 col-12 " appearance="outline">
                 <mat-label>Email</mat-label>
@@ -46,7 +46,7 @@
             </form>
           </mat-step>
 
-          <mat-step [stepControl]="form" label="CPF/CNPJ">
+          <mat-step [completed]="F_document.invalid ? false : true" [stepControl]="form" label="CPF/CNPJ">
             <form [formGroup]="form">
               <mat-form-field class="mb-2 col-12 " appearance="outline">
                 <mat-label>CPF/CNPJ</mat-label>
@@ -64,7 +64,7 @@
             </form>
           </mat-step>
 
-          <mat-step [stepControl]="form" label="Senha">
+          <mat-step [completed]="F_password.invalid ? false : true" [stepControl]="form" label="Senha">
             <form [formGroup]="form">
               <mat-form-field class="mb-2 col-12 " appearance="outline">
                 <mat-label>Senha</mat-label>
