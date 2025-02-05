@@ -22,6 +22,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatStepperModule
   ],
   exports: [
     MatFormFieldModule,
@@ -71,7 +73,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatStepperModule
 
   ],
   providers: [

@@ -125,7 +125,6 @@ main{
         }
         .img-container{
           display: flex;
-          align-items: center;
           justify-content: center;
           width: 100%;
           margin-left: .5rem;
@@ -134,11 +133,19 @@ main{
             margin-left: 2%;
           }
           img{
-            width: 7rem;
-
+            width: 6rem;
             @media (max-width: 480px) {
               width: 4rem;
             }
+          }
+        }
+
+        .data-bank-img{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img{
+            width: 10rem;
           }
         }
 
@@ -151,8 +158,8 @@ main{
           display: flex;
           align-items: center;
           text-align: center;
-          justify-content: center;
-          color: #000000;
+          justify-content: space-evenly;
+          color: $ficus-yellow;
           margin-bottom: 0 !important;
 
           @media (max-width: 780px) {
@@ -163,6 +170,7 @@ main{
             box-shadow:none;
             border: none !important;
           }
+
 
               h2{
                 font-size: 22px;
@@ -177,7 +185,7 @@ main{
                 font-size: 18px;
               }
           .btn-account{
-            width: 50%;
+            width: 200px;
             height: 38px;
             border-radius: 5px;
             outline: transparent;

@@ -1,6 +1,6 @@
 <main>
   <div class="container-login row w-100 mt-5 mb-5">
-    <section class="col-xl-8 col-md-8 col-sm-12 col-12 mb-3 mt-5 section-form">
+    <section class="col-xl-7 col-md-7 col-sm-12 col-12 mb-3 mt-5 section-form">
 
     <mat-card class="login-card">
 
@@ -75,18 +75,22 @@
 
     </section>
 
-    <section class="col-xl-4 col-md-4 col-sm-12 col-12 mb-3 mt-5 text-login">
+    <section class="col-xl-5 col-md-5 col-sm-12 col-12 mb-3 mt-5 text-login">
 
       <div class="img-container">
         <img (click)="goTo('dashboard/company-search')" src="assets/images/Ficus_Logo.png" alt="">
       </div>
-        <mat-card class="text-area">
-            <h2 >Ainda não tem cadastro?</h2>
-            <hr>
-            <!-- <p class="f-600">Faça parte da maior plataforma de leads do Brasil!</p> -->
-            <div class="col-xl-5 col-md-12 col-10 p-1 w-100   btn-container">
-                <button (click)="goTo('create-account')" type="button" class="btn-account f-550">Criar conta</button>
-            </div>
+      <mat-card class="text-area">
+      <!-- <div class="data-bank-img">
+        <img src="./../../../../assets/images/chip-1710300_1280.png" alt="">
+      </div> -->
+        <div class="w-100 register-info">
+          <h5>Ainda não tem cadastro?</h5>
+          <!-- <p class="f-600">Faça parte da maior plataforma de leads do Brasil!</p> -->
+          <div class="col-xl-5 col-md-12 col-10 p-1 w-100 btn-container mt-3">
+              <button (click)="goTo('create-account')" type="button" class="btn-account f-550">Criar conta</button>
+          </div>
+        </div>
         </mat-card>
 
    </section>

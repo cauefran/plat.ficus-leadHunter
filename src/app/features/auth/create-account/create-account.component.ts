@@ -32,6 +32,7 @@ export class CreateAccountComponent implements OnInit {
   hide = signal(true);
   errorMessage = signal('');
 
+  isLinear = false;
 
   constructor(
     private _router: Router,
