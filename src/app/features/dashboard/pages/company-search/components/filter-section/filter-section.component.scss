@@ -185,7 +185,7 @@
       display: flex;
       width: 100%;
       align-items: center;
-      justify-content: start;
+      justify-content: center;
       .title{
         text-align: center;
         margin: 0;
@@ -195,6 +195,9 @@
   }
 
   .button-container{
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
     position: sticky;
     bottom: 1rem;
     margin: .5rem 0;

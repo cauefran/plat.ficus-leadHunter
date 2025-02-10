@@ -137,7 +137,7 @@
               <mat-icon>upload_file</mat-icon>
               Exportar planilha
             </button>
-            <button class=" btn-clear mb-3" (click)="clearTable()">Limpar Busca</button>
+            <button class="btn-clear mb-3" [disabled]="showTable() && filterSectionComponent.loadingResults() !== false" (click)="clearTable()">Limpar Busca</button>
           </div>
 
         </div>

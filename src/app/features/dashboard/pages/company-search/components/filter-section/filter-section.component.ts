@@ -281,6 +281,13 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.onInitialDateValueUpdate();
     this.onFinalDateValueUpdate();
 
+    if(this.dashboardService.isLoading()){
+      this.form.disable()
+      this.formLabel.disable();
+    } else if(!this.dashboardService.isLoading()){
+      this.form.enable()
+      this.formLabel.enable();
+    }
   }
 
   ngOnDestroy() {
@@ -778,8 +785,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     console.log('identificadorConsulta behaviorSubject 2: ', this.identificadorConsulta.value);
     const dados = {
       identificadorConsulta: this.identificadorConsulta.value,
-      qtd: 100000,
-      pagina: 1
+      // qtd: 100000,
+      // pagina: 1
     }
 
     this.dashboardService.getFilterPaginationData(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
