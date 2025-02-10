@@ -51,9 +51,15 @@ export class LoginComponent implements OnInit {
 
   }
 
+  ngAfterViewChecked(): void {
+    if(this.loading()){
+      this.form.disable();
+    } else if(!this.loading()){
+      this.form.enable();
+    }
+  }
+
   ngDoCheck(): void {
-    //Called every time that the input properties of a component or a directive are checked. Use it to extend change detection by performing a custom check.
-    //Add 'implements DoCheck' to the class.
     this.listenToLoading()
   }
 
