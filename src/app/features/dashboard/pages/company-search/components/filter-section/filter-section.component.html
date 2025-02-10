@@ -359,7 +359,7 @@
       <div class="button-container">
         @if(!dashboardService.isLoading()){
           <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100" (click)="search()">Buscar empresas <mat-icon class="mat-18">search</mat-icon></button>
-          <button [hidden]="dashboardService.isLoading() || loadingResults() !== false" [disabled]="dashboardService.isLoading() || loadingResults() !== false" (click)="clearFilters()" class="btn-clear-filter w-100">Limpar filtros<mat-icon class="mat-18">delete</mat-icon></button>
+          <button [hidden]="dashboardService.isLoading() || loadingResults() !== false" [disabled]="dashboardService.isLoading() || loadingResults() !== false" (click)="clearFilters()" class="btn-clear-filter w-100">Limpar filtros<mat-icon class="mat-18">clear_all</mat-icon></button>
         }
         @if(dashboardService.isLoading()){
           <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100 loading" (click)="search()">
