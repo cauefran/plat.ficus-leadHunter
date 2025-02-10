@@ -244,10 +244,17 @@ main{
   justify-content: center;
   color: $aleixo-dark-blue;
   gap: .5rem;
-  animation: loading infinite;
+  animation: loading;
   animation-duration: 0.8s;
   animation-timing-function: ease-in-out;
   animation-play-state: running;
+
+    h6{
+      animation: loading;
+      animation-duration: .8s;
+      animation-timing-function: ease-in-out;
+      animation-play-state: running;
+    }
     .one{
       animation: loading infinite;
       animation-duration: .8s;

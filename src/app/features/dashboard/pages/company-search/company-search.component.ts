@@ -162,6 +162,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, AfterViewC
     this.searchTableData = false;
     this.showTable.set(false);
     this.filterSectionComponent.clearFilters();
+
   }
 
   public showSelectedFilterLabel(): boolean {
