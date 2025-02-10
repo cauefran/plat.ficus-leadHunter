@@ -361,13 +361,13 @@
           <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100" (click)="search()">Buscar empresas <mat-icon class="mat-18">search</mat-icon></button>
         }
         @if(dashboardService.isLoading()){
-        <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100 loading" (click)="search()">
-          Buscando resultados<span class="one me-1">.</span><span class="two me-1">.</span><span class="three me-1">.</span>
           <mat-progress-spinner
           class="col-12"
             [diameter]="20"
             mode="indeterminate">
           </mat-progress-spinner><br>
+        <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100 loading" (click)="search()">
+          Buscando resultados<span class="one me-1">.</span><span class="two me-1">.</span><span class="three me-1">.</span>
         </button>
       }
         <div class="spacer w-100 mt-2 mb-2"></div>

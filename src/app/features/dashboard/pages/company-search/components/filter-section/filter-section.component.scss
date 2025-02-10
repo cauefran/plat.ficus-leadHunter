@@ -244,7 +244,7 @@
   justify-content: center;
   color: $aleixo-dark-blue;
   gap: .5rem;
-  animation: loading infinite;
+  animation: loading;
   animation-duration: 0.8s;
   animation-timing-function: ease-in-out;
   animation-play-state: running;
