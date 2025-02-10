@@ -54,6 +54,7 @@
   border-radius: 5px;
   outline: transparent;
   color: $ficus-black;
+  font-weight: 550;
   background-color: $ficus-yellow;
   border: none;
   box-shadow:-1px 1px 8px 1px rgba(0, 0, 0, 0.2);
@@ -71,9 +72,9 @@
   gap: 2%;
   height: 38px;
   border-radius: 5px;
-  outline: transparent;
+  outline: $ficus-mid-gray;
   color: $ficus-black;
-  background-color: $ficus-mid-gray;
+  background-color: $ficus-light-gray;
   border: none;
   box-shadow:-1px 1px 8px 1px rgba(0, 0, 0, 0.2);
   @media (max-width: 780px) {
@@ -101,7 +102,7 @@
 }
 
 .btn-clear{
-  height: 46px;
+  height: 41px;
   border-radius: 5px;
   padding: 0 1rem;
   margin: 0 !important;
@@ -114,7 +115,7 @@
     margin-bottom: 1rem;
   }
   &:hover{
-    height: 40px;
+    height: 42px;
   }
 }
 
