@@ -236,3 +236,56 @@
     cursor: pointer;
   }
 }
+
+.loading{
+  z-index: 2;
+  font-size: 550;
+  display: flex;
+  justify-content: center;
+  color: $aleixo-dark-blue;
+  gap: .5rem;
+  animation: loading infinite;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-play-state: running;
+    .one{
+      animation: loading infinite;
+      animation-duration: .8s;
+      animation-timing-function: ease-in-out;
+      animation-play-state: running;
+    }
+    .two{
+      animation: loading infinite;
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+      animation-play-state: running;
+    }
+    .three{
+      animation: loading infinite;
+      animation-duration: 1.2s;
+      animation-timing-function: ease-in-out;
+      animation-play-state: running;
+    }
+}
+
+@keyframes loading {
+  0%{
+    opacity: 0;
+  }
+
+  30%{
+    opacity: .3;
+  }
+
+  50%{
+  opacity: .5;
+  }
+
+  80%{
+    opacity: .8;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}

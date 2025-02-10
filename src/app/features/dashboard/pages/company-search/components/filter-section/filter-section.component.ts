@@ -187,7 +187,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _dashboardService: DashboardService,
+    public dashboardService: DashboardService,
     private _authService: AuthService,
     private _dialog: MatDialog,
   ) {
@@ -286,7 +286,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
-    this._dashboardService.isLoading.set(false);
+    this.dashboardService.isLoading.set(false);
   }
 
   public resetDatePickerInitialValue(): void {
@@ -517,7 +517,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.cityFilteredValue.emit('');
     this.neighbourhoodFilteredValue.emit('');
     this.form.get('companySize')?.reset();
-    this.companySizeFilteredValue.emit([]);
+    this.companySizeFilteredValue.emit(null);
     this.telephoneFilteredValue.emit('');
     this.previousSearchsEmitter.emit([]);
     this.naturezaLegalFilteredValue.emit(null);
@@ -531,7 +531,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public getCitiesValue(): void {
     if(this.form.get('estate')?.value && this.form.get('estate')?.value.length > 0){
-      this._dashboardService.getCidade(this.form.get('estate')?.value).subscribe((res) => {
+      this.dashboardService.getCidade(this.form.get('estate')?.value).subscribe((res) => {
         if(res.result.length > 0){
           this.cities = res.result;
           this.form.get('city')?.enable();
@@ -547,7 +547,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
   public getNeighbourhoodValue(): void {
     if(this.form.get('estate')?.value && this.form.get('estate')?.value.length > 0 && this.form.get('city')?.value && this.form.get('city')?.value.length > 0){
-      this._dashboardService.getBairro(this.getCodigoIBGE()).subscribe((res) => {
+      this.dashboardService.getBairro(this.getCodigoIBGE()).subscribe((res) => {
         if(res){
           this.neighbourhoods = res.result;
           this.form.get('neighbourhood')?.enable();
@@ -562,7 +562,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
   public getStreetValue(): void {
     if(this.form.get('estate')?.value && this.form.get('estate')?.value.length > 0 && this.form.get('city')?.value && this.form.get('city')?.value.length > 0 && this.form.get('neighbourhood')?.value && this.form.get('neighbourhood')?.value.length){
-      this._dashboardService.getLogradouro(this.form.get('neighbourhood')?.value).subscribe((res) => {
+      this.dashboardService.getLogradouro(this.form.get('neighbourhood')?.value).subscribe((res) => {
         if(res){
           this.streets = res.result;
           this.form.get('street')?.enable();
@@ -577,18 +577,18 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public getCEP(): void {
-      this._dashboardService.getCEP(this.form.get('cep')?.value).subscribe((res) => {
+      this.dashboardService.getCEP(this.form.get('cep')?.value).subscribe((res) => {
         if(res.result){
           this.onKeyUpCEPValue();
           if(res.result?.uf.length > 0){
             this.form.get('estate')?.setValue([res.result.uf]);
-            this._dashboardService.getCidade(res.result.uf).subscribe((val)=> {
+            this.dashboardService.getCidade(res.result.uf).subscribe((val)=> {
               this.cities = val.result;
               this.form.get('city')?.setValue([res.result.municipio]);
             })
           }
           if(res.result?.municipio.length > 0){
-            this._dashboardService.getBairro(removeAccents.remove(res.result.municipio)).subscribe((val) => {
+            this.dashboardService.getBairro(removeAccents.remove(res.result.municipio)).subscribe((val) => {
               this.neighbourhoods = val.result;
               this.form.get('neighbourhood')?.enable();
               this.form.get('neighbourhood')?.setValue([res.result.codigoBairro]);
@@ -608,7 +608,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   public getCnaes(payload: any): void {
     let payloadSector = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : [];
 
-    this._dashboardService.getCnaesFromSection(payload).subscribe((res) => {
+    this.dashboardService.getCnaesFromSection(payload).subscribe((res) => {
       if(res.result?.length < 0){
         this.cnaes = [];
         return;
@@ -637,7 +637,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
      maxCount : 20,
     }
 
-    this._dashboardService.filterAllSearchs(this.userPath, dados, this.userSignatureSession).subscribe((res) => {
+    this.dashboardService.filterAllSearchs(this.userPath, dados, this.userSignatureSession).subscribe((res) => {
       if(res){
         this.previousSearchs = res;
         this.previousSearchsEmitter.next(res.result);
@@ -648,7 +648,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public search(): void {
-    this._dashboardService.isLoading.set(true);
+    this.dashboardService.isLoading.set(true);
       this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
       const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresas`;
       const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
@@ -707,7 +707,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     identificadorConsulta: identificadorConsulta,
     }
 
-    this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
+    this.dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
         this.tableDataEvent.emit(res.result);
         this.verificarResultadoPesquisa();
         console.log('first search :', res.result);
@@ -724,9 +724,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
           title: 'Erro!',
           text: 'Erro ao buscar dados!'
         }
-          }).afterClosed().subscribe(() => this._dashboardService.isLoading.set(false));
+          }).afterClosed().subscribe(() => this.dashboardService.isLoading.set(false));
     }, () => {
-      this._dashboardService.isLoading.set(false);
+      this.dashboardService.isLoading.set(false);
     });
   }
 
@@ -746,7 +746,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     identificadorConsulta: this.identificadorConsulta.value
   }
 
-  this._dashboardService.getVerificarAndamento(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
+  this.dashboardService.getVerificarAndamento(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
     console.log('res verificar andamento', res.result);
     if(res.result.ret === -1){
       setTimeout(() => {this.verificarResultadoPesquisa() }, 200);
@@ -782,7 +782,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       pagina: 1
     }
 
-    this._dashboardService.getFilterPaginationData(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
+    this.dashboardService.getFilterPaginationData(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
       console.log('res getFilterPaginationData', res);
       if(res.result.length >= 0){
         this.loadingResults.set(false);
@@ -796,7 +796,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public previousSearchRequest(filter: any): void {
-    this._dashboardService.isLoading.set(true);
+    this.dashboardService.isLoading.set(true);
       this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
       const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresas`;
       const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
@@ -824,17 +824,17 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       }
 
 
-    this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
+    this.dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
         if(!res.result || res.result.length <= 0){
           this._dialog.open(FeedbackModalComponent, {
             data: {
               title: 'Sem resultados!',
               text: 'Resultados não encontrados!'
             }
-              }).afterClosed().subscribe(() => this._dashboardService.isLoading.set(false));
+              }).afterClosed().subscribe(() => this.dashboardService.isLoading.set(false));
         }
         this.tableDataEvent.emit(res.result);
-        this._dashboardService.isLoading.set(false);
+        this.dashboardService.isLoading.set(false);
         this.verificarResultadoPesquisa();
     }, () => {
       this._dialog.open(FeedbackModalComponent, {
@@ -842,29 +842,29 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
           title: 'Erro!',
           text: 'Erro ao buscar dados!'
         }
-          }).afterClosed().subscribe(() => this._dashboardService.isLoading.set(false));
+          }).afterClosed().subscribe(() => this.dashboardService.isLoading.set(false));
     }, () => {
-      this._dashboardService.isLoading.set(false);
+      this.dashboardService.isLoading.set(false);
     });
   }
 
   public getFilterData(): void {
-   this._dashboardService.getListaNatureza().subscribe((res: any) => {
+   this.dashboardService.getListaNatureza().subscribe((res: any) => {
     this.legalNatures = res?.result;
      });
-   this._dashboardService.getMunicipios().subscribe((res) => {
+   this.dashboardService.getMunicipios().subscribe((res) => {
     this.municipios = res?.result;
      });
-   this._dashboardService.getListaSecaoCnae().subscribe((res: any) => {
+   this.dashboardService.getListaSecaoCnae().subscribe((res: any) => {
     this.sectors = res?.result;
      });
-   this._dashboardService.getListaNcm().subscribe((res) => {
+   this.dashboardService.getListaNcm().subscribe((res) => {
     this.ncm = res?.result;
      });
-   this._dashboardService.getEstado().subscribe((res) => {
+   this.dashboardService.getEstado().subscribe((res) => {
     this.estate = res?.result;
      });
-   this._dashboardService.getListaPortes().subscribe((res) => {
+   this.dashboardService.getListaPortes().subscribe((res) => {
     this.CompanySizeList = res?.result;
      });
   }
