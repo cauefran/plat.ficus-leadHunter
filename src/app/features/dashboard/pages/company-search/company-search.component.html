@@ -213,6 +213,16 @@
               <td class="mat-cell no-data-text" colspan="10">Não encontrado</td>
             </tr>
           </table>
+            @if(showTable() && filterSectionComponent.loadingResults() !== false){
+              <div class="loading w-100">
+                <mat-progress-spinner
+          class="col-12"
+            [diameter]="20"
+            mode="indeterminate">
+          </mat-progress-spinner><br>
+             <h6>Buscando resultados<span class="one me-1">.</span><span class="two me-1">.</span><span class="three me-1">.</span></h6>
+           </div>
+            }
           <mat-paginator [pageSizeOptions]="[5, 10, 20]"
           #paginator
           showFirstLastButtons

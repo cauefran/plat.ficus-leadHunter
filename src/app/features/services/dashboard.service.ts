@@ -15,7 +15,15 @@ export class DashboardService {
   ) { }
 
   public filterSearch(path: string, dados: any, signatureSession: string): Observable<any>{
-    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Empresa/PegarEmpresasSegundoFiltro?session_signature=${signatureSession}`;
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Empresa/PegarEmpresas?session_signature=${signatureSession}`;
+    return this._httpClient.post(url,{dados});
+  }
+  public getFilterPaginationData(path: string, dados: any, signatureSession: string): Observable<any>{
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Empresa/PegarResultadoPesquisa?session_signature=${signatureSession}`;
+    return this._httpClient.post(url,{dados});
+  }
+  public getVerificarAndamento(path: string, dados: any, signatureSession: string): Observable<any>{
+    const url = `http://w2.ficusconsultoria.com.br:11117/${path}/Empresa/VerificarAndamento?session_signature=${signatureSession}`;
     return this._httpClient.post(url,{dados});
   }
 

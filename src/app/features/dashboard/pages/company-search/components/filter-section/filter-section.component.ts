@@ -179,6 +179,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   public userSignatureSession = '';
   public payloadMunicipios: Array<string> = [];
 
+  public identificadorConsulta = new BehaviorSubject('');
+  public loadingResults = signal(false);
+  public searchRequestTryAgain = signal(false);
+
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -452,7 +456,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.stNumberFilteredValue.emit(this.form.get('stNumber')?.value);
   }
   public onCompanySizeMultiSelectionChange(): void {
-    console.log('this.form.get(companySize)?.value ' ,this.form.get('companySize')?.value)
     this.companySizeFilteredValue.emit(this.form.get('companySize')?.value);
   }
   public onKeyUpTelephoneValue(): void {
@@ -470,12 +473,10 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public onFeeTypeSelectionChange(): void {
-    console.log('fee type; ', this.form.get('feeType')?.value);
     this.regimeFilteredValue.emit(this.form.get('feeType')?.value?.label);
   }
 
   public onLegalNatureSelectionChange(): void {
-    console.log('legal nature: ', this.form.get('legalNature')?.value);
     this.naturezaLegalFilteredValue.emit(this.form.get('legalNature')?.value?.descricao);
   }
 
@@ -521,7 +522,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.previousSearchsEmitter.emit([]);
     this.naturezaLegalFilteredValue.emit(null);
     this.regimeFilteredValue.emit(null);
+    this.formLabel.get('label')?.reset();
     this.form.reset();
+    this.formLabel.reset();
     this.getPreviousSearch();
     this.getCnaes(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"]);
   }
@@ -647,7 +650,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   public search(): void {
     this._dashboardService.isLoading.set(true);
       this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
-      const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresasSegundoFiltro`;
+      const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresas`;
       const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
 
       this._authService.userSessionPath.set(SessionSearchPath);
@@ -668,11 +671,9 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const cnaePrimaPayload = this.cnaePrimaMultiCtrl.value !== null ? this.cnaePrimaMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const regimePayload = this.form.get('feeType')?.value !== null ? this.form.get('feeType')?.value.codigo : null;
     const naturezaJuridicaPayload =  this.form.get('legalNature')?.value !== null ? this.form.get('legalNature')?.value.codigo : null;
-    console.log('naturezaJuridicaPayload - ', naturezaJuridicaPayload);
-    console.log('regimePayload - ', regimePayload);
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const companySize = this.form.get('companySize')?.value !== null ? this.form.get('companySize')?.value.codigo : null;
-    console.log('companySize ', companySize);
+
     let filter = {
       setores: sectorsPayload,
       cnae: cnaePrimaPayload,
@@ -696,20 +697,28 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     }
 
     const identificadorConsulta = sha256(JSON.stringify(filter));
-    console.log('identificadorConsulta', identificadorConsulta);
+    console.log('identificadorConsulta const', identificadorConsulta);
+    this.identificadorConsulta.next(identificadorConsulta);
+    console.log('identificadorConsulta behaviorSubject 1: ', this.identificadorConsulta.value);
 
     const dados = {
     filtro: filter,
     descricaoConsulta: this.formLabel.get('label')?.value ? this.formLabel.get('label')?.value : null,
     identificadorConsulta: identificadorConsulta,
-    ordenacao: 0,
-    pagina: 0,
     }
 
     this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
         this.tableDataEvent.emit(res.result);
-
+        this.verificarResultadoPesquisa();
+        console.log('first search :', res.result);
+        this.loadingResults.set(true);
     }, () => {
+      if(this.searchRequestTryAgain() === false){
+        this.searchRequestTryAgain.set(true);
+        this.search();
+        return;
+      }
+      this.searchRequestTryAgain.set(false);
       this._dialog.open(FeedbackModalComponent, {
         data: {
           title: 'Erro!',
@@ -720,10 +729,76 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       this._dashboardService.isLoading.set(false);
     });
   }
+
+  public verificarResultadoPesquisa(): void {
+    this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
+    const SessionSearchPath = `${this.userPath}/Empresa/VerificarAndamento`;
+    const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
+
+    this._authService.userSessionPath.set(SessionSearchPath);
+      this._authService.generateUserSignatureSession(userLoginData);
+
+  this._authService.userKey.subscribe((res) => {
+    this.userSignatureSession = res;
+  });
+
+  const dados = {
+    identificadorConsulta: this.identificadorConsulta.value
+  }
+
+  this._dashboardService.getVerificarAndamento(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
+    console.log('res verificar andamento', res.result);
+    if(res.result.ret === -1){
+      setTimeout(() => {this.verificarResultadoPesquisa() }, 200);
+      this.loadingResults.set(true);
+    }
+    if(res.result.ret >= 0){
+      this.loadSearchData();
+    }
+  }, (error: any)=> {
+    this.verificarResultadoPesquisa();
+    console.error(error);
+  })
+
+  }
+
+  public loadSearchData(): void {
+
+    this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
+      const SessionSearchPath = `${this.userPath}/Empresa/PegarResultadoPesquisa`;
+      const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
+
+      this._authService.userSessionPath.set(SessionSearchPath);
+        this._authService.generateUserSignatureSession(userLoginData);
+
+    this._authService.userKey.subscribe((res) => {
+      this.userSignatureSession = res;
+    });
+
+    console.log('identificadorConsulta behaviorSubject 2: ', this.identificadorConsulta.value);
+    const dados = {
+      identificadorConsulta: this.identificadorConsulta.value,
+      qtd: 100000,
+      pagina: 1
+    }
+
+    this._dashboardService.getFilterPaginationData(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
+      console.log('res getFilterPaginationData', res);
+      if(res.result.length >= 0){
+        this.loadingResults.set(false);
+      }
+      this.tableDataEvent.emit(res.result);
+    }, (error: any)=> {
+      this.loadSearchData();
+      console.error(error);
+    })
+
+  }
+
   public previousSearchRequest(filter: any): void {
     this._dashboardService.isLoading.set(true);
       this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
-      const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresasSegundoFiltro`;
+      const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresas`;
       const userLoginData = this._authService.userLoginData().length > 0 ? this._authService.userLoginData() : String(localStorage.getItem('LOGIN_KEY'));
 
       this._authService.userSessionPath.set(SessionSearchPath);
@@ -737,21 +812,30 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     //   this.form.get('city')?.value.forEach((element: string) => {
     //     this.payloadMunicipios.push(removeAccents.remove(element));
     //   })
-
     // }
 
+    const identificadorConsulta = sha256(JSON.stringify(filter?.filtro));
+    this.identificadorConsulta.next(identificadorConsulta);
+
     const dados = {
-      filtro: filter?.filter,
+      filtro: filter?.filtro,
       descricaoConsulta: filter?.descricaoConsulta,
-      identificadorConsulta: '11222',
-      ordenacao: 0,
-      pagina: 0,
+      identificadorConsulta: identificadorConsulta,
       }
 
 
     this._dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
+        if(!res.result || res.result.length <= 0){
+          this._dialog.open(FeedbackModalComponent, {
+            data: {
+              title: 'Sem resultados!',
+              text: 'Resultados não encontrados!'
+            }
+              }).afterClosed().subscribe(() => this._dashboardService.isLoading.set(false));
+        }
         this.tableDataEvent.emit(res.result);
-
+        this._dashboardService.isLoading.set(false);
+        this.verificarResultadoPesquisa();
     }, () => {
       this._dialog.open(FeedbackModalComponent, {
         data: {
@@ -765,10 +849,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public getFilterData(): void {
-  //  this._dashboardService.getListaCnae().subscribe((res: any) => {
-  //   this.cnaes = res?.result;
-  //   this.cnaesSecundarios = res?.result;
-  //    });
    this._dashboardService.getListaNatureza().subscribe((res: any) => {
     this.legalNatures = res?.result;
      });

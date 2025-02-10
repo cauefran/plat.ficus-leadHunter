@@ -18,7 +18,6 @@ import { ERequestResult } from '../../../shared/enums/request-result.enum';
     MaterialModule,
     ReactiveFormsModule,
     NgxMaskDirective,
-    NgxMaskPipe,
   ],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',

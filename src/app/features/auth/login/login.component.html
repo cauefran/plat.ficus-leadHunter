@@ -6,14 +6,6 @@
 
 
       <form action="form" [formGroup]="form">
-           @if(loading()) {
-             <div class="loading-container flex-content-center">
-             <mat-progress-spinner
-               color=""
-               mode="indeterminate">
-             </mat-progress-spinner>
-           </div>
-           }
 
           <h2 class="mb-3">Bem-vindo de volta!</h2>
 
@@ -32,7 +24,7 @@
                     <mat-error *ngIf="F_login.invalid">{{getErrorMessageLogin()}}</mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="col-12 w-100 mb-3" appearance="outline">
+                <mat-form-field class="col-12 w-100" appearance="outline">
                     <mat-label>Senha</mat-label>
                     <input
                     matInput
@@ -52,7 +44,20 @@
                     <mat-error *ngIf="F_password.invalid">{{getErrorMessagePassword()}}</mat-error>
                 </mat-form-field>
 
+
         </form>
+        @if(loading()) {
+          <div class="loading-container flex-content-center">
+          <div class="loading col-12 w-100">
+            <mat-progress-spinner
+          class="col-12"
+            [diameter]="20"
+            mode="indeterminate">
+          </mat-progress-spinner><br>
+            <h6>Entrando<span class="one me-1">.</span><span class="two me-1">.</span><span class="three me-1">.</span></h6>
+          </div>
+        </div>
+        }
 
         <div class="col-xl-5 col-md-12 col-10 p-1 w-100 btn-container">
             <button type="button" (click)="onSubmit()" class="w-100 btn-confirm">Entrar</button>

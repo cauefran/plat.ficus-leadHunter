@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, DoCheck, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, DoCheck, Input, OnInit, signal, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -41,7 +41,7 @@ export interface ISearchCompanyTable {
 
 })
 
-export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
+export class CompanySearchComponent implements OnInit, AfterViewInit, AfterViewChecked, DoCheck {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
   @ViewChild(FilterSectionComponent) filterSectionComponent!: FilterSectionComponent;
@@ -93,6 +93,11 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, DoCheck {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSourceWithPageSize.paginator = this.paginatorPageSize;
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('filterSectionComponent.loadingResults.value ', this.filterSectionComponent.loadingResults() )
+
   }
 
   ngDoCheck(): void {

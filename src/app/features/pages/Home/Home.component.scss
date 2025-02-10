@@ -1,3 +1,103 @@
-:host {
-  display: block;
+@import './../../../../styles.scss';
+
+.container-home{
+  width: 100%;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  height: 100%;
+
+  .welcome-section{
+    display: flex;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    width: 100%;
+    height: 100vh;
+    border: 1px solid black;
+
+    .welcome-card-one{
+      display: flex;
+      align-items: center;
+      height: 100%;
+      border: 1px solid blue;
+      margin: 0 auto !important;
+      padding: 0 !important;
+
+      .headline-container{
+        display: flex;
+        justify-content: center;
+        padding-top: 5rem;
+        height: 100%;
+        text-align: center;
+        .headline-text{
+          animation-name: headline-text;
+          animation-duration: 5s;
+          animation-delay: 1s;
+          animation-timing-function: linear;
+        }
+
+        @keyframes headline-text {
+          0%{
+            opacity: 0;
+          }
+          20%{
+            opacity: 0.1;
+          }
+          50%{
+            opacity: 0.5;
+          }
+          100%{
+            opacity: 1;
+          }
+
+        }
+      }
+    }
+
+    .welcome-card-two{
+      height: 100%;
+      border: 1px solid red;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      background-color: $aleixo-dark-blue;
+    }
+
+  }
+
+  .about-section{
+    display: flex;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    width: 100%;
+    height: 100vh;
+    border: 1px solid red;
+
+    .about-card-one{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      border: 1px solid blue;
+      margin: 0 auto !important;
+      padding: 5rem 0 0 0 !important;
+      background-color: $aleixo-dark-blue;
+    }
+
+    .about-card-two{
+      height: 100%;
+      border: 1px solid red;
+      margin: 0 auto !important;
+      padding: 0 !important;
+    }
+  }
+
+  .pricing-section{
+    display: flex;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
 }

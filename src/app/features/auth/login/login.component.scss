@@ -1,6 +1,7 @@
 @import '../../../../styles/main.scss';
 
 main{
+  z-index: 1;
   height: 100%;
   width: 100%;
   display: flex;
@@ -265,13 +266,68 @@ main{
 
 .loading-container {
   display: flex;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 100vw;
-  height: 100vh;
-  /* background-color: rgba(0, 0, 0, 0.7); */
-  z-index: 5;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  // background-color: $ficus-light-gray;
+  position: sticky;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  z-index: 3;
+
+  .loading{
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: .5rem;
+    color: $aleixo-dark-blue;
+    animation: loading infinite;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-in-out;
+    animation-play-state: running;
+      .one{
+        animation: loading infinite;
+        animation-duration: .8s;
+        animation-timing-function: ease-in-out;
+        animation-play-state: running;
+      }
+      .two{
+        animation: loading infinite;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
+        animation-play-state: running;
+      }
+      .three{
+        animation: loading infinite;
+        animation-duration: 1.2s;
+        animation-timing-function: ease-in-out;
+        animation-play-state: running;
+      }
+  }
+
+  @keyframes loading {
+    0%{
+      opacity: 0;
+    }
+
+    30%{
+      opacity: .3;
+    }
+
+    50%{
+    opacity: .5;
+    }
+
+    80%{
+      opacity: .8;
+    }
+
+    100%{
+      opacity: 1;
+    }
+  }
 }
 
 .site-container {

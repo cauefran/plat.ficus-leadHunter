@@ -6,7 +6,6 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { PrimeNgModule } from '../../shared/modules/primeng.module';
 import { AuthService } from '../services/auth.service';
-import { HeaderDashboardComponent } from './components/header-dashboard/header-dashboard.component';
 
 @Component({
 	selector: 'app-dashboard',
@@ -15,7 +14,6 @@ import { HeaderDashboardComponent } from './components/header-dashboard/header-d
 	standalone: true,
 	imports: [
 		CommonModule,
-		HeaderDashboardComponent,
 		MaterialModule,
 		CanvasJSAngularChartsModule,
 		ReactiveFormsModule,
