@@ -48,6 +48,45 @@
           </div>
         </mat-expansion-panel>
 
+         <!-- Legais e tribuários -->
+         <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(true)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Filtrar por Legais e Tributários</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="legal-container w-100">
+
+            <mat-form-field>
+              <mat-label>Situação cadastral</mat-label>
+              <mat-select formControlName="situacaoCadastral">
+                @for (situacao of situacaoCadastral; track situacao) {
+                  <mat-option [value]="situacao" (click)="onRegisterSituationSelectionChange()">{{situacao.label}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Regime tributário</mat-label>
+              <mat-select formControlName="feeType">
+                @for (regimeTributario of regimeTributario; track regimeTributario) {
+                  <mat-option [value]="regimeTributario" (click)="onFeeTypeSelectionChange()">{{regimeTributario.label}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Natureza Jurídica</mat-label>
+              <mat-select formControlName="legalNature">
+                @for (legalNature of legalNatures; track legalNature) {
+                  <mat-option [value]="legalNature" (click)="onLegalNatureSelectionChange()">{{legalNature.descricao}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+
+        </mat-expansion-panel>
+
          <!-- Socio -->
          <mat-expansion-panel [expanded]="true" class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
@@ -326,39 +365,10 @@
 
         </mat-expansion-panel>
 
-        <!-- Legais e tribuários -->
-        <mat-expansion-panel class="mat-expansion" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Filtrar por Legais e Tributários</mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <div class="legal-container w-100">
-
-            <mat-form-field>
-              <mat-label>Regime tributário</mat-label>
-              <mat-select formControlName="feeType">
-                @for (regimeTributario of regimeTributario; track regimeTributario) {
-                  <mat-option [value]="regimeTributario" (click)="onFeeTypeSelectionChange()">{{regimeTributario.label}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Natureza Jurídica</mat-label>
-              <mat-select formControlName="legalNature">
-                @for (legalNature of legalNatures; track legalNature) {
-                  <mat-option [value]="legalNature" (click)="onLegalNatureSelectionChange()">{{legalNature.descricao}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-        </mat-expansion-panel>
-
       </form>
       <div class="button-container">
         @if(!dashboardService.isLoading()){
-          <button [disabled]="errorFinalDate || errorInitialDate" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100" (click)="search()">Buscar empresas <mat-icon class="mat-18">search</mat-icon></button>
+          <button [disabled]="errorFinalDate || errorInitialDate || loadingResults" [ngClass]="errorFinalDate || errorInitialDate ? 'btn-disabled': 'btn-filter'" class="w-100" (click)="search()">Buscar empresas <mat-icon class="mat-18">search</mat-icon></button>
           <button [hidden]="dashboardService.isLoading() || loadingResults() !== false" [disabled]="dashboardService.isLoading() || loadingResults() !== false" (click)="clearFilters()" class="btn-clear-filter w-100">Limpar filtros<mat-icon class="mat-18">clear_all</mat-icon></button>
         }
         @if(dashboardService.isLoading()){

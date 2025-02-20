@@ -55,7 +55,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, AfterViewC
   public isSearch: boolean = false;
   public contentTable!: any[];
   public data!: any[];
-  displayedColumns: string[] = ['select', 'cnpjName', 'contact', 'regime', 'cnae', 'companySize', 'address'];
+  displayedColumns: string[] = ['select', 'cnpjName', 'contact', 'regime', 'cnae', 'companySize', 'situacao', 'address'];
   dataSource = new MatTableDataSource<ISearchCompanyTable>(this.data);
   dataSourceWithPageSize = new MatTableDataSource(this.data);
   selection = new SelectionModel<ISearchCompanyTable>(true, []);
@@ -74,6 +74,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, AfterViewC
   public filterInputCEP: string = '';
   public filterInputCompanySize: string = '';
   public filterInputRegime: string | null = null;
+  public filterRegisterSituation: string | null = null;
   public filterInputLegalNature: string | null = null;
   public filterInputNome: string = '';
   public filterInputTelephone: string = '';
@@ -96,7 +97,7 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   ngAfterViewChecked(): void {
-    console.log('filterSectionComponent.loadingResults.value ', this.filterSectionComponent.loadingResults() )
+    // console.log('filterSectionComponent.loadingResults.value ', this.filterSectionComponent.loadingResults() )
 
   }
 
@@ -232,6 +233,13 @@ export class CompanySearchComponent implements OnInit, AfterViewInit, AfterViewC
         this.filterInputRegime = null;
       }
       this.filterInputRegime = event;
+  }
+  public filteredRegisterSituation(event: any): void {
+    console.log('event situation ', event)
+      if(event === null){
+        this.filterRegisterSituation = null;
+      }
+      this.filterRegisterSituation = event;
   }
   public filteredLegalNatureEvent(event: any): void {
       if(event === null){

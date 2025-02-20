@@ -22,6 +22,7 @@
         (companySizeFilteredValue)="filteredCompanySizeEvent($event)"
         (naturezaLegalFilteredValue)="filteredLegalNatureEvent($event)"
         (regimeFilteredValue)="filteredRegimeEvent($event)"
+        (registerSituationValue)="filteredRegisterSituation($event)"
         (telephoneFilteredValue)="filteredTelephoneEvent($event)"
         (initialDateFilteredValue)="filteredInitialDateEvent($event)"
         (finalDateFilteredValue)="filteredFinalDateEvent($event)"
@@ -101,6 +102,9 @@
             }
             @if(filterInputRegime !== null && filterInputRegime.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Regime">{{filterInputRegime}}</mat-chip>
+            }
+            @if(filterRegisterSituation !== null) {
+              <mat-chip class="assigned-chip" matTooltip="Situacão Cadastral">{{filterRegisterSituation}}</mat-chip>
             }
             @if(filterInputTelephone.length > 0) {
               <mat-chip class="assigned-chip" matTooltip="Telefone">{{filterInputTelephone}}</mat-chip>
@@ -200,6 +204,10 @@
               <td mat-cell *matCellDef="let element">{{element.porte}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="situacao">
+              <th mat-header-cell *matHeaderCellDef> Situação </th>
+              <td mat-cell *matCellDef="let element">{{element.situacao}} </td>
+            </ng-container>
 
             <ng-container matColumnDef="address">
               <th mat-header-cell *matHeaderCellDef> Endereço </th>

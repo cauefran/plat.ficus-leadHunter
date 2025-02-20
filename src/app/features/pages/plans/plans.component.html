@@ -18,7 +18,12 @@
       <mat-card class="plan-container">
           <mat-card-header>
               <mat-card-title>{{card.title}}</mat-card-title>
-              <mat-card-subtitle>R${{card.price}}/mês</mat-card-subtitle>
+              @if(card.promoPrice){
+                <mat-card-subtitle><span>De</span> R${{card.price}}/mês <br><span>por</span><br> R${{card.promoPrice}}/mês</mat-card-subtitle>
+              }
+              @if(!card.promoPrice){
+                <mat-card-subtitle>R${{card.price}}/mês</mat-card-subtitle>
+              }
           </mat-card-header>
           <!-- <img matCardImage src="Card wide image source"> -->
           <mat-card-content class="mt-5 content-card-plan">
@@ -50,7 +55,7 @@
               <button disabled class="btn-confirm-disable w-100" mat-button>Plano atual</button>
               }
               @if(card.title === 'Gratuito' && !isLogged){
-              <button class="btn-confirm w-100"(click)="openPaymentModal(card)"  mat-button>Quero Esse plano</button>
+              <button class="btn-create-account w-100" mat-button (click)="goTo('create-account')">Criar conta</button>
               }
               @if(card.title !== 'Gratuito'){
                 <button class="btn-confirm w-100" mat-button (click)="openPaymentModal(card)">Quero Esse plano</button>

@@ -44,9 +44,6 @@ main{
       width: 15rem;
       box-shadow: 0px 0px 9px 0px $aleixo-dark-blue;
       cursor: pointer;
-      &:nth-child(2){
-        // height: 30rem;
-      }
       &:hover{
         // margin: 0 0.5rem;
         height: 26rem;
@@ -107,5 +104,18 @@ main{
         }
       }
     }
+  }
+}
+
+.btn-create-account{
+  height: 38px;
+  border-radius: 5px;
+  outline: transparent;
+  color: $aleixo-white !important;
+  background-color: $aleixo-dark-blue;
+  border: none;
+  box-shadow: 3px -3px 7px 2px rgba(255, 198, 41, 0.2);
+  @media (max-width: 780px) {
+    margin-bottom: 1rem;
   }
 }

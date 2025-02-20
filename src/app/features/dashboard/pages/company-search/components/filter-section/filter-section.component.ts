@@ -23,6 +23,7 @@ import * as _moment from "moment";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { sha256 } from 'js-sha256';
+import { ESituacaoCadastral } from '../../../../../../shared/enums/situacao-cadastral.enum';
 
 
 
@@ -110,6 +111,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   @Output() cepFilteredValue = new EventEmitter<string>();
   @Output() companySizeFilteredValue = new EventEmitter<any>();
   @Output() regimeFilteredValue = new EventEmitter<any>();
+  @Output() registerSituationValue = new EventEmitter<any>();
   @Output() naturezaLegalFilteredValue = new EventEmitter<any>();
   @Output() telephoneFilteredValue = new EventEmitter<string>();
   @Output() initialDateFilteredValue = new EventEmitter<string>();
@@ -172,6 +174,14 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     {codigo: ERegimeTributario.SIMPLES, label: 'Simples'},
     {codigo: ERegimeTributario.NAO_SIMPLES, label: 'Não simples'}
   ]
+  public situacaoCadastral: Array<any> = [
+    {codigo: null, label: 'Todos'},
+    {codigo: ESituacaoCadastral.NULA, label: 'Nula'},
+    {codigo: ESituacaoCadastral.ATIVA, label: 'Ativa'},
+    {codigo: ESituacaoCadastral.BAIXADA, label: 'Baixada'},
+    {codigo: ESituacaoCadastral.INAPTA, label: 'Inapta'},
+    {codigo: ESituacaoCadastral.SUSPENSA, label: 'Suspensa'}
+  ]
   public getCodigoIBGE = signal('');
   public errorInitialDate = false;
   public errorFinalDate = false;
@@ -216,6 +226,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       companySize: new FormControl(),
       legalNature: [null, []],
       feeType: [ERegimeTributario.TODOS, []],
+      situacaoCadastral: [null, []],
       cnpj: ['', [Validators.pattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})')]],
     })
   }
@@ -260,12 +271,8 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public onFirstClick(): void {
-    this.sectorMultiFilterCtrl.setValue('')
-    this.sectorMultiFilterCtrl.updateValueAndValidity();
-    this.cnaePrimaMultiFilterCtrl.setValue('')
-    this.cnaePrimaMultiFilterCtrl.updateValueAndValidity();
-    this.cnaeSecundMultiFilterCtrl.setValue('')
-    this.ncmMultiFilterCtrl.setValue('')
+    // this.sectorMultiFilterCtrl.setValue('')
+    // this.cnaePrimaMultiFilterCtrl.setValue('')
   }
 
   public ngAfterViewChecked(): void {
@@ -483,6 +490,11 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.regimeFilteredValue.emit(this.form.get('feeType')?.value?.label);
   }
 
+  public onRegisterSituationSelectionChange(): void {
+    console.log(this.form.get('situacaoCadastral')?.value)
+    this.registerSituationValue.emit(this.form.get('situacaoCadastral')?.value?.label);
+  }
+
   public onLegalNatureSelectionChange(): void {
     this.naturezaLegalFilteredValue.emit(this.form.get('legalNature')?.value?.descricao);
   }
@@ -529,6 +541,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.previousSearchsEmitter.emit([]);
     this.naturezaLegalFilteredValue.emit(null);
     this.regimeFilteredValue.emit(null);
+    this.registerSituationValue.emit(null);
     this.formLabel.get('label')?.reset();
     this.form.reset();
     this.formLabel.reset();
@@ -677,6 +690,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     const sectorsPayload = this.sectorMultiCtrl.value !== null ? this.sectorMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const cnaePrimaPayload = this.cnaePrimaMultiCtrl.value !== null ? this.cnaePrimaMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const regimePayload = this.form.get('feeType')?.value !== null ? this.form.get('feeType')?.value.codigo : null;
+    const situacaoCadastral = this.form.get('situacaoCadastral')?.value !== null ? this.form.get('situacaoCadastral')?.value.codigo : null;
     const naturezaJuridicaPayload =  this.form.get('legalNature')?.value !== null ? this.form.get('legalNature')?.value.codigo : null;
     const ncmPayload = this.ncmMultiCtrl.value !== null ? this.ncmMultiCtrl.value.map((i: IFilterCnae) => i.codigo) : null;
     const companySize = this.form.get('companySize')?.value !== null ? this.form.get('companySize')?.value.codigo : null;
@@ -701,12 +715,11 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       cnpj: this.form.get('cnpj')?.value ? this.dropSpecialCharacters(this.form.get('cnpj')?.value) : null,
       dataAberturaInicio: this.form.get('dataAberturaInicio')?.value ? this.form.get('dataAberturaInicio')?.value : null,
       dataAberturaFim: this.form.get('dataAberturaFim')?.value ? this.form.get('dataAberturaFim')?.value : null,
+      situacaoCadastral: situacaoCadastral,
     }
 
     const identificadorConsulta = sha256(JSON.stringify(filter));
-    console.log('identificadorConsulta const', identificadorConsulta);
     this.identificadorConsulta.next(identificadorConsulta);
-    console.log('identificadorConsulta behaviorSubject 1: ', this.identificadorConsulta.value);
 
     const dados = {
     filtro: filter,
@@ -832,16 +845,17 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
 
 
     this.dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
-        if(!res.result || res.result.length <= 0){
-          this._dialog.open(FeedbackModalComponent, {
-            data: {
-              title: 'Sem resultados!',
-              text: 'Resultados não encontrados!'
-            }
-              }).afterClosed().subscribe(() => this.dashboardService.isLoading.set(false));
-        }
-        this.tableDataEvent.emit(res.result);
-        this.dashboardService.isLoading.set(false);
+      if(!res.result || res.result.length <= 0){
+        this._dialog.open(FeedbackModalComponent, {
+          data: {
+            title: 'Sem resultados!',
+            text: 'Resultados não encontrados!'
+          }
+        }).afterClosed().subscribe(() => {this.dashboardService.isLoading.set(false); this.loadingResults.set(false);
+        });
+      }
+      this.tableDataEvent.emit(res.result);
+      this.loadingResults.set(true);
         this.verificarResultadoPesquisa();
     }, () => {
       this._dialog.open(FeedbackModalComponent, {
@@ -849,9 +863,11 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
           title: 'Erro!',
           text: 'Erro ao buscar dados!'
         }
-          }).afterClosed().subscribe(() => this.dashboardService.isLoading.set(false));
+        }).afterClosed().subscribe(() => {this.dashboardService.isLoading.set(false); this.loadingResults.set(false);
+        });
     }, () => {
       this.dashboardService.isLoading.set(false);
+      this.loadingResults.set(false);
     });
   }
 

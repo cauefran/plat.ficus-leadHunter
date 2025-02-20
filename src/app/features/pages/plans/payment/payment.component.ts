@@ -19,6 +19,7 @@ export class PaymentComponent implements OnInit {
   @ViewChild('paypalRef', {static: true}) paypalRef!: ElementRef;
 
   public amount!: string;
+  public amountToDisplay!: string;
   public isPaid = false;
   public PaymentResponse: any;
 
@@ -29,6 +30,8 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.amount = this.data?.price;
+    this.amountToDisplay = Number(this.data?.promoPrice) < Number(this.data?.price) ? `R$${this.data?.promoPrice}` : `R$${this.data?.price}`;
+
     window.paypal.Buttons(
       {
         style: {
@@ -44,7 +47,7 @@ export class PaymentComponent implements OnInit {
                 description: this.data.title,
                 amount: {
                   currency_code: 'BRL',
-                  value: this.data?.price,
+                  value: Number(this.data?.promoPrice) < Number(this.data?.price) ? this.data?.promoPrice : this.data?.price,
                 }
               }
             ]

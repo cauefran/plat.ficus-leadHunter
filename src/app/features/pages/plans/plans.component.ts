@@ -35,8 +35,8 @@ export class PlansComponent implements OnInit {
   ){
     this.planCards = [
       {title: 'Gratuito', price: '-', bOne: '50 pesquisas', bTwo: '10 Resultados por pesquisa', bThree: 'Não pesquisa por sócio'},
-      {title: 'Básico', price: '99.90', bOne: 'Pesquisas e resultados ilimitados', bTwo: 'Não exporta excel'},
-      {title: 'Completo', price: '129.90', bOne: 'Ilimitado'},
+      {title: 'Mensal', price: '300', promoPrice: '199', bOne: 'Pesquisas e resultados ilimitados', bTwo: 'Não exporta excel'},
+      {title: 'Anual', price: '199.90', promoPrice: '99', bOne: 'Ilimitado'},
     ]
 
   }
@@ -47,11 +47,16 @@ export class PlansComponent implements OnInit {
   }
 
   public openPaymentModal(element: any): void {
+    console.log('elemente, ', element)
     if(this._userService.returnUserStatus()){
       this.matDialog.open(PaymentComponent, {data: element});
     } else {
       this._router.navigateByUrl('login');
     }
+  }
+
+  public goTo(page: string): void {
+    this._router.navigateByUrl(page);
   }
 
 }
