@@ -491,7 +491,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public onRegisterSituationSelectionChange(): void {
-    console.log(this.form.get('situacaoCadastral')?.value)
     this.registerSituationValue.emit(this.form.get('situacaoCadastral')?.value?.label);
   }
 
@@ -668,6 +667,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public search(): void {
+    this.tableDataEvent.emit([]);
     this.dashboardService.isLoading.set(true);
       this.userPath = this._authService.userPath().length > 0 ? this._authService.userPath() : String(localStorage.getItem('PATH_USER'));
       const SessionSearchPath = `${this.userPath}/Empresa/PegarEmpresas`;
@@ -730,7 +730,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     this.dashboardService.filterSearch(this.userPath, dados ,this.userSignatureSession).subscribe((res) => {
         this.tableDataEvent.emit(res.result);
         this.verificarResultadoPesquisa();
-        console.log('first search :', res.result);
         this.loadingResults.set(true);
     }, () => {
       if(this.searchRequestTryAgain() === false){
@@ -767,7 +766,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   this.dashboardService.getVerificarAndamento(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
-    console.log('res verificar andamento', res.result);
     if(res.result.ret === -1){
       setTimeout(() => {this.verificarResultadoPesquisa() }, 200);
       this.loadingResults.set(true);
@@ -795,7 +793,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
       this.userSignatureSession = res;
     });
 
-    console.log('identificadorConsulta behaviorSubject 2: ', this.identificadorConsulta.value);
     const dados = {
       identificadorConsulta: this.identificadorConsulta.value,
       // qtd: 100000,
@@ -803,7 +800,6 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     }
 
     this.dashboardService.getFilterPaginationData(this.userPath, dados, this.userSignatureSession).subscribe((res: any) => {
-      console.log('res getFilterPaginationData', res);
       if(res.result.length >= 0){
         this.loadingResults.set(false);
       }
