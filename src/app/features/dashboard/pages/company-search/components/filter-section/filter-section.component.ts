@@ -176,11 +176,12 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
   ]
   public situacaoCadastral: Array<any> = [
     {codigo: null, label: 'Todos'},
-    {codigo: ESituacaoCadastral.NULA, label: 'Nula'},
+    {codigo: ESituacaoCadastral.VAZIO, label: 'Vazio'},
     {codigo: ESituacaoCadastral.ATIVA, label: 'Ativa'},
     {codigo: ESituacaoCadastral.BAIXADA, label: 'Baixada'},
-    {codigo: ESituacaoCadastral.INAPTA, label: 'Inapta'},
     {codigo: ESituacaoCadastral.SUSPENSA, label: 'Suspensa'}
+    {codigo: ESituacaoCadastral.NULA, label: 'Nula'},
+    {codigo: ESituacaoCadastral.INAPTA, label: 'Inapta'},
   ]
   public getCodigoIBGE = signal('');
   public errorInitialDate = false;
