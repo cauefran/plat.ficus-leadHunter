@@ -1,7 +1,9 @@
 export enum ESituacaoCadastral{
-NULA = 1, // 4
+VAZIO = 0,
+ATIVA = 1,
 BAIXADA = 2,
 SUSPENSA = 3,
-INAPTA = 4 ,
-ATIVA = 8, // 1
+NULA =  4,
+INAPTA = 5
 }
+
