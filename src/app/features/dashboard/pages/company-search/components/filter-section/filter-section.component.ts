@@ -179,7 +179,7 @@ export class FilterSectionComponent implements OnInit, AfterViewInit, AfterViewC
     {codigo: ESituacaoCadastral.VAZIO, label: 'Vazio'},
     {codigo: ESituacaoCadastral.ATIVA, label: 'Ativa'},
     {codigo: ESituacaoCadastral.BAIXADA, label: 'Baixada'},
-    {codigo: ESituacaoCadastral.SUSPENSA, label: 'Suspensa'}
+    {codigo: ESituacaoCadastral.SUSPENSA, label: 'Suspensa'},
     {codigo: ESituacaoCadastral.NULA, label: 'Nula'},
     {codigo: ESituacaoCadastral.INAPTA, label: 'Inapta'},
   ]
