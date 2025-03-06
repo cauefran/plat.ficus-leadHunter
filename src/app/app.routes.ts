@@ -12,6 +12,7 @@ import { PlansComponent } from './features/pages/plans/plans.component';
 import { PaymentComponent } from './features/pages/plans/payment/payment.component';
 import { SolutionsComponent } from './features/pages/solutions/solutions.component';
 import { PaymentFeedbackComponent } from './features/pages/plans/payment-feedback/payment-feedback.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
 
@@ -23,6 +24,7 @@ export const routes: Routes = [
         children: [
             { path: 'home', component: HomeComponent },
             { path: 'login', component: LoginComponent, title: 'Login', data: ['Login'] },
+            { path: 'forgot-password', component: ForgotPasswordComponent, title: 'Esqueci a senha', data: ['Esqueci a Senha'] },
             { path: 'create-account', component: CreateAccountComponent, title: 'Criar Conta', data: ['Criar Conta'] },
             { path: 'pricing', component: PlansComponent, title: 'Planos', data: ['Planos']},
             { path: 'solutions', component: SolutionsComponent, title: 'Soluções', data: ['Soluções']},

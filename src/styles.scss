@@ -23,6 +23,16 @@ body {
     padding: 0 !important;
 }
 
+.mat-step-text-label{
+  font-weight: 500;
+  color: $aleixo-dark-blue;
+}
+
+.mat-step-icon-selected {
+  background-color: $aleixo-dark-blue !important;
+  color: $ficus-yellow !important;
+}
+
 .mat-mdc-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-mdc-text-field-wrapper {
     cursor: pointer;
   }
