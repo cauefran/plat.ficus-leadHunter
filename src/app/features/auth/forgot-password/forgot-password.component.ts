@@ -50,8 +50,6 @@ export class ForgotPasswordComponent implements OnInit {
   public checkConfirmEmail(): void {
     if(this.F_email.value && this.F_confirmEmail.valueChanges){
       if(this.F_confirmEmail.dirty && this.F_confirmEmail.value !== this.F_email.value){
-        console.log('valor confirmEmail: ', this.F_confirmEmail.value)
-        console.log('valor email: ', this.F_email.value)
         this.F_confirmEmail.invalid;
         this.error = 'Emails precisam ser identicos!'
       } else if(this.F_confirmEmail.value === this.F_email.value){
